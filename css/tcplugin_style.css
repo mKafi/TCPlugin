@@ -1,0 +1,53 @@
+.color-icon {
+    cursor: pointer;
+    display: inline-block;
+    height: 15px;
+    width: 15px;
+}
+
+.hidden{
+	display:none;
+}
+
+.flip-container {
+	perspective: 1000;
+}
+
+/* .flip-container:hover .tshirt_frame, .flip-container.hover .tshirt_frame {
+	transform: rotateY(180deg);
+} */
+.tshirt_frame.unflipped{
+	transform: rotateY(180deg);
+}
+.tshirt_frame{
+	transform: rotateY(0deg);
+}
+
+.flip-container, .front, .back {
+	width: 320px;
+	height: 480px;
+}
+
+.tshirt_frame {
+	transition: 0.8s;
+	transform-style: preserve-3d;
+	position: relative;
+}
+
+.front, .back {
+	backface-visibility: hidden;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.front {
+	z-index: 2;
+	/* for firefox 31 */
+	transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+	transform: rotateY(180deg);
+}
