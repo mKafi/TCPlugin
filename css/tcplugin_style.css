@@ -51,3 +51,107 @@
 .back {
 	transform: rotateY(180deg);
 }
+
+/* 02 October 2014 */
+.same-line {
+    display: inline-block;
+    vertical-align: top;
+}
+.cleared{
+	clear:both;
+	height:0;
+	width:100%;
+	display:block;
+}
+.tcd_wrapper {
+    font-family: helvetica;
+    font-size: 14px;
+}
+.tcd-nav-cont{
+	background:#E9EAEE;
+	padding:10px 0;
+}
+.tcd-nav-row ul {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+.tcd-nav-row ul li {
+    display: inline-block;
+    font-size: 0;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+.tcd-nav-row ul li a {
+    color: #333333;
+    display: block;
+    font-size: 14px;
+    padding: 5px 10px;
+    text-decoration: none;
+}
+.tcd-nav-row ul li a:hover{
+	background:orange;
+}
+#design-actions {
+    float: right;
+}
+
+.pallet-cont:after {
+    content: "";
+    display: inline-block;
+    font-size: 0;
+    height: 0;
+    white-space: normal;
+    width: 100%;
+}
+.pallet-cont {
+    display: inline-block;
+    text-align: justify;
+    white-space: normal;
+    width: 100%;
+}
+.left_controle.same-line { 
+    width: 22%;
+}
+.same-line.tshirt {   
+    width: 50%;
+}
+.same-line.right-controle {    
+    width: 22%;
+}
+
+#tabs {
+    border: 1px solid #cccccc;
+}
+.ui-tabs-nav.ui-helper-reset.ui-helper-clearfix.ui-widget-header.ui-corner-all {
+    font-size: 0;
+    margin: 0;
+    padding: 0;
+}
+.ui-state-default {
+    display: inline-block;
+    font-size: 0;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+    width: 50%;
+}
+.ui-tabs-anchor {
+    background: none repeat scroll 0 0 #cccccc;
+    display: block;
+    font-size: 14px;
+    padding: 10px 0;
+    width: 100%;
+}
+.ui-state-active .ui-tabs-anchor {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.ui-tabs-panel {
+    padding: 12px;
+	text-align:left;
+}
+.ui-tabs-panel > label {
+    display: block;
+    padding: 4px 0;
+}
