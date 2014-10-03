@@ -90,11 +90,12 @@
 			
 			$categories = get_categories($args);
 			if(!empty($categories) && count($categories) > 0){					
+				/* echo '<pre>'; print_R($categories); echo '</pre>'; */
 				?>
 				<select name="tshirt_variant" id="tshirt_variant">
 					<?php 
 					foreach($categories AS $cat){						
-						?> <option value="<?php echo $cat->cat_ID; ?>"><?php echo $cat->name; ?></option> <?php 
+						?> <option value="<?php echo $cat->slug; ?>"><?php echo $cat->name; ?></option> <?php 
 					}
 					?>
 				</select>
@@ -104,6 +105,10 @@
 				<div class="">There is no category yet</div>
 				<?php 
 			} 
+			
+			
+			
+			
 			?>
 			<div class="tshirt_variant_cont" id="tshirt_variant_cont"></div>
 			<div class="clearfix"></div>
