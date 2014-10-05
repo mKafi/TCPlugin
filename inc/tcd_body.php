@@ -12,11 +12,20 @@
 					<input type="text" id="text_field" value=""/>
 					
 					<label>Choose a font</label>
-					<select>
+					<select id="font-chooser" class="select-list">
 						<option value="arial">Arial</option>
 						<option value="Times New Roman">Times new roman</option>
 						<option value="tahoma">Tahoma</option>
 						<option value="helvetica">Helvetica</option>
+					</select>
+					
+					<label>Font size</label>
+					<select id="font-size" class="select-list">
+						<?php 
+						for($i = 10; $i<200; $i++){
+							?> <option value="<?php echo $i; ?>"><?php echo $i.' px'; ?></option> <?php 
+						}
+						?>
 					</select>
 					
 					<label>Text color</label>
@@ -28,6 +37,8 @@
 						<span class="color-icon" id="#3F00FF" style="background-color:blue;"></span>
 						<span class="color-icon" id="#9E9E9E" style="background-color:gray;"></span>
 					</div>
+					
+					
 					
 					<label>Add an outline</label>
 					<select name="outline" id="outline">
@@ -53,13 +64,21 @@
 		<div class="same-line tshirt">
 			<div class="flip-container">
 				<div class="tshirt_frame unflipped">
-					<div class="tshirt front">
-						<img src="<?php echo plugins_url('front.png',__FILE__); ?>" alt=""/>
-					</div>
+					
 					
 					<div class="tshirt back">
-						<img src="<?php echo plugins_url('back.png',__FILE__); ?>" alt=""/>
+						<img id="back-image" src="<?php echo plugins_url('default_reversed.png',__FILE__); ?>" alt=""/>
+						<div class="design-frame back-part">
+							<span id="txt-back"></span>
+						</div>
 					</div>
+					<div class="tshirt front">
+						<div class="design-frame front-part">
+							<span id="txt-front"></span>
+						</div>
+						<img id="front-image" src="<?php echo plugins_url('default.png',__FILE__); ?>" alt=""/>
+					</div>
+					
 				</div>
 			</div>
 			<span class="flip_canvas" id="back" >Front</span>

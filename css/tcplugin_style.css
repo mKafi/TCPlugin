@@ -23,9 +23,13 @@
 	transform: rotateY(0deg);
 }
 
-.flip-container, .front, .back {
-	width: 320px;
-	height: 480px;
+.flip-container, .flip-container .tshirt{
+    height: 630px;
+    width: 530px;
+}
+
+.flip-container .tshirt{
+	border: 1px solid #cccccc;
 }
 
 .tshirt_frame {
@@ -154,4 +158,21 @@
 .ui-tabs-panel > label {
     display: block;
     padding: 4px 0;
+}
+
+.design-frame {
+    border: 1px solid gray;
+    bottom: 0;
+    display: block;
+    height: 297px;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 185px;
+    z-index: 12;
+}
+#txt-back,#txt-front{
+	text-align:center;
 }
