@@ -39,7 +39,7 @@ jQuery.noConflict();
 			$(document).on('click','.tshirt-main-image',function(){
 				var x = $(this).parent().attr('id');
 				var a = x.split("_");
-				console.log(a[1]);
+				/* console.log(a[1]); */
 				
 				var frnt_img_url = $(this).parent().children('.prod-wrap-front-img').val();
 				var back_img_url = $(this).parent().children('.prod-wrap-back-img').val();
@@ -66,6 +66,13 @@ jQuery.noConflict();
 				}
 			});	
 			
+			$(".text-color-icon").click(function(){
+				var color = $(this).attr('id');				
+				if($('#txt-back span').length > 0){
+					$("#txt-back span").css('color',color);
+				}
+			});	
+			
 			$("#text_field").keyup(function(e){
 				console.log(e.keyCode);
 				var txt = '';
@@ -84,6 +91,31 @@ jQuery.noConflict();
 				var fonts = $(this).val();
 				$("#txt-back span").css({'font-size':fonts+'px'});
 			});
+			
+			$("#search_art").click(function(){
+				if((".clipart-cont").length > 0){
+					$(".clipart-cont").toggleClass('hidden');
+				}	
+			});
+			
+			$(".result.tcpring img").click(function(){
+				var src = $(this).attr('src');
+				
+				if($('.tshirt_frame').hasClass('unflipped')){
+					var appclip = '<span class="clip-cont"> <img src="'+src+'" alt="" class="used-clips" id="used-clips1" /> </span>';
+					$(".design-frame.back-part").append(appclip);					
+				}
+				else{
+					var appclip = '<span class="clip-cont"> <img src="'+src+'" alt="" class="used-clips" id="" /> </span>';
+					$(".design-frame.front-part").append(appclip);
+					
+				}
+				
+				var htm = '<img src="'+src+'" alt="" class="used-clips" id="" />';
+				$(".clipart-used-cont").html(htm);
+				$("#clipart-cont").addClass('hidden');
+			});
+			
 			
 		});	
 		

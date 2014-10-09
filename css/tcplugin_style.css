@@ -1,4 +1,4 @@
-.color-icon {
+.color-icon,.text-color-icon {
     cursor: pointer;
     display: inline-block;
     height: 15px;
@@ -175,4 +175,43 @@
 }
 #txt-back,#txt-front{
 	text-align:center;
+}
+
+#txt-back:hover {
+	border:dashed 1px gray;	
+}
+
+#clipart-cont ul li {
+    display: inline-block;
+    margin: 10px;
+}
+
+
+.clipart-cont {
+    background: none repeat scroll 0 0 #ffffff;
+    border: 1px solid blue;
+    height: 50%;
+    padding: 15px;
+    position: absolute;
+    width: 50%;
+    z-index: 10;
+	overflow:auto;
+}
+ul {
+    list-style-type: none;
+}
+#clipart-cont ul li > div {
+    margin: 0;
+    padding: 0;
+}
+#clipart-cont ul li > div img {
+    display: block;
+    height: auto;
+    vertical-align: bottom;
+    width: 37px;
+	opacity:0.7;
+	cursor:pointer;
+}
+#clipart-cont ul li > div img:hover{
+	opacity:1;
 }
