@@ -1,4 +1,5 @@
 <link rel="stylesheet" media="screen" type="text/css" href="<?php echo plugins_url('/../css/colorpicker.css',__FILE__); ?>" />
+<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css"> -->
 <script type="text/javascript" src=" <?php echo plugins_url('/../js/colorpicker.js',__FILE__); ?> "></script>
 
 <div class="row">
@@ -420,8 +421,11 @@
 	jQuery(function(){
 		jQuery( "#txt-back" ).draggable();
 		
-		jQuery(document).on('click','#used-clips1',function(){			
+		
+		jQuery(document).on('mouseover','.used-clips',function(){			
 			jQuery(this).draggable();
+			jQuery(this).resizable();
+			
 		});
 	});
 </script>

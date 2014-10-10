@@ -36,6 +36,11 @@ function tc_design(){
 }
 add_action( 'admin_menu', 'tc_design' );
 
+function tc_initialize(){
+	include(plugin_dir_path(__FILE__).'/inc/tccmb.php');
+}
+add_action( 'tcplugin_init', 'tc_initialize' );
+
 
 function design_tshirt($attr){
 	include(plugin_dir_path(__FILE__).'/inc/tcd_header.php');
@@ -56,14 +61,21 @@ function get_post_gallery_imges($item_id){
 		'exclude' => get_post_thumbnail_id($item_id) 
 	);
 	
+	/* echo '<pre>'; print_r($args); echo '</pre>'; */
+	
 	$attachments = get_posts( $args );
+	
+	
+	
 	if ( $attachments ) {
 		$x = 1;
 		foreach ( $attachments as $attachment ) {
 			$images[$x] = wp_get_attachment_url( $attachment->ID );
-					$x = $x + 1;
+			$x = $x + 1;
 		}
 	}
+	
+	/* echo '<pre>'; print_r($images); echo '</pre>';   */
 	return $images;
 }
 

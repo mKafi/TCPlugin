@@ -178,7 +178,8 @@
 }
 
 #txt-back:hover {
-	border:dashed 1px gray;	
+    background: none repeat scroll center center rgba(152, 152, 152, 0.16);
+	cursor:pointer;
 }
 
 #clipart-cont ul li {
@@ -214,4 +215,11 @@ ul {
 }
 #clipart-cont ul li > div img:hover{
 	opacity:1;
+}
+
+.used-clips{
+	cursor:pointer;
+}
+.used-clips:hover {
+    opacity: 0.69;
 }

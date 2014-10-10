@@ -13,7 +13,9 @@ jQuery.noConflict();
 					$.post(ajaxurl,{'action':'getproduct','cat':cat},function(resp){						
 						if(resp){
 							var res = $.parseJSON(resp);							
-							var htm = '';
+							
+							console.log(res);
+							var htm = '';							
 							$.each(res,function(index,val){							
 								
 								var img = new Array();
@@ -74,7 +76,7 @@ jQuery.noConflict();
 			});	
 			
 			$("#text_field").keyup(function(e){
-				console.log(e.keyCode);
+				/* console.log(e.keyCode); */
 				var txt = '';
 				if(e.keyCode !=13){
 					txt = $(this).val();
@@ -102,7 +104,7 @@ jQuery.noConflict();
 				var src = $(this).attr('src');
 				
 				if($('.tshirt_frame').hasClass('unflipped')){
-					var appclip = '<span class="clip-cont"> <img src="'+src+'" alt="" class="used-clips" id="used-clips1" /> </span>';
+					var appclip = '<span class="clip-cont"> <img src="'+src+'" alt="" class="used-clips ui-widget-content" id="used-clips1" /> </span>';
 					$(".design-frame.back-part").append(appclip);					
 				}
 				else{
@@ -112,7 +114,7 @@ jQuery.noConflict();
 				}
 				
 				var htm = '<img src="'+src+'" alt="" class="used-clips" id="" />';
-				$(".clipart-used-cont").html(htm);
+				$(".clipart-used-cont").append(htm);
 				$("#clipart-cont").addClass('hidden');
 			});
 			
