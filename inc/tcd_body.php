@@ -1,5 +1,4 @@
 <link rel="stylesheet" media="screen" type="text/css" href="<?php echo plugins_url('/../css/colorpicker.css',__FILE__); ?>" />
-<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css"> -->
 <script type="text/javascript" src=" <?php echo plugins_url('/../js/colorpicker.js',__FILE__); ?> "></script>
 
 <div class="row">
@@ -336,16 +335,16 @@
 			<div class="flip-container">
 				<div class="tshirt_frame unflipped">
 					
-					
+					<input type="hidden" name="selected_element" value="" id="selected_element" />
 					<div class="tshirt back">
 						<img id="back-image" src="<?php echo plugins_url('default_reversed.png',__FILE__); ?>" alt=""/>
 						<div class="design-frame back-part">
-							<span id="txt-back"></span>
+							
 						</div>
 					</div>
 					<div class="tshirt front">
 						<div class="design-frame front-part">
-							<span id="txt-front"></span>
+							
 						</div>
 						<img id="front-image" src="<?php echo plugins_url('default.png',__FILE__); ?>" alt=""/>
 					</div>
@@ -403,8 +402,8 @@
 			<div class="tshirt_variant_cont" id="tshirt_variant_cont"></div>
 			<div class="clearfix"></div>
 			
-			<span>Base cost</span>
-			<span class="base_price">$420</span>
+			<span>Base cost $</span>
+			<span class="base_price">0</span>
 			
 			<input type="button" name="for_step_two" id="for_step_two" value="Next step"/>
 			
@@ -421,11 +420,12 @@
 	jQuery(function(){
 		jQuery( "#txt-back" ).draggable();
 		
-		
 		jQuery(document).on('mouseover','.used-clips',function(){			
 			jQuery(this).draggable();
-			jQuery(this).resizable();
-			
+		});
+		
+		jQuery(document).on('mouseover','.txt-cont',function(){			
+			jQuery(".txt-cont").draggable();
 		});
 	});
 </script>

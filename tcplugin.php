@@ -50,6 +50,40 @@ function design_tshirt($attr){
 }
 add_shortcode('TCDesign','design_tshirt');
 
+
+
+/* add option page starts */
+
+function register_tcircle_settings(){	
+	register_setting( 'tc-settings-group', 'rate_per_word' );
+	register_setting( 'tc-settings-group', 'rate_per_image' );
+}
+
+function page_tcircle_options(){
+	if ( !current_user_can( 'manage_options' ) )  {
+		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+	}
+	
+	include(plugin_dir_path(__FILE__).'/inc/tcd_options.php');
+}
+
+
+add_action( 'admin_menu', 'tcoption_settings' );
+function tcoption_settings() {	
+	add_action( 'admin_init', 'register_tcircle_settings' );
+	add_options_page( 'TCircle Options', 'TCircle Options', 'manage_options', 'tcircle-options', 'page_tcircle_options' );
+}
+
+
+
+
+
+
+
+/* add option page ends */
+
+
+
 /* choose product from a category starts */
 function get_post_gallery_imges($item_id){
 	$images = array(); 
@@ -121,3 +155,16 @@ function get_products_by_cat(){
 add_action('wp_ajax_noprev_getproduct','get_products_by_cat');
 add_action('wp_ajax_getproduct','get_products_by_cat');
 /* choose product from a category ends */
+
+
+function get_productinfo_by_id(){
+	if(isset($_POST['pid']) && !empty($_POST['pid'] )){
+		global $wpdb;
+		$price = get_post_meta( $_POST['pid'], '_regular_price', true);
+		$sale = get_post_meta( $_POST['pid'], '_sale_price', true);		
+		echo json_encode(array('sale'=>$sale,'price'=>$price));
+	}
+	die();
+}
+add_action('wp_ajax_noprev_getproductinfo','get_productinfo_by_id');
+add_action('wp_ajax_getproductinfo','get_productinfo_by_id');
