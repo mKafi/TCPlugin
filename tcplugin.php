@@ -160,8 +160,15 @@ add_action('wp_ajax_getproduct','get_products_by_cat');
 function get_productinfo_by_id(){
 	if(isset($_POST['pid']) && !empty($_POST['pid'] )){
 		global $wpdb;
+		$sale = $price = 0;
+		/* 
 		$price = get_post_meta( $_POST['pid'], '_regular_price', true);
 		$sale = get_post_meta( $_POST['pid'], '_sale_price', true);		
+		 */
+		
+		$tcplugin_10_19 = get_post_meta($_POST['pid'],'tcplugin_10_19',TRUE); 
+		$sale = $tcplugin_10_19;
+		
 		echo json_encode(array('sale'=>$sale,'price'=>$price));
 	}
 	die();

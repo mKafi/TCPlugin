@@ -13,15 +13,15 @@ jQuery( "#tabs" ).tabs();
 		<div class="tcd-nav-row row">
 			<ul class="tcd-nav" id="launch-progression">
 				<li class="active-step">
-					<a href="javascript:void(0);" data-step="design">1. Create your tee</a>
+					<a id="step_1" class="header_tab active" href="javascript:void(0);" data-step="design">1. Create your tee</a>
 					<span class="right-arrow"></span>
 				</li>
 				<li>
-					<a href="javascript:void(0);" data-step="pricing">2. Set a goal</a>
+					<a id="step_2" class="header_tab" href="javascript:void(0);" data-step="pricing">2. Set a goal</a>
 					<span class="right-arrow"></span>
 				</li>
 				<li>
-					<a href="javascript:void(0);" data-step="details">3. Add a description</a>
+					<a id="step_3" class="header_tab" href="javascript:void(0);" data-step="details">3. Add a description</a>
 					<span class="right-arrow"></span>
 				</li>
 			</ul>

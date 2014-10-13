@@ -101,6 +101,7 @@
     float: right;
 }
 
+
 .pallet-cont:after {
     content: "";
     display: inline-block;
@@ -114,7 +115,9 @@
     text-align: justify;
     white-space: normal;
     width: 100%;
-}
+	padding:20px 0 0 0;
+} 
+
 .left_controle.same-line { 
     width: 22%;
 }
@@ -232,4 +235,97 @@ ul {
 }
 .choosed{
 	border:1px dashed #CCCCCC;
+}
+
+
+.icon-img-cont {
+    display: inline-block;
+    position: relative;
+}
+.remove {
+    background: none repeat scroll 0 0 #333333;
+    border: medium none;
+    border-radius: 50%;
+    color: #ffffff;    
+    padding: 0 5px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 2;
+	cursor:pointer;
+}
+.remove.hover{
+	color:red;
+}
+.step_two-wrap{	
+	vertical-align:top;
+	display:inline-block;
+	padding:20px;
+}
+.step_two-wrap.tool-cont{
+	width:250px;
+}
+.step_two-wrap.image-cont{
+	width:530px;
+	
+}
+
+.ui-slider {
+    background: none repeat scroll 0 0 #f2f2f2;
+    height: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    text-align: left;
+}
+.ui-slider-range {
+    background: none repeat scroll 0 0 #cccccc;
+    display: block;
+    height: 10px;
+    position: relative;
+    
+}
+.ui-slider-handle {
+    background: none repeat scroll 0 0 red;
+    display: block;
+    height: 15px;
+    position: relative;
+    top: -13px;
+    width: 15px;
+}
+
+.step-cont {
+    font-size: 13px;
+}
+
+
+.step_two-wrap > div > label {
+    background: none repeat scroll 0 0 #f2f2f2;
+    display: block;
+    margin-bottom: 10px;
+    padding: 5px;
+	font-weight:bold;
+}
+
+
+.shirt-counter {
+    margin-bottom: 30px;
+}
+.shirt-counter > input {
+    border: 1px solid #cccccc;
+    padding: 5px;
+    width: 50px;
+}
+.shirt-counter p {
+    display: block;
+    margin: 10px 0;
+}
+.profit-counter > span {
+    color: green;
+    display: block;
+    font-family: helvetica;
+    font-size: 40px;
+    padding: 10px;
+}
+.step2-shirt-cont{
+	position:relative;
 }
