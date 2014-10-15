@@ -9,6 +9,41 @@ text_price = 2.5;
 (function($){
 	$(function() {
 		$(document).ready(function(){
+			/* field reset */
+			$("#text_field").val('');
+			$("#font-chooser option:first").attr('selected','selected');
+			$("#font-size")[0].selectedIndex = 0;
+			$(".full_bg").height($(document).height());
+			$(".full_bg").width($(document).width());
+			$(".full_bg").click(function(){ $(this).addClass('hidden'); $(".clipart-cont").addClass('hidden'); });
+			
+			function add_icon_price(){
+				bpcost = parseFloat($("span.base_price").text(),10);
+				bpcost += parseFloat(icon_price,10); 
+				$("span.base_price").text(''+bpcost.toFixed(2));
+			}
+			
+			function calculate_all_cost(){
+				var clips = 0;
+				var texts = 0;
+				clips = (parseFloat($(".tshirt_frame").find(".used-clips").length,10) * parseFloat(icon_price,10));
+				texts = (parseFloat($(".tshirt_frame").find(".txt-cont").length,10) * parseFloat(text_price,10));
+				return (clips + texts);
+			}
+			
+			function calculate_estimate_profit(){
+				var sprice = parseFloat($('#sale-price').val(),10);
+				var pcount = parseFloat($("#goal-count").val(),10);
+				var bprice = parseFloat($(".base_price").text(),10);
+				
+				var sp = (sprice - bprice);
+				$("#txt-sale-price").text(''+sp.toFixed(2));
+				
+				var tprofit = (sp * pcount);
+				$("#estimated-profit").text(''+tprofit.toFixed(2));
+				
+			}
+			
 			$(document).on("click", ".flip_canvas", function(){
 				$(".flip_canvas").toggleClass('hidden');
 				$(".tshirt_frame").toggleClass("unflipped");
@@ -62,16 +97,7 @@ text_price = 2.5;
 			$( "#goal-count" ).val( $( "#goal-range" ).slider( "value" ) );
 			
 			$( "#goal-range" ).on( "slidestop", function( event, ui ) {				
-				var sprice = parseFloat($("#sale-price").val(),10);
-				var pcount = parseFloat($("#goal-count").val(),10);
-				var bprice = parseFloat($(".base_price").text(),10);
-				
-				var sp = (sprice - bprice);
-				$("#txt-sale-price").text(''+sp.toFixed(2));
-				
-				var tprofit = (sp * $("#goal-count").val());
-				$("#estimated-profit").text(''+tprofit.toFixed(2));
-			
+				calculate_estimate_profit();				
 			} );
 		
 			/*---------------------------------------------------------------------*/
@@ -124,7 +150,13 @@ text_price = 2.5;
 				
 				$.post(ajaxurl,{'action':'getproductinfo','pid':a[1]},function(resp){
 					var info = $.parseJSON(resp);
-					$(".base_price").text(info.sale);
+					var bprice = calculate_all_cost();
+					console.log(bprice);
+					bprice += parseFloat(info.sale,10);
+					
+					
+					$(".base_price").text(bprice.toFixed(2));
+					
 				});	
 				
 				
@@ -236,9 +268,12 @@ text_price = 2.5;
 			
 			$("#search_art").click(function(){
 				if((".clipart-cont").length > 0){
+					$(".full_bg").removeClass('hidden');
 					$(".clipart-cont").toggleClass('hidden');
 				}	
 			});
+			
+			
 			
 			$(".result.tcpring img").click(function(){
 				var src = $(this).attr('src');
@@ -246,19 +281,18 @@ text_price = 2.5;
 				if($('.tshirt_frame').hasClass('unflipped')){
 					var appclip = '<span class="clip-cont"> <div class="icon-img-cont"><span class="remove hidden">X</span> <img src="'+src+'" alt="" class="used-clips" id="used-clips1" /></div> </span>';
 					$(".design-frame.back-part").append(appclip);
-					
-					bpcost = parseFloat($("span.base_price").text(),10);
-					bpcost += parseFloat(icon_price); 
-					$("span.base_price").text(''+bpcost.toFixed(2));
+					$(".full_bg").addClass('hidden');
+					add_icon_price();					
 				}
 				else{
 					var appclip = '<span class="clip-cont"> <div class="icon-img-cont"><span class="remove hidden">X</span> <img src="'+src+'" alt="" class="used-clips" id="" /></div> </span>';
 					$(".design-frame.front-part").append(appclip);
-					
+					$(".full_bg").addClass('hidden');
+					add_icon_price();					
 				}
 				
-				var htm = '<img src="'+src+'" alt="" class="used-clips" id="" />';
-				$(".clipart-used-cont").html(htm);
+					/* var htm = '<img src="'+src+'" alt="" class="used-clips" id="" />';
+					$(".clipart-used-cont").html(htm); */
 				$("#clipart-cont").addClass('hidden');
 			});
 			
@@ -269,132 +303,140 @@ text_price = 2.5;
 				$(this).find('.remove').addClass('hidden');
 			});
 			
+			
+			
+			$(document).on("click",".icon-img-cont .remove",function(){
+				var bpcost = 0;
+				$(this).parent().parent().remove();
+				
+				bpcost = parseFloat($("span.base_price").text(),10);
+				bpcost -= parseFloat(icon_price); 
+				$("span.base_price").text(''+bpcost.toFixed(2));
+			});
+			
+			
+			$(document).on("click",".text-wrap .remove",function(){
+				var bpcost = 0;
+				$(this).parent().remove();
+				
+				bpcost = parseFloat($("span.base_price").text(),10);
+				bpcost -= parseFloat(text_price); 
+				$("span.base_price").text(''+bpcost.toFixed(2));
+			});
+			
+			
+			
+			/* go for next step start */
+		
+			$("#for_step_two").click(function(){
+				
+				$(".same-line.tshirt").find('.txt_printable').remove();
+				$(".design-frame").css('border','none');
+				
+				var shirt_htm = $(".same-line.tshirt").html();						
+				
+				$(".step2-shirt-cont").html(shirt_htm);
+				$(".step2-shirt-cont .flip-container").append('<div class="fullwrapper"></div>');
+				
+				$(".step-cont").addClass('hidden');
+				$(".step-cont.step_two").removeClass('hidden');
+				
+				calculate_estimate_profit();
+				
+				$(".header_tab").removeClass('active');
+				$("#step_2").addClass('active');
+			});
+			
+			$("#step_2").click(function(){
+				
+				$(".same-line.tshirt").find('.txt_printable').remove();
+				$(".design-frame").css('border','none');
+				var shirt_htm = $(".same-line.tshirt").html();						
+				
+				$(".step2-shirt-cont").html(shirt_htm);
+				$(".step2-shirt-cont .flip-container").append('<div class="fullwrapper"></div>');
+				
+				$(".step-cont").addClass('hidden');
+				$(".step-cont.step_two").removeClass('hidden');
+				
+				calculate_estimate_profit();
+				
+			});
+			
+			
+			$("#for_step_three").click(function(){
+				
+				$(".same-line.tshirt").find('.txt_printable').remove();
+				var shirt_htm = $(".same-line.tshirt").html();						
+				
+				$(".step3-shirt-cont").html(shirt_htm);
+				$(".step3-shirt-cont .flip-container").append('<div class="fullwrapper"></div>');
+				
+				$(".step-cont").addClass('hidden');
+				$(".step-cont.step_three").removeClass('hidden');
+				
+				$(".header_tab").removeClass('active');
+				$("#step_3").addClass('active');
+				
+			});
+			
+			/* go for next step ends */
+			
+			
+			$(document).on("mouseenter",".text-wrap.txt-box", function(){			
+				$(this).children('.remove').removeClass('hidden');
+			});
+			
+			$(document).on("mouseleave",".text-wrap.txt-box", function(){			
+				$(this).children('.remove').addClass('hidden');
+			});
+			
+			$("#sale-price").keyup(function(){			
+				calculate_estimate_profit();
+			});	
+			
+			$("#goal-count").keyup(function(){
+				calculate_estimate_profit();			
+			});
+			
 		});	
 		
-		$(document).on("click",".icon-img-cont .remove",function(){
-			var bpcost = 0;
-			$(this).parent().parent().remove();
+		$("#launch-campaign").click(function(){
+			var camp_name = $("#campaign-name").val();
+			var camp_desc = $("#campaign-desc").val();
+			var camp_tags = $("#campaign-tags").val();
+			var camp_length = $("#campaign-length").val();
+			var camp_url = $("#campaign-url").val();
+			var img_data = '';
 			
-			bpcost = parseFloat($("span.base_price").text(),10);
-			bpcost -= parseFloat(icon_price); 
-			$("span.base_price").text(''+bpcost.toFixed(2));
+			html2canvas([document.getElementById('tot_wrap')], {
+				onrendered: function (canvas) {					
+					img_data = canvas.toDataURL('image/png',1.0);
+					console.log(img_data);
+				}
+			});
+			
+			
+			
+			$.post(ajaxurl, {'action':'create_camp','camp_name':camp_name,'camp_desc':camp_desc,'camp_tags':camp_tags,'data':img_data,'camp_length':camp_length,'camp_url':camp_url}, function(resp){						
+				if(resp){
+					console.log(resp);
+				}
+			});
 		});
 		
 		
-		$(document).on("click",".text-wrap .remove",function(){
-			var bpcost = 0;
-			$(this).parent().remove();
-			
-			bpcost = parseFloat($("span.base_price").text(),10);
-			bpcost -= parseFloat(text_price); 
-			$("span.base_price").text(''+bpcost.toFixed(2));
+		$("#save-canvas").click(function(){
+			html2canvas([document.getElementById('tot_wrap')], {
+				onrendered: function (canvas) {					
+					var data = canvas.toDataURL('image/png',1.0);					
+				
+					$.post(ajaxurl,{'action':'save_img','data':data},function(resp){
+						console.log(resp);
+					});
+				}
+			});
 		});
-		
-		
-		/* go for next step start */
-		
-		$("#for_step_two").click(function(){
-			
-			$(".same-line.tshirt").find('.txt_printable').remove();
-			var shirt_htm = $(".same-line.tshirt").html();						
-			
-			$(".step2-shirt-cont").html(shirt_htm);
-			$(".step2-shirt-cont .flip-container").append('<div class="fullwrapper"></div>');
-			
-			$(".step-cont").addClass('hidden');
-			$(".step-cont.step_two").removeClass('hidden');
-			
-			var sprice = parseFloat($("#sale-price").val(),10);
-			var pcount = parseFloat($("#goal-count").val(),10);
-			var bprice = parseFloat($(".base_price").text(),10);
-			
-			var sp = (sprice - bprice);
-			$("#txt-sale-price").text(''+sp.toFixed(2));
-			
-			var tprofit = (sp * $("#goal-count").val());
-			$("#estimated-profit").text(''+tprofit.toFixed(2));
-			
-			/* var profit = ( ( parseFloat($("#goal-count").val(),10) ) * ( parseFloat($(".base_price").text(),10) ));
-			$("#estimated-profit").text(''+profit.toFixed(2));  */
-			
-			$(".header_tab").removeClass('active');
-			$("#step_2").addClass('active');
-		});
-		
-		$("#step_2").click(function(){
-			
-			$(".same-line.tshirt").find('.txt_printable').remove();
-			var shirt_htm = $(".same-line.tshirt").html();						
-			
-			$(".step2-shirt-cont").html(shirt_htm);
-			$(".step2-shirt-cont .flip-container").append('<div class="fullwrapper"></div>');
-			
-			$(".step-cont").addClass('hidden');
-			$(".step-cont.step_two").removeClass('hidden');
-			
-			var sprice = parseFloat($("#sale-price").val(),10);
-			var pcount = parseFloat($("#goal-count").val(),10);
-			var bprice = parseFloat($(".base_price").text(),10);
-			
-			var sp = (sprice - bprice);
-			$("#txt-sale-price").text(''+sp.toFixed(2));
-			
-			var tprofit = (sp * $("#goal-count").val());
-			$("#estimated-profit").text(''+tprofit.toFixed(2));
-			
-		});
-		
-		
-		$("#for_step_three").click(function(){
-			
-			$(".same-line.tshirt").find('.txt_printable').remove();
-			var shirt_htm = $(".same-line.tshirt").html();						
-			
-			$(".step3-shirt-cont").html(shirt_htm);
-			$(".step3-shirt-cont .flip-container").append('<div class="fullwrapper"></div>');
-			
-			$(".step-cont").addClass('hidden');
-			$(".step-cont.step_three").removeClass('hidden');
-			
-			$(".header_tab").removeClass('active');
-			$("#step_3").addClass('active');
-			
-		});
-		
-		/* go for next step ends */
-		
-		
-		$(document).on("mouseenter",".text-wrap.txt-box", function(){			
-			$(this).children('.remove').removeClass('hidden');
-		});
-		
-		$(document).on("mouseleave",".text-wrap.txt-box", function(){			
-			$(this).children('.remove').addClass('hidden');
-		});
-		
-		$("#sale-price").keyup(function(){
-			var sprice = parseFloat($(this).val(),10);
-			var pcount = parseFloat($("#goal-count").val(),10);
-			var bprice = parseFloat($(".base_price").text(),10);
-			
-			var sp = (sprice - bprice);
-			$("#txt-sale-price").text(''+sp.toFixed(2));
-			
-			var tprofit = (sp * $("#goal-count").val());
-			$("#estimated-profit").text(''+tprofit.toFixed(2));
-		});	
-		
-		$("#goal-count").keyup(function(){
-			var sprice = parseFloat($("#sale-price").val(),10);
-			var pcount = parseFloat($("#goal-count").val(),10);
-			var bprice = parseFloat($(".base_price").text(),10);
-			
-			var sp = (sprice - bprice);
-			$("#txt-sale-price").text(''+sp.toFixed(2));
-			
-			var tprofit = (sp * $("#goal-count").val());
-			$("#estimated-profit").text(''+tprofit.toFixed(2));
-		});	
 		
 		
 		

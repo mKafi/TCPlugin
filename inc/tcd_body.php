@@ -2,6 +2,7 @@
 <script type="text/javascript" src=" <?php echo plugins_url('/../js/colorpicker.js',__FILE__); ?> "></script>
 
 <div class="row">
+	<div class="full_bg hidden"></div>
 	<div class="step-cont step_one">
 		<div class="pallet-cont">	
 			<!-- left controle starts -->
@@ -133,7 +134,9 @@
 						<span class="desc">Upload you own vector & art</span>
 						
 						<div class="clipart-cont hidden" id="clipart-cont">
-							<ul>
+							<span class="closeit">X</span>
+							<div class="symbol-cont">								
+								<ul>
 							  <li>
 								
 								<div class="result tcpring">
@@ -375,6 +378,7 @@
 								</div>
 							  </li>
 							</ul> 
+							</div>
 						</div>
 						
 						<div class="clipart-used-cont">
@@ -389,8 +393,8 @@
 
 			<!-- middle image panel starts -->
 			<div class="same-line tshirt">
-				<div class="flip-container">
-					<div class="tshirt_frame unflipped">
+				<div class="flip-container" id="tot_wrap">
+					<div id="tshirt_frame_wrap" class="tshirt_frame unflipped">
 						
 						<input type="hidden" name="selected_element" value="" id="selected_element" />
 						<div class="tshirt back">
@@ -519,7 +523,7 @@
 			<div class="step_two-wrap tool-cont">
 				<div class="campaign-info-cont">
 					<label>Campaign title</label>										
-					<input type="text" id="campaign-name" class="campaign-name campaign-text" name="campaign-name" value="10"/> 
+					<input type="text" id="campaign-name" class="campaign-name campaign-text" name="campaign-name" value=""/> 
 					<span class="desc">Summarize your campaign in 40 characters or less</span>
 				</div>
 				
@@ -531,7 +535,7 @@
 								
 				<div class="campaign-info-cont">
 					<label>Tags</label>										
-					<input type="text" id="campaign-tags" class="campaign-text campaign-tags" name="campaign-tags" value="10"/>
+					<input type="text" id="campaign-tags" class="campaign-text campaign-tags" name="campaign-tags" value=""/>
 					<span class="desc">Tags help buyers find your campaign. Enter up to 5 words to describe your campaign (e.g. Sports, Moms, Firefighters)</span>
 				</div>
 				
@@ -557,11 +561,11 @@
 				<div class="campaign-info-cont checkbox-cont">
 					<label>Shipping options</label>										
 					<input type="checkbox" id="campaign-shippingopt" name="campaign-shippingopt" value="1"/> 
-					<span>Allow buyers to pick-up their orders from you (pickup shipping is free</span>
+					<span>Allow buyers to pick-up their orders from you (pickup shipping is free)</span>
 				</div>
 				
 				<div class="campaign-info-cont checkbox-cont">
-					<input type="checkbox" id="campaign-shippingopt" name="campaign-shippingopt" value="1"/> 
+					<input type="checkbox" id="campaign-agreement" name="campaign-agreement" value="1"/> 
 					<span>I have read and agreed to the terms of service (TOS), and can confirm that the images, slogans, and content used in my campaign do not infringe upon the rights of any third party.</span>
 				</div>
 				
@@ -576,11 +580,12 @@
 		</div>
 	</div>
 </div>
-
+<script src="http://html2canvas.hertzen.com/build/html2canvas.js"></script>
 <script type="text/javascript">
 	jQuery.noConflict();
 	
 	jQuery(function(){
 		
 	});
+	
 </script>
