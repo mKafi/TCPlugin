@@ -151,7 +151,7 @@ text_price = 2.5;
 				$.post(ajaxurl,{'action':'getproductinfo','pid':a[1]},function(resp){
 					var info = $.parseJSON(resp);
 					var bprice = calculate_all_cost();
-					console.log(bprice);
+					
 					bprice += parseFloat(info.sale,10);
 					
 					
@@ -333,18 +333,47 @@ text_price = 2.5;
 				$(".same-line.tshirt").find('.txt_printable').remove();
 				$(".design-frame").css('border','none');
 				
-				var shirt_htm = $(".same-line.tshirt").html();						
+				html2canvas([document.getElementById('tot_wrap')], {
+					onrendered: function (canvas) {					
+						var data = canvas.toDataURL('image/png',1.0);					
+					
+						$.post(ajaxurl,{'action':'save_img','data':data},function(resp){
+							
+							if(resp == 'done'){
+								
+								$(".same-line.tshirt").find('.txt_printable').remove();
+								$(".design-frame").css('border','none');
+								
+								var shirt_htm = $(".same-line.tshirt").html();						
+								
+								$(".step2-shirt-cont").html(shirt_htm);
+								$(".step2-shirt-cont .flip-container").append('<div class="fullwrapper"></div>');
+								
+								$(".step-cont").addClass('hidden');
+								$(".step-cont.step_two").removeClass('hidden');
+								
+								calculate_estimate_profit();
+								
+								$(".header_tab").removeClass('active');
+								$("#step_2").addClass('active');
+								
+								
+							}
+							else{
+								alert('image not saved. Contact with Rakib sir.');
+							}
+						});
+					}
+				});
 				
-				$(".step2-shirt-cont").html(shirt_htm);
-				$(".step2-shirt-cont .flip-container").append('<div class="fullwrapper"></div>');
 				
-				$(".step-cont").addClass('hidden');
-				$(".step-cont.step_two").removeClass('hidden');
+				/* 
 				
-				calculate_estimate_profit();
+				 */
 				
-				$(".header_tab").removeClass('active');
-				$("#step_2").addClass('active');
+				
+				
+				
 			});
 			
 			$("#step_2").click(function(){
@@ -409,18 +438,17 @@ text_price = 2.5;
 			var camp_url = $("#campaign-url").val();
 			var img_data = '';
 			
-			html2canvas([document.getElementById('tot_wrap')], {
+			/* html2canvas([document.getElementById('tot_wrap')], {
 				onrendered: function (canvas) {					
-					img_data = canvas.toDataURL('image/png',1.0);
-					console.log(img_data);
+					img_data = canvas.toDataURL('image/png',1.0);					
 				}
 			});
+			 */
 			
 			
-			
-			$.post(ajaxurl, {'action':'create_camp','camp_name':camp_name,'camp_desc':camp_desc,'camp_tags':camp_tags,'data':img_data,'camp_length':camp_length,'camp_url':camp_url}, function(resp){						
+			$.post(ajaxurl, {'action':'create_camp','camp_name':camp_name,'camp_desc':camp_desc,'camp_tags':camp_tags,'camp_length':camp_length,'camp_url':camp_url}, function(resp){						
 				if(resp){
-					console.log(resp);
+					alert('A new campaign created successfully');
 				}
 			});
 		});
@@ -432,7 +460,7 @@ text_price = 2.5;
 					var data = canvas.toDataURL('image/png',1.0);					
 				
 					$.post(ajaxurl,{'action':'save_img','data':data},function(resp){
-						console.log(resp);
+						
 					});
 				}
 			});

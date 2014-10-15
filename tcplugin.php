@@ -182,12 +182,9 @@ function create_new_campaign(){
 	if(isset($_POST['action']) && !empty($_POST['action'] ) && $_POST['action'] == 'create_camp'){
 		global $wpdb;
 		
-		echo '<pre>'; print_R($_POST); echo '</pre>'; 
+		$title = $_POST['camp_name'];	
+		$slug = preg_replace("/ /", '-', strtolower($title));
 		
-		echo $title = $_POST['camp_name'];	
-		echo '<br/>'.$slug = preg_replace("/ /", '-', strtolower($title));
-		
-		/* 
 		$post_id = wp_insert_post(
 	     array(
 		        'comment_status'  => 'closed',
@@ -201,25 +198,16 @@ function create_new_campaign(){
 				'tags_input' => explode(",",$_POST['camp_tags'])
 		      )
 	    );
-		 */
-		
 		/* echo $post_id; */
 		
 		$cur_post_id = $post_id;
 
-		/* image data processing starts */
-		$data = $_POST['data'];
-		list($type, $data) = explode(';', $data);
-		list(, $data) = explode(',', $data);
-		$data = base64_decode($data);		
-		$target_path_image = get_home_path().'wp-content/uploads/'.date("Y").'/'.date('m').'/newtshirt.png';		
-		file_put_contents($target_path_image, $data);
-		/* image data processing ends */
+		
 		
 		/* image addition to post starts */
 		
-		/* $parent_post_id = $post_id;
-		$filename = $target_path_image;
+		$parent_post_id = $post_id;
+		$filename = get_home_path().'wp-content/uploads/'.date("Y").'/'.date('m').'/newtshirt.png';
 		$filetype = wp_check_filetype( basename( $filename ), null );
 		$wp_upload_dir = wp_upload_dir();
 		$attachment = array(
@@ -233,9 +221,11 @@ function create_new_campaign(){
 		require_once( ABSPATH . 'wp-admin/includes/image.php' );
 		$attach_data = wp_generate_attachment_metadata( $attach_id, $filename );
 		wp_update_attachment_metadata( $attach_id, $attach_data );
-		set_post_thumbnail( $parent_post_id, $attach_id ); */
+		set_post_thumbnail( $parent_post_id, $attach_id );
 		
 		/* iamge addition to post ends */
+		
+		if($post_id){ echo 'done'; }
 	}
 	die();
 }
@@ -243,7 +233,16 @@ add_action('wp_ajax_nopriv_create_camp','create_new_campaign');
 add_action('wp_ajax_create_camp','create_new_campaign');
 
 function save_camp_image(){
-	
+	/* image data processing starts */
+	$data = $_POST['data'];
+	list($type, $data) = explode(';', $data);
+	list(, $data) = explode(',', $data);
+	$data = base64_decode($data);		
+	$target_path_image = get_home_path().'wp-content/uploads/'.date("Y").'/'.date('m').'/newtshirt.png';		
+	file_put_contents($target_path_image, $data);
+	/* image data processing ends */
+	echo 'done';
+	die();
 }
 add_action('wp_ajax_nopriv_save_img','save_camp_image');
 add_action('wp_ajax_create_save_img','save_camp_image');
