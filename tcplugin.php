@@ -9,7 +9,8 @@ Version: 0.01
 */
 
 function tcplugin_ajaxurl() {
-	?> <script type="text/javascript">	var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';	</script> <?php
+	
+	?> <script type="text/javascript">	ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';	</script> <?php
 }
 add_action('wp_head','tcplugin_ajaxurl');
 
@@ -152,7 +153,7 @@ function get_products_by_cat(){
 	}	
 	die();
 }
-add_action('wp_ajax_noprev_getproduct','get_products_by_cat');
+add_action('wp_ajax_nopriv_getproduct','get_products_by_cat');
 add_action('wp_ajax_getproduct','get_products_by_cat');
 /* choose product from a category ends */
 
@@ -173,5 +174,5 @@ function get_productinfo_by_id(){
 	}
 	die();
 }
-add_action('wp_ajax_noprev_getproductinfo','get_productinfo_by_id');
+add_action('wp_ajax_nopriv_getproductinfo','get_productinfo_by_id');
 add_action('wp_ajax_getproductinfo','get_productinfo_by_id');

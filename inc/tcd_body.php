@@ -35,11 +35,40 @@
 						<label>Background Color</label>
 						<div class="bg-color-box" id="bg-color"></div>
 						<div class="color_pallete" id="color_pallete">
-							<span class="color-icon" id="#FF0000" style="background-color:red;"></span>
+							<span class="color-icon" id="#FF0000" style="background-color:#FF0000;"></span>
 							<span class="color-icon" id="#F6FF00" style="background-color:yellow;"></span>
 							<span class="color-icon" id="#B5FF21" style="background-color:orange;"></span>
 							<span class="color-icon" id="#3F00FF" style="background-color:blue;"></span>
 							<span class="color-icon" id="#9E9E9E" style="background-color:gray;"></span>
+							<span class="color-icon" id="#2CB297" style="background-color:#2CB297;"></span>
+							<span class="color-icon" id="#157F31" style="background-color:#157F31;"></span>
+							<span class="color-icon" id="#E02A2A" style="background-color:#452145;"></span>
+							<span class="color-icon" id="#260D63" style="background-color:#260D63;"></span>
+							<span class="color-icon" id="#9677E5" style="background-color:#9677E5;"></span>
+							
+							<span class="color-icon" id="#FF0000" style="background-color:#FF0000;"></span>
+							<span class="color-icon" id="#F6FF00" style="background-color:yellow;"></span>
+							<span class="color-icon" id="#B5FF21" style="background-color:orange;"></span>
+							<span class="color-icon" id="#3F00FF" style="background-color:blue;"></span>
+							<span class="color-icon" id="#9E9E9E" style="background-color:gray;"></span>
+							<span class="color-icon" id="#2CB297" style="background-color:#2CB297;"></span>
+							<span class="color-icon" id="#157F31" style="background-color:#157F31;"></span>
+							<span class="color-icon" id="#E02A2A" style="background-color:#452145;"></span>
+							<span class="color-icon" id="#260D63" style="background-color:#260D63;"></span>
+							<span class="color-icon" id="#9677E5" style="background-color:#9677E5;"></span>
+							
+							<span class="color-icon" id="#FF0000" style="background-color:#FF0000;"></span>
+							<span class="color-icon" id="#F6FF00" style="background-color:yellow;"></span>
+							<span class="color-icon" id="#B5FF21" style="background-color:orange;"></span>
+							<span class="color-icon" id="#3F00FF" style="background-color:blue;"></span>
+							<span class="color-icon" id="#9E9E9E" style="background-color:gray;"></span>
+							<span class="color-icon" id="#2CB297" style="background-color:#2CB297;"></span>
+							<span class="color-icon" id="#157F31" style="background-color:#157F31;"></span>
+							<span class="color-icon" id="#E02A2A" style="background-color:#452145;"></span>
+							<span class="color-icon" id="#260D63" style="background-color:#260D63;"></span>
+							<span class="color-icon" id="#9677E5" style="background-color:#9677E5;"></span>
+							
+							
 						</div>
 						
 						
@@ -47,11 +76,38 @@
 						<label>Text color</label>
 						<div class="text-color-box" id="text-color"></div>
 						<div class="color_pallete" id="color_pallete">
-							<span class="text-color-icon" id="#FF0000" style="background-color:red;"></span>
+							<span class="text-color-icon" id="#FF0000" style="background-color:#FF0000;"></span>
 							<span class="text-color-icon" id="#F6FF00" style="background-color:yellow;"></span>
 							<span class="text-color-icon" id="#B5FF21" style="background-color:orange;"></span>
 							<span class="text-color-icon" id="#3F00FF" style="background-color:blue;"></span>
 							<span class="text-color-icon" id="#9E9E9E" style="background-color:gray;"></span>
+							<span class="text-color-icon" id="#2CB297" style="background-color:#2CB297;"></span>
+							<span class="text-color-icon" id="#157F31" style="background-color:#157F31;"></span>
+							<span class="text-color-icon" id="#E02A2A" style="background-color:#452145;"></span>
+							<span class="text-color-icon" id="#260D63" style="background-color:#260D63;"></span>
+							<span class="text-color-icon" id="#9677E5" style="background-color:#9677E5;"></span>
+							
+							<span class="text-color-icon" id="#FF0000" style="background-color:#FF0000;"></span>
+							<span class="text-color-icon" id="#F6FF00" style="background-color:yellow;"></span>
+							<span class="text-color-icon" id="#B5FF21" style="background-color:orange;"></span>
+							<span class="text-color-icon" id="#3F00FF" style="background-color:blue;"></span>
+							<span class="text-color-icon" id="#9E9E9E" style="background-color:gray;"></span>
+							<span class="text-color-icon" id="#2CB297" style="background-color:#2CB297;"></span>
+							<span class="text-color-icon" id="#157F31" style="background-color:#157F31;"></span>
+							<span class="text-color-icon" id="#E02A2A" style="background-color:#452145;"></span>
+							<span class="text-color-icon" id="#260D63" style="background-color:#260D63;"></span>
+							<span class="text-color-icon" id="#9677E5" style="background-color:#9677E5;"></span>
+							
+							<span class="text-color-icon" id="#FF0000" style="background-color:#FF0000;"></span>
+							<span class="text-color-icon" id="#F6FF00" style="background-color:yellow;"></span>
+							<span class="text-color-icon" id="#B5FF21" style="background-color:orange;"></span>
+							<span class="text-color-icon" id="#3F00FF" style="background-color:blue;"></span>
+							<span class="text-color-icon" id="#9E9E9E" style="background-color:gray;"></span>
+							<span class="text-color-icon" id="#2CB297" style="background-color:#2CB297;"></span>
+							<span class="text-color-icon" id="#157F31" style="background-color:#157F31;"></span>
+							<span class="text-color-icon" id="#E02A2A" style="background-color:#452145;"></span>
+							<span class="text-color-icon" id="#260D63" style="background-color:#260D63;"></span>
+							<span class="text-color-icon" id="#9677E5" style="background-color:#9677E5;"></span>							
 						</div>
 						
 						<!--
@@ -340,8 +396,9 @@
 						<div class="tshirt back">
 							<img id="back-image" src="<?php echo plugins_url('default_reversed.png',__FILE__); ?>" alt=""/>
 							<div class="design-frame back-part">
-								
+								<div class="txt_printable">Printable Area</div>
 							</div>
+							
 						</div>
 						<div class="tshirt front">
 							<div class="design-frame front-part">
@@ -403,10 +460,14 @@
 				<div class="tshirt_variant_cont" id="tshirt_variant_cont"></div>
 				<div class="clearfix"></div>
 				
-				<span>Base cost $</span>
-				<span class="base_price">0</span>
+				<div class="grand-total">
+					<span>Base cost at minimum 10-19 products</span>
+					<div class="basep-cont">
+					<span class="doll-sym">$ </span>
+					<span class="base_price">0</span></div>
+				</div>
 				
-				<input type="button" name="for_step_two" id="for_step_two" value="Next step"/>
+				<input type="button" name="for_step_two" id="for_step_two" class="step_forward" value="Next step"/>
 				
 			</div>
 			<!-- right controle ends -->
@@ -419,7 +480,7 @@
 		<div class="pallet-cont ">
 			
 			<div class="step_two-wrap tool-cont">
-				<div class="shirt-counter">
+				<div class="campaign-info-cont">
 					<label>Sales Goal</label>										
 					
 					<div id="goal-range"></div>
@@ -432,12 +493,17 @@
 					<span id="estimated-profit" name="estimated-profit">0.00</span>
 				</div>
 				
-				<div class="shirt-counter">
+				<div class="campaign-info-cont">
 					<label>Set selling price</label>										
 					<p>Set the selling price of your shirt to determine your profit and add additional products to sell your design on! </p>
+					<div class="sale-price-cont">
+					<input type="text" name="sale-price" id="sale-price" value="20"/>
+					$ <span id="txt-sale-price">0</span>
+					<span class="txt-price-sale">(Profit/Sale)</span>
+					</div>
 				</div>
 				
-				
+				<span class="step_forward" id="for_step_three">Next step</span>
 				
 			</div>
 			
@@ -450,9 +516,62 @@
 	
 	<div class="step-cont step_three hidden">
 		<div class="pallet-cont">
-			step three
-			<div class="same_line"></div>
-			<div class="same_line"></div>
+			<div class="step_two-wrap tool-cont">
+				<div class="campaign-info-cont">
+					<label>Campaign title</label>										
+					<input type="text" id="campaign-name" class="campaign-name campaign-text" name="campaign-name" value="10"/> 
+					<span class="desc">Summarize your campaign in 40 characters or less</span>
+				</div>
+				
+				<div class="campaign-info-cont">
+					<label>Description</label>										
+					<textarea name="campaign-desc" id="campaign-desc"></textarea>
+					<span class="desc">Summarize your campaign in 40 characters or less</span>
+				</div>
+								
+				<div class="campaign-info-cont">
+					<label>Tags</label>										
+					<input type="text" id="campaign-tags" class="campaign-text campaign-tags" name="campaign-tags" value="10"/>
+					<span class="desc">Tags help buyers find your campaign. Enter up to 5 words to describe your campaign (e.g. Sports, Moms, Firefighters)</span>
+				</div>
+				
+				<div class="campaign-info-cont">
+					<label>Campaign length</label>										
+					<select id="campaign-length" class="campaign-length campaign-select" name="campaign-length">            
+						<option value="2">2 Days</option>
+						<option value="3">3 Days</option>
+						<option value="4">4 Days</option>
+						<option value="5">5 Days</option>						
+						<option value="6">6 Days</option>
+						<option value="7">7 Days</option>
+					</select>
+					<span class="desc">Our orders will arrive 10-14 days after the end of the campaign.</span>
+				</div>
+				
+				<div class="campaign-info-cont">
+					<label>Choose a URL</label>										
+					<input type="text" id="campaign-url" class="campaign-url campaign-text" name="campaign-url" value="10"/> 
+					<span class="desc">Our orders will arrive 10-14 days after the end of the campaign.</span>
+				</div>
+				
+				<div class="campaign-info-cont checkbox-cont">
+					<label>Shipping options</label>										
+					<input type="checkbox" id="campaign-shippingopt" name="campaign-shippingopt" value="1"/> 
+					<span>Allow buyers to pick-up their orders from you (pickup shipping is free</span>
+				</div>
+				
+				<div class="campaign-info-cont checkbox-cont">
+					<input type="checkbox" id="campaign-shippingopt" name="campaign-shippingopt" value="1"/> 
+					<span>I have read and agreed to the terms of service (TOS), and can confirm that the images, slogans, and content used in my campaign do not infringe upon the rights of any third party.</span>
+				</div>
+				
+				<span class="step_forward" id="launch-campaign">Launch your campaign</span>
+				
+			</div>
+			
+			<div class="step_two-wrap image-cont">
+				<div class="step3-shirt-cont"></div>
+			</div>
 			
 		</div>
 	</div>

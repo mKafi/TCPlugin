@@ -1,16 +1,30 @@
-.color-icon,.text-color-icon {
+.color-icon, .text-color-icon {
     cursor: pointer;
     display: inline-block;
     height: 15px;
+    margin: 0 2px 4px 0;
+    vertical-align: top;
     width: 15px;
 }
 
 .hidden{
-	display:none;
+	display:none !important;
+}
+
+.fullwrapper {    
+    display: block;
+    height: 100%;
+    left: 0;   
+    position: absolute;
+    top: 0;
+    width: 100%;
 }
 
 .flip-container {
 	perspective: 1000;
+}
+.flip-container{
+	position:relative;
 }
 
 /* .flip-container:hover .tshirt_frame, .flip-container.hover .tshirt_frame {
@@ -73,7 +87,7 @@
 }
 .tcd-nav-cont{
 	background:#E9EAEE;
-	padding:10px 0;
+	
 }
 .tcd-nav-row ul {
     display: inline-block;
@@ -91,10 +105,10 @@
     color: #333333;
     display: block;
     font-size: 14px;
-    padding: 5px 10px;
+    padding: 10px 15px;
     text-decoration: none;
 }
-.tcd-nav-row ul li a:hover{
+.tcd-nav-row ul li a:hover,.header_tab.active{
 	background:orange;
 }
 #design-actions {
@@ -119,13 +133,16 @@
 } 
 
 .left_controle.same-line { 
-    width: 22%;
+    width: 223px;
 }
-.same-line.tshirt {   
+/* .same-line.tshirt {   
     width: 50%;
-}
-.same-line.right-controle {    
-    width: 22%;
+} */
+.same-line.right-controle {
+    border: 1px solid #cccccc;
+    padding: 15px;
+    width: 200px;
+	text-align:left;
 }
 
 #tabs {
@@ -150,6 +167,8 @@
     font-size: 14px;
     padding: 10px 0;
     width: 100%;
+	text-align:center;
+	color:#333333;
 }
 .ui-state-active .ui-tabs-anchor {
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -249,8 +268,8 @@ ul {
     color: #ffffff;    
     padding: 0 5px;
     position: absolute;
-    right: 0;
-    top: 0;
+    right: -12px;
+    top: -12px;
     z-index: 2;
 	cursor:pointer;
 }
@@ -260,7 +279,6 @@ ul {
 .step_two-wrap{	
 	vertical-align:top;
 	display:inline-block;
-	padding:20px;
 }
 .step_two-wrap.tool-cont{
 	width:250px;
@@ -310,7 +328,7 @@ ul {
 .shirt-counter {
     margin-bottom: 30px;
 }
-.shirt-counter > input {
+.shirt-counter > input,#sale-price {
     border: 1px solid #cccccc;
     padding: 5px;
     width: 50px;
@@ -328,4 +346,195 @@ ul {
 }
 .step2-shirt-cont{
 	position:relative;
+}
+
+.text-wrap.txt-box {
+    display: inline-block;
+    position: relative;
+}
+.text-wrap .remove {    
+    right: -14px;
+    top: -14px;
+}
+.flip_canvas {
+    background: none repeat scroll 0 0 orange;
+    border: medium none;
+    color: #ffffff;
+    cursor: pointer;
+    display: block;
+    margin: 20px 0 0;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+    width: 90px;
+	font-weight:bold;
+	text-transform:uppercase;
+}
+.flip_canvas:hover {
+	opacity:0.8;	
+}
+.txt_printable {
+    background: none repeat scroll 0 0 #cccccc;
+    bottom: 0;
+    display: block;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+}
+
+.ui-tabs-panel label,.right-controle label {
+    font-weight: bold;
+	display:block;
+	font-weight:bold;
+}
+
+#text_field{
+    border: 1px solid #cccccc;
+    box-sizing: border-box;
+    display: block;
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding: 4px;
+    position: relative;
+    width: 100%;
+}
+
+#font-chooser,#font-size,#outline,#tshirt_variant,.campaign-select {
+    border: 1px solid #cccccc;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    padding: 4px;
+    width: 100%;
+}
+
+.color_pallete {
+    border: 1px solid #cccccc;
+    display: block;
+    height: 17px;
+    margin: 0 0 15px 0;
+    opacity: 0.85;
+    overflow: hidden;
+    padding: 2px 0 0 5px;
+    position: relative;
+	
+}
+
+.color_pallete:hover{
+	height:100%;
+	opacity:1;	
+}
+
+.prod-wrap {
+    border-bottom: 1px solid #cccccc;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+.prod-wrap > img {    
+    border-radius: 4px;
+    display: inline-block;
+    margin-right: 2%;
+    vertical-align: top;
+    width: 48%;
+}
+.prod-wrap > span {
+    background: none repeat scroll 0 0 orange;
+    float: right;
+    padding: 4px;
+    width: 40%;
+}
+
+.grand-total {
+    color: gray;
+    display: block;
+    font-size: 17px;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.step_forward {
+    background: none repeat scroll 0 0 orange;
+    border: medium none;
+    border-radius: 3px;
+    color: #ffffff;
+    cursor: pointer;
+    display: block;
+    font-size: 20px;
+    margin: 0 auto;
+    padding: 10px;
+	text-align:center;
+}
+
+.step_forward:hover{
+	background:green;
+}
+
+.tool-cont {
+    border: 20px solid #ddd;
+    padding: 20px;
+}
+
+.step_two-wrap p {
+    color: #555;
+    line-height: 20px;
+}
+.sale-price-cont {
+    color: #666666;
+    font-size: 20px;
+    font-weight: bold;
+}
+.txt-price-sale {
+    color: #333333;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+
+.campaign-info-cont{
+	position:relative;
+}
+.campaign-text {
+    border: 1px solid #cccccc;
+    box-sizing: border-box;
+    display: block;
+    font-weight: bold;    
+    padding: 4px;
+    position: relative;
+    width: 100%;
+}
+.campaign-info-cont .desc {
+    color: gray;
+    font-size: 12px;
+    font-style: italic;
+	margin-bottom:15px;
+	padding:2px 0;
+	display:block;
+}
+.checkbox-cont{
+	display:block;
+	margin-bottom:15px;
+}
+.basep-cont {
+    color: #84699b;
+    font-size: 35px;
+    padding: 5px 0;
+}
+
+#tabs-2 {
+    text-align: center;
+}
+#search_art, #upload_own {
+    background: none repeat scroll 0 0 orange;
+    border: medium none;
+    border-radius: 3px;
+    color: #ffffff;
+    display: block;
+    font-size: 18px;
+    margin: 15px auto;
+    padding: 10px 15px;
+    width: 80%;
+	cursor:pointer;
+}
+
+#search_art:hover, #upload_own:hover {
+	background:green;
 }
