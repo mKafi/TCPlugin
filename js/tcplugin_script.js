@@ -268,10 +268,10 @@ image_name = '';
 			});
 			
 			$("#search_art").click(function(){
-				if((".clipart-cont").length > 0){
+				
 					$(".full_bg").removeClass('hidden');
 					$(".clipart-cont").toggleClass('hidden');
-				}	
+					
 			});
 			
 			
@@ -468,6 +468,15 @@ image_name = '';
 			
 		});	
 		
+		$("#campaign-shippingopt").click(function(){
+			if($(this).is(':checked')){
+				$("#shipping-address").removeClass('hidden');
+			}
+			else{
+				$("#shipping-address").addClass('hidden');
+			}			
+		});
+		
 		$("#launch-campaign").click(function(){
 			var camp_name = $("#campaign-name").val();
 			var camp_desc = $("#campaign-desc").val();
@@ -475,6 +484,35 @@ image_name = '';
 			var camp_length = $("#campaign-length").val();
 			var camp_url = $("#campaign-url").val();
 			var img_data = '';
+			var pickup = '';
+			var tos = '';
+			
+			var shipping_first_name = $("#shipping-first-name").val();
+			var shipping_last_name = $("#shipping-last-name").val();
+			var shipping_first_address = $("#shipping-first-address").val();
+			var shipping_second_address = $("#shipping-second-address").val();
+			var shipping_city = $("#shipping-city").val();
+			var shipping_state = $("#shipping-state").val();
+			var shipping_zip = $("#shipping-zip").val();
+			
+			if($("#campaign-shippingopt").is(':checked')){
+				pickup = 1;
+				
+			}
+			else{
+				pickup = 0;
+				
+			}
+			
+			
+			if($("#campaign-agreement").is(':checked')){
+				tos = 1;
+			}
+			else{
+				tos = 0;
+			}
+			
+			
 			
 			/* html2canvas([document.getElementById('tot_wrap')], {
 				onrendered: function (canvas) {					
@@ -484,7 +522,7 @@ image_name = '';
 			 */
 			
 			
-			$.post(ajaxurl, {'action':'create_camp','camp_name':camp_name,'camp_desc':camp_desc,'camp_tags':camp_tags,'camp_length':camp_length,'camp_url':camp_url,'image_name':image_name}, function(resp){						
+			$.post(ajaxurl, {'action':'create_camp','camp_name':camp_name,'camp_desc':camp_desc,'camp_tags':camp_tags,'camp_length':camp_length,'camp_url':camp_url,'pickup':pickup,'tos':tos,'shipping_first_name':shipping_first_name,'shipping_last_name':shipping_last_name,'shipping_first_address':shipping_first_address,'shipping_second_address':shipping_second_address,'shipping_city':shipping_city,'shipping_state':shipping_state,'shipping_zip':shipping_zip,'image_name':image_name}, function(resp){						
 				if(resp){
 					alert('A new campaign created successfully');
 				}
@@ -506,14 +544,23 @@ image_name = '';
 			
 		});
 		
+		$(".backit").click(function(){
+			$(".level1").removeClass('hidden');
+			$(".level2").addClass('hidden');
+			$(this).addClass('hidden');
+		});
+		
 		$(".parent.level1").click(function(){
 			var child_cont = $(this).attr('id');
 			$(".level2").addClass('hidden');
+			$(".level1").addClass('hidden');
 			$(".level2."+child_cont).removeClass('hidden');
+			
+			$(".backit").removeClass('hidden');
 		});
 		
 		$(".closeit").click(function(){			
-			$(this).parent().remove();
+			$(this).parent().addClass('hidden');
 			$(".full_bg").addClass('hidden');
 			
 		});

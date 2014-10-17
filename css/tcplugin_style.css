@@ -186,12 +186,12 @@
     border: 1px solid gray;
     bottom: 0;
     display: block;
-    height: 297px;
+    height: 296px;
     left: 0;
     margin: auto;
     position: absolute;
     right: 0;
-    top: 0;
+    top: -80px;
     width: 185px;
     z-index: 12;
 }
@@ -649,4 +649,57 @@ ul {
 }
 .closeit:hover{
 	background:red;
+}
+
+.shipping-address {
+    border: 1px solid #cccccc;
+    margin-top: 15px;
+    padding: 10px;
+}
+.shipping-address .campaign-info-cont {
+    padding: 10px;
+}
+.shipping-address div > label {
+    display: block;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 3px 0;
+}
+.campaign-text {
+    border: 1px solid #cccccc;
+    box-sizing: border-box;
+    display: block;
+    font-weight: bold;
+    padding: 4px;
+    position: relative;
+    width: 100%;
+}
+.small-text {
+    border: 1px solid #cccccc;
+    display: inline-block;
+    margin: auto;
+    padding: 4px;
+    width: 25%;
+}
+
+.backit {
+    background: orange;
+    color: #ffffff;
+    cursor: pointer;
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    left: -15px;
+    line-height: 20px;
+    padding: 3px;
+    position: absolute;
+    top: -15px;
+    width: 100px;
+	z-index:14;
+}
+
+.backit:hover{
+	background:red;
+	color:#000000;
 }

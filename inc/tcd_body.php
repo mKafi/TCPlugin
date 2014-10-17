@@ -135,6 +135,7 @@
 						
 						<div class="clipart-cont hidden" id="clipart-cont">
 							<span class="closeit">X</span>
+							<span class="backit hidden">BACK</span>
 							<div class="symbol-cont">								
 								<?php 
 								
@@ -143,7 +144,7 @@
 								/* $dir_path    = 'E:\xampp\htdocs\Tcircle\wp-content\plugins\TCPlugin/clip_arts/'; */	
 								
 								
-								$objects = scandir($dir_path, 1);	
+								$objects = scandir($dir_path);	
 								$dirs = array();
 								$files = array();
 								foreach($objects AS $k=>$v){
@@ -382,19 +383,48 @@
 				
 				<div class="campaign-info-cont">
 					<label>Choose a URL</label>										
-					<input type="text" id="campaign-url" class="campaign-url campaign-text" name="campaign-url" value="10"/> 
-					<span class="desc">Our orders will arrive 10-14 days after the end of the campaign.</span>
+					<input type="text" id="campaign-url" class="campaign-url campaign-text" name="campaign-url" value="<?php echo site_url().'/'; ?>"/> 
+					<span class="desc">This is where you will send buyers to view your campaign</span>
 				</div>
 				
 				<div class="campaign-info-cont checkbox-cont">
 					<label>Shipping options</label>										
 					<input type="checkbox" id="campaign-shippingopt" name="campaign-shippingopt" value="1"/> 
 					<span>Allow buyers to pick-up their orders from you (pickup shipping is free)</span>
+					<div class="shipping-address hidden" id="shipping-address">
+						
+						<div class="campaign-info-cont">
+							<label>Fist Name</label>										
+							<input type="text" id="shipping-first-name" class="shipping-first-name campaign-text" name="shipping-first-name" value=""/> 
+						</div>
+						
+						<div class="campaign-info-cont">
+							<label>Last Name</label>										
+							<input type="text" id="shipping-last-name" class="shipping-last-name campaign-text" name="shipping-last-name" value=""/> 
+						</div>
+						
+						<div class="campaign-info-cont">
+							<label>Shipping address</label>										
+							<input type="text" id="shipping-first-address" class="shipping-first-address campaign-text" name="shipping-first-address" value=""/> 
+							<input type="text" id="shipping-second-address" class="shipping-second-address campaign-text" name="shipping-second-address" value=""/> 
+						</div>
+						
+						
+						<div class="campaign-info-cont">																
+							<input type="text" id="shipping-city" class="shipping-city small-text" name="shipping-city" value="" placeholder="City"/>
+							<input type="text" id="shipping-state" class="shipping-state small-text" name="shipping-state" value="" placeholder="State"/>
+							<input type="text" id="shipping-zip" class="shipping-zip small-text" name="shipping-zip" value="" placeholder="Zip"/>
+							
+						</div>
+						
+						
+						
+					</div>
 				</div>
 				
 				<div class="campaign-info-cont checkbox-cont">
 					<input type="checkbox" id="campaign-agreement" name="campaign-agreement" value="1"/> 
-					<span>I have read and agreed to the terms of service (TOS), and can confirm that the images, slogans, and content used in my campaign do not infringe upon the rights of any third party.</span>
+					<span>I have read and agreed to the <a href="<?php $page = get_page_by_title( 'Terms of Services' ); echo get_permalink( $page->ID ); ?>">terms of service (TOS)</a>, and can confirm that the images, slogans, and content used in my campaign do not infringe upon the rights of any third party.</span>
 				</div>
 				
 				<span class="step_forward" id="launch-campaign">Launch your campaign</span>

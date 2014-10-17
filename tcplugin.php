@@ -179,6 +179,8 @@ add_action('wp_ajax_getproductinfo','get_productinfo_by_id');
 
 
 function create_new_campaign(){
+	echo '<pre>'; print_r($_POST); echo '</pre>'; exit; 
+	
 	if(isset($_POST['action']) && !empty($_POST['action'] ) && $_POST['action'] == 'create_camp'){
 		global $wpdb;
 		
@@ -198,9 +200,56 @@ function create_new_campaign(){
 				'tags_input' => explode(",",$_POST['camp_tags'])
 		      )
 	    );
-		/* echo $post_id; */
-		
+		/* echo $post_id; */		
 		$cur_post_id = $post_id;
+		
+		/* set post meta starts */
+		if(!empty($_POST['camp_url'])){
+			add_post_meta($cur_post_id, 'campaign_url', $_POST['camp_url'], $unique); 
+		}
+		
+		if(!empty($_POST['camp_length'])){
+			add_post_meta($cur_post_id, 'campaign_length', $_POST['camp_length'], $unique); 
+		}
+		
+		if(!empty($_POST['pickup'])){
+			add_post_meta($cur_post_id, 'buyer_can_pickup', $_POST['pickup'], $unique); 
+		}
+		
+		if(!empty($_POST['tos'])){
+			add_post_meta($cur_post_id, 'terms_service', $_POST['tos'], $unique); 
+		}
+		
+		if(!empty($_POST['shipping_first_name'])){
+			add_post_meta($cur_post_id, 'shipping_first_name', $_POST['shipping_first_name'], $unique); 
+		}
+		
+		if(!empty($_POST['shipping_last_name'])){
+			add_post_meta($cur_post_id, 'shipping_last_name', $_POST['shipping_last_name'], $unique); 
+		}
+		
+		if(!empty($_POST['shipping_first_address'])){
+			add_post_meta($cur_post_id, 'shipping_first_address', $_POST['shipping_first_address'], $unique); 
+		}
+		
+		if(!empty($_POST['shipping_second_address'])){
+			add_post_meta($cur_post_id, 'shipping_second_address', $_POST['shipping_second_address'], $unique); 
+		}
+		
+		if(!empty($_POST['shipping_city'])){
+			add_post_meta($cur_post_id, 'shipping_city', $_POST['shipping_city'], $unique); 
+		}
+		
+		if(!empty($_POST['shipping_state'])){
+			add_post_meta($cur_post_id, 'shipping_state', $_POST['shipping_state'], $unique); 
+		}
+		
+		if(!empty($_POST['shipping_zip'])){
+			add_post_meta($cur_post_id, 'shipping_zip', $_POST['shipping_zip'], $unique); 
+		}
+				
+		/* set post meta ends */
+		
 
 		
 		
