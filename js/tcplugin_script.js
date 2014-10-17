@@ -5,7 +5,8 @@ function set_dynamic_id(){
 }
 
 icon_price = 1.5;
-text_price = 2.5;	
+text_price = 2.5;
+image_name = '';	
 (function($){
 	$(function() {
 		$(document).ready(function(){
@@ -279,13 +280,13 @@ text_price = 2.5;
 				var src = $(this).attr('src');
 				
 				if($('.tshirt_frame').hasClass('unflipped')){
-					var appclip = '<span class="clip-cont"> <div class="icon-img-cont"><span class="remove hidden">X</span> <img src="'+src+'" alt="" class="used-clips" id="used-clips1" /></div> </span>';
+					var appclip = '<span class="clip-cont"> <div class="icon-img-cont"><span class="rotate hidden">R</span> <span class="remove hidden">X</span> <img src="'+src+'" alt="" class="used-clips" id="used-clips1" /></div> </span>';
 					$(".design-frame.back-part").append(appclip);
 					$(".full_bg").addClass('hidden');
 					add_icon_price();					
 				}
 				else{
-					var appclip = '<span class="clip-cont"> <div class="icon-img-cont"><span class="remove hidden">X</span> <img src="'+src+'" alt="" class="used-clips" id="" /></div> </span>';
+					var appclip = '<span class="clip-cont"> <div class="icon-img-cont"><span class="rotate hidden">R</span><span class="remove hidden">X</span> <img src="'+src+'" alt="" class="used-clips" id="" /></div> </span>';
 					$(".design-frame.front-part").append(appclip);
 					$(".full_bg").addClass('hidden');
 					add_icon_price();					
@@ -298,10 +299,54 @@ text_price = 2.5;
 			
 			$(document).on('mouseenter','.clip-cont',function(){
 				$(this).find('.remove').removeClass('hidden');
+				$(this).find('.rotate').removeClass('hidden');
 			});
 			$(document).on('mouseleave','.clip-cont',function(){
 				$(this).find('.remove').addClass('hidden');
+				$(this).find('.rotate').addClass('hidden');
 			});
+			
+			
+			$(document).on("click",".icon-img-cont .remove",function(){
+				var bpcost = 0;
+				$(this).parent().parent().remove();
+				
+				bpcost = parseFloat($("span.base_price").text(),10);
+				bpcost -= parseFloat(icon_price); 
+				$("span.base_price").text(''+bpcost.toFixed(2));
+			});
+			
+			
+			/* 
+			
+			$(document).on("mousedown",".icon-img-cont .rotate",function(){
+				var mouseDown = false;
+				var img_cont = $(this).parent();				
+				var offset = img_cont.offset();				
+				$(document).mousedown(function (e) {
+					mouseDown=true;
+					$(document).mousemove(function(evt){
+						if(mouseDown ==true){
+							var center_x = (offset.left) + (img_cont.width() / 2);
+							var center_y = (offset.top) + (img_cont.height() / 2);
+							var mouse_x = evt.pageX;
+							var mouse_y = evt.pageY;
+							var radians = Math.atan2(mouse_x - center_x, mouse_y - center_y);
+							var degree = (radians * (180 / Math.PI) * -1) + 90;
+							img_cont.css('-moz-transform', 'rotate(' + degree + 'deg)');
+							img_cont.css('-webkit-transform', 'rotate(' + degree + 'deg)');
+							img_cont.css('-o-transform', 'rotate(' + degree + 'deg)');
+							img_cont.css('-ms-transform', 'rotate(' + degree + 'deg)');
+						}
+					});
+				});
+				
+				$(document).mouseup(function (e) {
+					mouseDown = false;
+				})
+			});
+			
+			 */
 			
 			
 			
@@ -338,8 +383,9 @@ text_price = 2.5;
 						var data = canvas.toDataURL('image/png',1.0);					
 					
 						$.post(ajaxurl,{'action':'save_img','data':data},function(resp){
-							
-							if(resp == 'done'){
+							var obj = $.parseJSON(resp);
+							if(obj.action == 'done'){
+								image_name = obj.img;
 								
 								$(".same-line.tshirt").find('.txt_printable').remove();
 								$(".design-frame").css('border','none');
@@ -365,14 +411,6 @@ text_price = 2.5;
 						});
 					}
 				});
-				
-				
-				/* 
-				
-				 */
-				
-				
-				
 				
 			});
 			
@@ -446,7 +484,7 @@ text_price = 2.5;
 			 */
 			
 			
-			$.post(ajaxurl, {'action':'create_camp','camp_name':camp_name,'camp_desc':camp_desc,'camp_tags':camp_tags,'camp_length':camp_length,'camp_url':camp_url}, function(resp){						
+			$.post(ajaxurl, {'action':'create_camp','camp_name':camp_name,'camp_desc':camp_desc,'camp_tags':camp_tags,'camp_length':camp_length,'camp_url':camp_url,'image_name':image_name}, function(resp){						
 				if(resp){
 					alert('A new campaign created successfully');
 				}
@@ -455,19 +493,30 @@ text_price = 2.5;
 		
 		
 		$("#save-canvas").click(function(){
+			
 			html2canvas([document.getElementById('tot_wrap')], {
 				onrendered: function (canvas) {					
 					var data = canvas.toDataURL('image/png',1.0);					
-				
 					$.post(ajaxurl,{'action':'save_img','data':data},function(resp){
 						
-					});
+					}); 
+					
 				}
 			});
+			
 		});
 		
+		$(".parent.level1").click(function(){
+			var child_cont = $(this).attr('id');
+			$(".level2").addClass('hidden');
+			$(".level2."+child_cont).removeClass('hidden');
+		});
 		
-		
+		$(".closeit").click(function(){			
+			$(this).parent().remove();
+			$(".full_bg").addClass('hidden');
+			
+		});
 	});
 })(jQuery);
 

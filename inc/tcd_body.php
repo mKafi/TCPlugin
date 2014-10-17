@@ -136,248 +136,67 @@
 						<div class="clipart-cont hidden" id="clipart-cont">
 							<span class="closeit">X</span>
 							<div class="symbol-cont">								
-								<ul>
-							  <li>
+								<?php 
 								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Animals%2FFootprints%20%26%20Tracks%2FAnimal%20Print%2015.png" data-is-color="false" data-filename="Animals/Footprints &amp; Tracks/Animal Print 15.svg">
-								  
-								</div>
-							  </li>
-							  <li>
+								$dir_path    = plugin_dir_path( __FILE__ ).'../clip_arts/';
 								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Shapes%20%26%20Symbols%2FShapes%2FStar%205.png" data-is-color="false" data-filename="Shapes &amp; Symbols/Shapes/Star 5.svg">
-								  
-								</div>
-							  </li>
-							  <li>
+								/* $dir_path    = 'E:\xampp\htdocs\Tcircle\wp-content\plugins\TCPlugin/clip_arts/'; */	
 								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Animals%2FReptiles%2FGator.png" data-is-color="false" data-filename="Animals/Reptiles/Gator.svg">
-								  
-								</div>
-							  </li>
-							  <li>
 								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Careers%20%26%20Professions%2FConstruction%20%26%20Hardware%2FHammer%203.png" data-is-color="false" data-filename="Careers &amp; Professions/Construction &amp; Hardware/Hammer 3.svg">
-								  
-								</div>
-							  </li>
-							  <li>
+								$objects = scandir($dir_path, 1);	
+								$dirs = array();
+								$files = array();
+								foreach($objects AS $k=>$v){
+									if($v != '.' && $v != '..'){
+										if (is_dir($dir_path.'/'.$v)){
+											$dirs[] = $v;
+										}
+										else{				
+											$files[] = $v;														
+										}
+									}
+								}	
 								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Shapes%20%26%20Symbols%2FSymbols%20%26%20Icons%2FTalking%20Bubble%202.png" data-is-color="false" data-filename="Shapes &amp; Symbols/Symbols &amp; Icons/Talking Bubble 2.svg">
-								  
-								</div>
-							  </li>
-							  <li>
+								?><div class="parent level0"><?php 
+								foreach($dirs AS $d){
+									$cont_id = str_replace(' ','_',strtolower($d));
+									
+									?>
+									<div class="parent level1" id="<?php echo $cont_id; ?>"><?php echo $d; ?></div>
+									<div class="hidden level2 <?php echo $cont_id; ?>">
+										<?php 
+										$second_path = $dir_path.'/'.$d;
+										$sub_files_path = scandir($second_path,1);
+										/* echo '<pre>'; print_r($sub_files_path); echo '</pre>';  */
+										
+										foreach($sub_files_path AS $ss => $sf){											
+											if($sf != '.' && $sf != '..'){
+												if(is_dir($second_path.'/'.$sf)){
+													
+												}
+												else{				
+													?> 
+													<div class="result tcpring">
+														<img src="<?php echo plugins_url('TCPlugin').'/clip_arts/'.$d.'/'.$sf; ?>" alt="Icon"/> 
+													</div>
+													<?php
+												}
+											}
+										}	
+										
+										
+										?>
+									</div>
+									<?php 
+								}
+								?></div><?php 
 								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Music%2FMisc%2FCassette%20Tape.png" data-is-color="false" data-filename="Music/Misc/Cassette Tape.svg">
-								  
-								</div>
-							  </li>
-							  <li>
+								?>
 								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Animals%2FFlying%2FHawk.png" data-is-color="false" data-filename="Animals/Flying/Hawk.svg">
-								  
-								</div>
-							  </li>
-							  <li>
 								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Events%2FBirthday%2FBirthday%20Cake%205.png" data-is-color="false" data-filename="Events/Birthday/Birthday Cake 5.svg">
-								  
-								</div>
-							  </li>
-							  <li>
 								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Shapes%20%26%20Symbols%2FStamps%2FStamp%2036.png" data-is-color="false" data-filename="Shapes &amp; Symbols/Stamps/Stamp 36.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Everyday%2FHome%2FBattery.png" data-is-color="false" data-filename="Everyday/Home/Battery.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Military%2FWeapons%2FRevolver%204.png" data-is-color="false" data-filename="Military/Weapons/Revolver 4.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Nature%2FBeach%2FSandbucket%20and%20Shovel.png" data-is-color="false" data-filename="Nature/Beach/Sandbucket and Shovel.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Shapes%20%26%20Symbols%2FArrows%2FBumpy%20Arrow%202.png" data-is-color="false" data-filename="Shapes &amp; Symbols/Arrows/Bumpy Arrow 2.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Nature%2FPlants%20%26%20Trees%2FTree%204.png" data-is-color="false" data-filename="Nature/Plants &amp; Trees/Tree 4.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Shapes%20%26%20Symbols%2FFlames%20%26%20Tribal%2FTribal%209.png" data-is-color="false" data-filename="Shapes &amp; Symbols/Flames &amp; Tribal/Tribal 9.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Food%20%26%20Drink%2FAlcohol%2FWine%204.png" data-is-color="false" data-filename="Food &amp; Drink/Alcohol/Wine 4.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Nature%2FFire%2FFlame%20Icon%203.png" data-is-color="false" data-filename="Nature/Fire/Flame Icon 3.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/People%2FSilhouettes%2FOld%20Man%20with%20Cane.png" data-is-color="false" data-filename="People/Silhouettes/Old Man with Cane.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Events%2FBBQ%2FBbq%20Man%202.png" data-is-color="false" data-filename="Events/BBQ/Bbq Man 2.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Holidays%2FChristmas%2FSanta%20and%20Reindeer%2010.png" data-is-color="false" data-filename="Holidays/Christmas/Santa and Reindeer 10.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Animals%2FPrimates%2FMonkey%203.png" data-is-color="false" data-filename="Animals/Primates/Monkey 3.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Holidays%2FChristmas%2FChristmas%20Tree%2010.png" data-is-color="false" data-filename="Holidays/Christmas/Christmas Tree 10.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Sports%20%26%20Games%2FSummer%20Sports%2FBaseball.png" data-is-color="false" data-filename="Sports &amp; Games/Summer Sports/Baseball.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Nature%2FWeather%2FClouds%202.png" data-is-color="false" data-filename="Nature/Weather/Clouds 2.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/People%2FFitness%2FMan%20Stretching.png" data-is-color="false" data-filename="People/Fitness/Man Stretching.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Holidays%2FChristmas%2FSanta%209.png" data-is-color="false" data-filename="Holidays/Christmas/Santa 9.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Sports%20%26%20Games%2FMisc%2FPing%20Pong%20Racquet.png" data-is-color="false" data-filename="Sports &amp; Games/Misc/Ping Pong Racquet.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Animals%2FCat%20Family%2FTiger%208.png" data-is-color="false" data-filename="Animals/Cat Family/Tiger 8.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/People%2FHeads%2FThinking%20Head%202.png" data-is-color="false" data-filename="People/Heads/Thinking Head 2.svg">
-								  
-								</div>
-							  </li>
-							  <li>
-								
-								<div class="result tcpring">
-								  
-								  <img src="http://d1b2zzpxewkr9z.cloudfront.net/vectors/Nature%2FBeach%2FBeach%20Resort.png" data-is-color="false" data-filename="Nature/Beach/Beach Resort.svg">
-								  
-								</div>
-							  </li>
-							</ul> 
+							
+							
 							</div>
 						</div>
 						
@@ -393,7 +212,16 @@
 
 			<!-- middle image panel starts -->
 			<div class="same-line tshirt">
+				<!--
+				<div id="test-cont">
+					<div>Another <img src="<?php echo plugins_url('tcplugin').'/clips/tion.png'; ?>" alt=""/></div>
+					<span>Test text</span>
+					<div>it's a div</div>
+				</div>
+				-->
+				
 				<div class="flip-container" id="tot_wrap">
+					
 					<div id="tshirt_frame_wrap" class="tshirt_frame unflipped">
 						
 						<input type="hidden" name="selected_element" value="" id="selected_element" />

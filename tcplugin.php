@@ -207,7 +207,7 @@ function create_new_campaign(){
 		/* image addition to post starts */
 		
 		$parent_post_id = $post_id;
-		$filename = get_home_path().'wp-content/uploads/'.date("Y").'/'.date('m').'/newtshirt.png';
+		$filename = get_home_path().'wp-content/uploads/'.date("Y").'/'.date('m').'/'.$_POST['image_name'];
 		$filetype = wp_check_filetype( basename( $filename ), null );
 		$wp_upload_dir = wp_upload_dir();
 		$attachment = array(
@@ -238,10 +238,11 @@ function save_camp_image(){
 	list($type, $data) = explode(';', $data);
 	list(, $data) = explode(',', $data);
 	$data = base64_decode($data);		
-	$target_path_image = get_home_path().'wp-content/uploads/'.date("Y").'/'.date('m').'/newtshirt.png';		
+	$img_name = 'tshirt'.time().'.png';
+	$target_path_image = get_home_path().'wp-content/uploads/'.date("Y").'/'.date('m').'/'.$img_name;		
 	file_put_contents($target_path_image, $data);
 	/* image data processing ends */
-	echo 'done';
+	echo json_encode(array('action'=>'done','img'=>$img_name));
 	die();
 }
 add_action('wp_ajax_nopriv_save_img','save_camp_image');

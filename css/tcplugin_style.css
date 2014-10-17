@@ -251,6 +251,7 @@ ul {
     display: inline-block;
     position: relative;
 }
+
 .remove {
     background: none repeat scroll 0 0 #333333;
     border: medium none;
@@ -258,14 +259,33 @@ ul {
     color: #ffffff;    
     padding: 0 5px;
     position: absolute;
-    right: -12px;
-    top: -12px;
+    left: -10px;
+    top: -10px;
     z-index: 2;
 	cursor:pointer;
 }
+
 .remove.hover{
 	color:red;
 }
+
+.rotate {
+    background: none repeat scroll 0 0 #333333;
+    border: medium none;
+    border-radius: 50%;
+    color: #ffffff;    
+    padding: 0 5px;
+    position: absolute;
+    right: -10px;
+    bottom: -10px;
+    z-index: 2;
+	cursor:pointer;
+}
+
+.rotate.hover{
+	color:red;
+}
+
 .step_two-wrap{	
 	vertical-align:top;
 	display:inline-block;
@@ -342,10 +362,12 @@ ul {
     display: inline-block;
     position: relative;
 }
+/* 
 .text-wrap .remove {    
     right: -14px;
     top: -14px;
 }
+ */
 .flip_canvas {
     background: none repeat scroll 0 0 orange;
     border: medium none;
@@ -587,4 +609,44 @@ ul {
     height: 100px;
     overflow: auto;
     width: 100%;
+}
+
+.parent.level1 {
+    border: 1px solid #cccccc;
+    color: gray;
+    display: inline-block;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 50px;
+    min-height: 50px;
+    text-align: center;
+    width: 20%;
+	cursor:pointer;
+}
+.parent.level1:hover{
+	background:orangered;
+	color:#000000;
+	border-color:#333333;
+} 
+
+.result.tcpring {
+    display: inline-block;
+    margin: 0 5px 5px 0;
+}
+
+.result.tcpring img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+.result.tcpring img:hover{
+	opacity:0.7;
+	cursor:pointer;
+}
+.closeit{
+	cursor:pointer;
+}
+.closeit:hover{
+	background:red;
 }
