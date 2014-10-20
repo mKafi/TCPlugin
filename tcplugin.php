@@ -8,6 +8,7 @@ Version: 0.01
 
 */
 
+	
 function tcplugin_ajaxurl() {
 	
 	?> <script type="text/javascript">	ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';	</script> <?php
@@ -296,3 +297,47 @@ function save_camp_image(){
 }
 add_action('wp_ajax_nopriv_save_img','save_camp_image');
 add_action('wp_ajax_create_save_img','save_camp_image');
+
+
+
+
+
+include('inc/tccmb.php');
+include('inc/campaign_status.php');	
+include_once('inc/custom-post-fields.php');
+include_once('inc/custom-widgets.php');
+
+
+/* success & unsuccess campaign starts */
+
+function add_admin_menu_separator($position) {
+
+	global $menu;
+	$index = 0;
+
+	foreach($menu as $offset => $section) {
+		if (substr($section[2],0,9)=='separator')
+			$index++;
+		if ($offset>=$position) {
+			$menu[$position] = array('','read',"separator{$index}",'','wp-menu-separator');
+			break;
+		}
+	}
+
+	ksort( $menu );
+}
+function admin_menu_separator() {
+	add_admin_menu_separator(99);
+}
+add_action('admin_menu','admin_menu_separator');
+
+function teecircle_campaign_settings(){		
+	add_menu_page( 'Campaign status', 'Campaign status', 'edit_posts', 'teecircle-settings', 'my_plugin_function', '' );		
+}
+add_action('admin_menu', 'teecircle_campaign_settings');
+/* success & unsuccess campaign ends */
+
+
+
+/* success & unsuccess campaign ends */
+	
