@@ -18,6 +18,7 @@
     position: absolute;
     top: 0;
     width: 100%;
+	z-index:20;
 }
 
 .flip-container {
@@ -43,7 +44,7 @@
 }
 
 .flip-container .tshirt{
-	border: 1px solid #cccccc;
+	/* border: 1px solid #cccccc; */
 }
 
 .tshirt_frame {
@@ -142,7 +143,13 @@
     border: 1px solid #cccccc;
     padding: 15px;
     width: 200px;
+	text-align:center;
+	position:relative;
+}
+.same-line.right-controle > label{
 	text-align:left;
+	padding:2px 0;
+	
 }
 
 #tabs {
@@ -192,8 +199,9 @@
     position: absolute;
     right: 0;
     top: -80px;
-    width: 185px;
+    width: 186px;
     z-index: 12;
+	overflow:hidden;
 }
 #txt-back,#txt-front{
 	text-align:center;
@@ -230,61 +238,109 @@ ul {
 }
 
 .used-clips{
-	cursor:pointer;
+	cursor:move;
+	width:100%;
+	height:auto;
+	display:block;
+	position:relative;
 }
 .used-clips:hover {
-    opacity: 0.69;
+    
 }
 .txt-cont{
-	cursor:pointer;
+	cursor:move;
+	padding:1px;
+	border-width:0px;
+	font-size:20px;
+	display:block;
+	position:relative;
 }
+
+.ttext-cont{
+	position:relative;
+	display:block;
+	top:12px;
+	left:12px;
+}
+
 .txt-cont:hover{
-	opacity:0.9;
-	border:1px dashed #CCCCCC;
+	padding:0;
+	border:1px dashed #000000;
 }
+
 .choosed{
-	border:1px dashed #CCCCCC;
+	border:1px dashed #000000;
+	padding:0;
 }
 
 
 .icon-img-cont {
     display: inline-block;
     position: relative;
+	padding:1px;
+	border-width:0;	
+}
+.icon-img-cont:hover{
+	border:1px dashed;
+	padding:0px;
+}
+
+.icon-img-cont > span{
+	border-radius: 2px;
+    padding: 0;
+    position: absolute;
+	cursor:pointer;
+	text-indent:-9999px;
+	border:1px solid #000000;
+	height:16px;
+	width:16px;
+}
+
+.streatch{
+	background: url("./../images/streatch.png") no-repeat scroll center center #ffffff;
+    right: -12px;
+    bottom: -12px;
+    z-index: 5;
+	position:absolute;
 }
 
 .remove {
-    background: none repeat scroll 0 0 #333333;
-    border: medium none;
-    border-radius: 50%;
-    color: #ffffff;    
-    padding: 0 5px;
-    position: absolute;
-    left: -10px;
-    top: -10px;
-    z-index: 2;
-	cursor:pointer;
-}
-
-.remove.hover{
-	color:red;
+    background: url("./../images/close1.png") no-repeat scroll center center #ffffff;    
+    left: -12px;
+    bottom: -12px;
+    z-index: 4;
+	position:absolute;
 }
 
 .rotate {
-    background: none repeat scroll 0 0 #333333;
-    border: medium none;
-    border-radius: 50%;
-    color: #ffffff;    
-    padding: 0 5px;
-    position: absolute;
-    right: -10px;
-    bottom: -10px;
+    background: url("./../images/rotate.png") no-repeat scroll center center #ffffff;
+    top: -12px;
+    right: -12px;
     z-index: 2;
-	cursor:pointer;
+	position:absolute;
 }
 
-.rotate.hover{
-	color:red;
+
+.move {
+    background: url("./../images/drag.png") no-repeat scroll center center #ffffff;
+    top: -12px;
+    left: -12px;
+    z-index: 3;
+	position:absolute;
 }
+
+
+.ttext-cont .remove,.ttext-cont .rotate {
+   border: 1px solid #000000;
+    border-radius: 2px;
+    cursor: pointer;
+    height: 16px;
+    padding: 0;
+    position: absolute;
+    text-indent: -9999px;
+    width: 16px;
+}
+
 
 .step_two-wrap{	
 	vertical-align:top;
@@ -295,9 +351,13 @@ ul {
 }
 .step_two-wrap.image-cont{
 	width:530px;
-	
+	position:relative;
 }
-
+.step_two-wrap.image-cont .tshirt-loader {
+    bottom: inherit;
+    top: 114px;
+    z-index: 9999;
+}
 .ui-slider {
     background: none repeat scroll 0 0 #f2f2f2;
     height: 10px;
@@ -360,7 +420,7 @@ ul {
 
 .text-wrap.txt-box {
     display: inline-block;
-    position: relative;
+    position: absolute;
 }
 /* 
 .text-wrap .remove {    
@@ -447,6 +507,12 @@ ul {
     margin-right: 2%;
     vertical-align: top;
     width: 48%;
+	padding:1px;
+	border-color:none;
+}
+.prod-wrap > img:hover {
+    border: 1px solid orange;
+    padding: 0;
 }
 .prod-wrap > span {
     background: none repeat scroll 0 0 orange;
@@ -471,7 +537,7 @@ ul {
     cursor: pointer;
     display: block;
     font-size: 20px;
-    margin: 0 auto 25px;
+    margin: 20px auto 25px;
     padding: 10px;
 	text-align:center;
 }
@@ -534,15 +600,29 @@ ul {
 #tabs-2 {
     text-align: center;
 }
-#search_art, #upload_own {
+
+#search_art{
     background: none repeat scroll 0 0 orange;
     border: medium none;
     border-radius: 3px;
     color: #ffffff;
     display: block;
-    font-size: 18px;
+    
     margin: 15px auto;
     padding: 10px 15px;
+    width: 80%;
+	cursor:pointer;
+}
+
+#upload_own {
+	background: none repeat scroll 0 0 orange;
+    border: medium none;
+    border-radius: 3px;
+    color: #ffffff;
+    display: block;
+    
+    margin: 15px auto;
+    padding: 10px 23px 10px 6px;
     width: 80%;
 	cursor:pointer;
 }
@@ -609,6 +689,8 @@ ul {
     height: 100px;
     overflow: auto;
     width: 100%;
+	padding:5px;
+	font-family:helvetica;
 }
 
 .parent.level1 {
@@ -703,3 +785,121 @@ ul {
 	background:red;
 	color:#000000;
 }
+
+.preview-cont {
+    background: none repeat scroll 0 0 #ffffff !important;
+    border: 2px solid gray;
+    display: block;
+    position: relative;
+    z-index: 999999 !important;
+}
+
+
+
+.step3-shirt-cont .front, .step3-shirt-cont .back {
+    position: relative;
+}
+.step3-shirt-cont .back {
+    transform: none !important;
+}
+.tshirt > img {
+    display: block;
+}
+.step3-shirt-cont {
+    position: relative;
+}
+
+.info-row {
+    display: block;
+    padding: 10px;
+}
+.info-row > label {
+    display: block;
+    font-weight: bold;
+    padding: 5px 0;
+}
+.tshirt-loader {
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1000;
+}
+
+/* 
+.clip-cont{
+	position:absolute;
+	top:0;
+	left:0;
+}
+*/
+
+.clip-cont {
+    display: inline-block;
+    position: absolute;
+	width:50%;
+	top:12px;
+	left:12px;
+}
+#bicont{
+	position:relative;
+	display:inline-block;
+}
+
+.same-line.site-content {
+    width: 56%;
+}
+.same-line.campaing-info {
+    border: 13px solid #cccccc;
+    float: right;
+    padding: 15px;
+    width: 35%;
+}
+
+#campaign-image .attachment-post-thumbnail.wp-post-image {
+    height: auto;
+    width: 100%;
+}
+#campaign-image .entry-title {
+    background: none repeat scroll 0 0 #cccccc;
+    margin-bottom: 1px;
+    padding: 10px;
+}
+
+canvas#myCanvas {    
+    position: absolute;
+    z-index: -10;
+}
+
+#imageloadstatus > img {
+    display: block;
+    position: relative;
+    top: 6px;
+    width: 100%;
+}
+.color_pallete.tshirt-colors {
+    display: block;
+    height: 302px;
+    left: -36px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 63px;
+}
+.color_pallete .color-icon {
+    border: 0 none;
+    display: block;
+    height: 22px;
+    margin: 5px;
+    padding: 1px;
+    width: 22px;
+}
+.color_pallete .color-icon:hover {
+    border: 1px solid #000000;
+    height: 20px;
+    margin: 5px;
+    width: 20px;
+}
+

@@ -1,3 +1,7 @@
 .wp-menu-image.dashicons-before > img{
 	width:20px;
 }
+.description{
+	font-style:italic;
+	font-size:12px;
+}

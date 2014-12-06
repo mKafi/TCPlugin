@@ -4,12 +4,13 @@ function set_dynamic_id(){
 	return 'tctext'+rt.substring(3,6);	
 }
 
-icon_price = 1.5;
-text_price = 2.5;
-image_name = '';	
+
+
+image_name = '';
+flag = false;	
 (function($){
 	$(function() {
-		$(document).ready(function(){
+		$(document).ready(function(){			
 			/* field reset */
 			$("#text_field").val('');
 			$("#font-chooser option:first").attr('selected','selected');
@@ -52,39 +53,83 @@ image_name = '';
 			
 			$(".header_tab").click(function(){
 				if($(this).attr('id')=='step_1'){
+					
 					$(".step-cont").addClass('hidden');
 					$(".step-cont.step_one").removeClass('hidden');
 					
 					$(".header_tab").removeClass('active');
 					$(this).addClass('active');
+					
+					$(".same-line.tshirt").find('.txt_printable').css('display','block');
+					$(".design-frame").css('border','1px solid gray');
+					
+					
 				}
 				else if($(this).attr('id')=='step_2'){
-					$(".step-cont").addClass('hidden');
-					$(".step-cont.step_two").removeClass('hidden');
-					
-					$(".header_tab").removeClass('active');
-					$(this).addClass('active');
+					if(flag){
+						$(".step-cont").addClass('hidden');
+						$(".step-cont.step_two").removeClass('hidden');
+						
+						$(".header_tab").removeClass('active');
+						$(this).addClass('active');
+					}
 				}
 				else if($(this).attr('id')=='step_3'){
-					$(".step-cont").addClass('hidden');
-					$(".step-cont.step_three").removeClass('hidden');
-					
-					$(".header_tab").removeClass('active');
-					$(this).addClass('active');
+					if(flag){
+						$(".step-cont").addClass('hidden');
+						$(".step-cont.step_three").removeClass('hidden');
+						
+						$(".header_tab").removeClass('active');
+						$(this).addClass('active');
+					}
 				}
 			});
 			
 			
-			/*---------------------------------------------------------------------*/
-			jQuery('#colorpickerHolder').ColorPicker({flat: true});
+			/*---------------------------------------------------------------------*/			
 			jQuery( "#txt-back" ).draggable();		
-			jQuery(document).on('mouseover','.clip-cont',function(){			
-				jQuery(this).draggable();
+			
+			
+			
+			jQuery(document).on('mouseenter','.move',function(){			
+				jQuery(this).parent().parent().draggable({ disabled:false });
 			});
 			
-			jQuery(document).on('mouseover','.text-wrap.txt-box',function(){			
-				jQuery(".text-wrap.txt-box").draggable();
+			jQuery(document).on('mouseout','.move',function(){			
+				jQuery(this).parent().parent().draggable({ disabled:true });
 			});
+			
+			jQuery(document).on('mouseenter','.icon-img-cont .used-clips',function(){			
+				jQuery(this).parent().parent().draggable({ disabled:false });
+			});
+			
+			jQuery(document).on('mouseout','.icon-img-cont .used-clips',function(){			
+				jQuery(this).parent().parent().draggable({ disabled:true });
+			});
+			
+			
+			jQuery(document).on('mouseenter','.ttext-cont .txt-cont',function(){			
+				jQuery(this).parent().parent().draggable({ disabled:false });
+			});
+			
+			jQuery(document).on('mouseout','.ttext-cont .txt-cont',function(){			
+				jQuery(this).parent().parent().draggable({ disabled:true });
+			});
+			
+			
+			
+			/* 
+			jQuery(document).on('mousedown','.text-wrap.txt-box',function(){							
+				jQuery(".text-wrap.txt-box").draggable({ disabled: false });			
+				$(this).draggable({ disabled: false });
+			});
+			
+			jQuery(document).on('mouseup','.text-wrap.txt-box',function(){							
+				jQuery(".text-wrap.txt-box").draggable( { disabled:true });
+				$(this).draggable({ disabled:false });				
+			});
+			 */
+			
 			
 			$("#goal-range").slider({
 				range: "min",
@@ -100,6 +145,15 @@ image_name = '';
 			$( "#goal-range" ).on( "slidestop", function( event, ui ) {				
 				calculate_estimate_profit();				
 			} );
+			
+			$( "#goal-range" ).slider({
+				slide: function( event, ui ) {
+					$("#goal-count").val(ui.value);
+					calculate_estimate_profit(ui.value);
+				}
+			});
+			
+			
 		
 			/*---------------------------------------------------------------------*/
 			
@@ -109,7 +163,9 @@ image_name = '';
 			if($("#tshirt_variant").length>0){
 				$("#tshirt_variant").change(function(){
 					var cat = $(this).val();
-					
+					if($(".variant_loader").hasClass('hidden')){
+						$(".variant_loader").removeClass('hidden');
+					}
 					$.post(ajaxurl,{'action':'getproduct','cat':cat},function(resp){						
 						if(resp){
 							var res = $.parseJSON(resp);							
@@ -125,6 +181,7 @@ image_name = '';
 							});
 							
 							if(htm !=''){
+								$(".variant_loader").addClass('hidden');
 								$("#tshirt_variant_cont").html(htm);
 							}
 						}
@@ -138,6 +195,10 @@ image_name = '';
 			
 			
 			$(document).on('click','.tshirt-main-image',function(){
+				flag = true;
+				if($(".tshirt-loader").hasClass('hidden')){
+					$(".tshirt-loader").removeClass('hidden');
+				}
 				var x = $(this).parent().attr('id');
 				var a = x.split("_");
 				
@@ -155,9 +216,11 @@ image_name = '';
 					
 					bprice += parseFloat(info.sale,10);
 					
+					$(".design-frame").height(info.height+'px');
+					$(".design-frame").width(info.width+'px');
 					
 					$(".base_price").text(bprice.toFixed(2));
-					
+					$(".tshirt-loader").addClass('hidden');
 				});	
 				
 				
@@ -167,13 +230,18 @@ image_name = '';
 			
 			$(".color-icon").click(function(){
 				var color = $(this).attr('id');
+				$(".tshirt.back").css('background',color);
+				$(".tshirt.front").css('background',color);
 				
+				/* off for both side color at same time with same color */
+				/*
 				if($('.tshirt_frame').hasClass('unflipped')){
 					$(".tshirt.back").css('background',color);
 				}
 				else{
 					$(".tshirt.front").css('background',color);
 				}
+				*/
 			});	
 			
 			$(".text-color-icon").click(function(){
@@ -199,7 +267,7 @@ image_name = '';
 					
 					if($('.tshirt_frame').hasClass('unflipped')){
 						if($("#selected_element").val().length == 0){
-							$(".back-part").append('<div class="text-wrap txt-box"><span class="remove hidden">X</span><span class="txt-cont choosed" id="'+elem_id+'">'+txt+'</span></div>');
+							$(".back-part").append('<div class="text-wrap txt-box"><div class="ttext-cont"><span class="remove hidden">R</span>  <span class="rotate hidden">R</span> <span class="txt-cont choosed" id="'+elem_id+'">'+txt+'</span>  </div></div>');
 							$("#selected_element").val(elem_id);
 							
 							bpcost = parseFloat($("span.base_price").text(),10);
@@ -214,7 +282,7 @@ image_name = '';
 					}
 					else{
 						if($("#selected_element").val().length == 0){
-							$(".front-part").append('<div class="text-wrap txt-box"><span class="remove hidden">X</span><span class="txt-cont choosed" id="'+elem_id+'">'+txt+'</span></div>');
+							$(".front-part").append('<div class="text-wrap txt-box"><div class="ttext-cont"><span class="remove hidden">R</span> <span class="rotate hidden">R</span> <span class="txt-cont choosed" id="'+elem_id+'">'+txt+'</span> </div> </div>');
 							$("#selected_element").val(elem_id);
 							
 							bpcost = parseFloat($("span.base_price").text(),10);
@@ -277,36 +345,148 @@ image_name = '';
 			
 			
 			$(".result.tcpring img").click(function(){
-				var src = $(this).attr('src');
-				
+				var src = $(this).attr('src');				
 				if($('.tshirt_frame').hasClass('unflipped')){
-					var appclip = '<span class="clip-cont"> <div class="icon-img-cont"><span class="rotate hidden">R</span> <span class="remove hidden">X</span> <img src="'+src+'" alt="" class="used-clips" id="used-clips1" /></div> </span>';
+					
+					var appclip = '<div class="clip-cont">';
+					appclip += '<div class="icon-img-cont"><span class="move hidden">M</span> <span class="rotate hidden">R</span> <span class="remove hidden">R</span><span class="streatch hidden">S</span>';
+					appclip += '<img src="'+src+'" alt="" class="used-clips" id="" /></div> </div>';
+					
+					
+					
 					$(".design-frame.back-part").append(appclip);
 					$(".full_bg").addClass('hidden');
 					add_icon_price();					
 				}
 				else{
-					var appclip = '<span class="clip-cont"> <div class="icon-img-cont"><span class="rotate hidden">R</span><span class="remove hidden">X</span> <img src="'+src+'" alt="" class="used-clips" id="" /></div> </span>';
+					/* var appclip = '<div class="clip-cont">';
+					appclip += '<div class="icon-img-cont"><img src="'+baseurl+'/TCPlugin/images/rotate.png" class="rotate hidden"> <img src="'+baseurl+'/TCPlugin/images/close1.png" class="remove hidden"><img src="'+baseurl+'/TCPlugin/images/streatch.png" class="streatch hidden">';
+					appclip += '<img src="'+src+'" alt="" class="used-clips" id="" /></div> </div>'; */
+					
+					var appclip = '<div class="clip-cont">';
+					appclip += '<div class="icon-img-cont"><span class="move hidden">M</span> <span class="rotate hidden">R</span> <span class="remove hidden">R</span><span class="streatch hidden">S</span>';
+					appclip += '<img src="'+src+'" alt="" class="used-clips" id="" /></div> </div>';
+					
 					$(".design-frame.front-part").append(appclip);
 					$(".full_bg").addClass('hidden');
 					add_icon_price();					
 				}
 				
-					/* var htm = '<img src="'+src+'" alt="" class="used-clips" id="" />';
-					$(".clipart-used-cont").html(htm); */
+				/* 
+				var htm = '<img src="'+src+'" alt="" class="used-clips" id="" />';
+				$(".clipart-used-cont").html(htm); 
+				*/
 				$("#clipart-cont").addClass('hidden');
 			});
+			
+			
+			/* rotate and streatch actions starts */
+			
+			drag = false;
+			rotate = false;
+			var current_elem;
+			var start_x, start_y, stop_x, stop_y;
+			var cur_x, cur_y;
+			var inc_x, inc_y;
+			var curr_width, curr_height;
+			var center_x, center_y;
+			var rot_key;
+			$(document).mouseup(function(){  
+				
+				drag = false;
+				rotate = false;
+			});
+			
+			$(document).on('mousedown','.streatch',function(e){
+				drag = true;					
+				current_elem = $(this).parent();
+				start_x = parseFloat(e.pageX);
+				start_y = parseFloat(e.pageY);
+				
+				curr_width = parseFloat(current_elem.width());
+				curr_height = parseFloat(current_elem.height());
+				
+				
+				
+			});
+			
+			$(document).on('mouseup','.streatch',function(){
+				drag = false;				
+			});
+			
+			$(document).on('mousedown','.rotate', function(){				
+				rotate = true;
+				current_elem = $(this).parent();
+				rot_key = $(this).parent().children('.used-clips');
+				
+				var offset = current_elem.offset();
+				center_x = (offset.left) + (current_elem.width() / 2);
+				center_y = (offset.top) + (current_elem.height() / 2);
+				
+				/* jQuery(this).parent().parent().draggable({ disabled:true }); */
+				
+			});
+			
+			$(document).on('mouseup','.rotate', function(){				
+				rotate = false;	
+				
+				/* jQuery(this).parent().parent().draggable({ disabled:false }); */
+				
+			});
+			
+			$(document).mousemove( function(e){
+				if(drag){						
+					cur_x = parseFloat(e.pageX,10);
+					cur_y = parseFloat(e.pageY,10);						
+					inc_x = (cur_x - start_x);
+					inc_y = (cur_y - start_y);
+					/* current_elem.css({'width': curr_width + inc_x+'px', 'height': curr_height + inc_y+'px' });						 */
+					
+					current_elem.css({'width': curr_width + inc_x+'px', 'height': curr_height + parseInt(inc_x * (curr_height/curr_width)) + 'px' });
+					
+				}
+				
+				if(rotate){						
+					
+					var degree;
+					var mouse_x = e.pageX;
+					var mouse_y = e.pageY;
+					
+					var radians = Math.atan2(mouse_x - center_x, mouse_y - center_y);							
+					degree = (radians * (180 / Math.PI) * -1) + 135;
+					
+					current_elem.css('-moz-transform', 'rotate(' + degree + 'deg)');
+					/* $(current_elem.find(".used-clips")).css('-moz-transform', 'rotate(' + degree + 'deg)');  */
+					
+					current_elem.css('-webkit-transform', 'rotate(' + degree + 'deg)');
+					
+					current_elem.css('-o-transform', 'rotate(' + degree + 'deg)');
+					
+					current_elem.css('-ms-transform', 'rotate(' + degree + 'deg)');
+					
+				}
+				
+			});
+			
+			/* rotate and streatch actions ends */
+			
+			
 			
 			$(document).on('mouseenter','.clip-cont',function(){
 				$(this).find('.remove').removeClass('hidden');
 				$(this).find('.rotate').removeClass('hidden');
+				$(this).find('.streatch').removeClass('hidden');
+				$(this).find('.move').removeClass('hidden');
+				
 			});
 			$(document).on('mouseleave','.clip-cont',function(){
 				$(this).find('.remove').addClass('hidden');
 				$(this).find('.rotate').addClass('hidden');
+				$(this).find('.streatch').addClass('hidden');
+				$(this).find('.move').addClass('hidden');
 			});
 			
-			
+			/* 
 			$(document).on("click",".icon-img-cont .remove",function(){
 				var bpcost = 0;
 				$(this).parent().parent().remove();
@@ -315,39 +495,7 @@ image_name = '';
 				bpcost -= parseFloat(icon_price); 
 				$("span.base_price").text(''+bpcost.toFixed(2));
 			});
-			
-			
-			/* 
-			
-			$(document).on("mousedown",".icon-img-cont .rotate",function(){
-				var mouseDown = false;
-				var img_cont = $(this).parent();				
-				var offset = img_cont.offset();				
-				$(document).mousedown(function (e) {
-					mouseDown=true;
-					$(document).mousemove(function(evt){
-						if(mouseDown ==true){
-							var center_x = (offset.left) + (img_cont.width() / 2);
-							var center_y = (offset.top) + (img_cont.height() / 2);
-							var mouse_x = evt.pageX;
-							var mouse_y = evt.pageY;
-							var radians = Math.atan2(mouse_x - center_x, mouse_y - center_y);
-							var degree = (radians * (180 / Math.PI) * -1) + 90;
-							img_cont.css('-moz-transform', 'rotate(' + degree + 'deg)');
-							img_cont.css('-webkit-transform', 'rotate(' + degree + 'deg)');
-							img_cont.css('-o-transform', 'rotate(' + degree + 'deg)');
-							img_cont.css('-ms-transform', 'rotate(' + degree + 'deg)');
-						}
-					});
-				});
-				
-				$(document).mouseup(function (e) {
-					mouseDown = false;
-				})
-			});
-			
 			 */
-			
 			
 			
 			$(document).on("click",".icon-img-cont .remove",function(){
@@ -355,7 +503,10 @@ image_name = '';
 				$(this).parent().parent().remove();
 				
 				bpcost = parseFloat($("span.base_price").text(),10);
-				bpcost -= parseFloat(icon_price); 
+				
+				fff = parseFloat(icon_price,10);
+				bpcost = ( bpcost - fff );
+				
 				$("span.base_price").text(''+bpcost.toFixed(2));
 			});
 			
@@ -371,73 +522,100 @@ image_name = '';
 			
 			
 			
+			
+			
+			
 			/* go for next step start */
-		
+			function rotationDegrees(matrix){
+				var matrix = elem.css("-webkit-transform") ||
+				this.css("-moz-transform")    ||
+				this.css("-ms-transform")     ||
+				this.css("-o-transform")      ||
+				this.css("transform");
+				if(typeof matrix === 'string' && matrix !== 'none') {
+				var values = matrix.split('(')[1].split(')')[0].split(',');
+				var a = values[0];
+				var b = values[1];
+				var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
+				} else { var angle = 0; }
+				return angle;
+			};
+			
+			
 			$("#for_step_two").click(function(){
-				
-				$(".same-line.tshirt").find('.txt_printable').remove();
-				$(".design-frame").css('border','none');
-				
-				html2canvas([document.getElementById('tot_wrap')], {
-					onrendered: function (canvas) {					
-						var data = canvas.toDataURL('image/png',1.0);					
-					
-						$.post(ajaxurl,{'action':'save_img','data':data},function(resp){
-							var obj = $.parseJSON(resp);
-							if(obj.action == 'done'){
-								image_name = obj.img;
-								
-								$(".same-line.tshirt").find('.txt_printable').remove();
-								$(".design-frame").css('border','none');
-								
-								var shirt_htm = $(".same-line.tshirt").html();						
-								
-								$(".step2-shirt-cont").html(shirt_htm);
-								$(".step2-shirt-cont .flip-container").append('<div class="fullwrapper"></div>');
-								
-								$(".step-cont").addClass('hidden');
-								$(".step-cont.step_two").removeClass('hidden');
-								
-								calculate_estimate_profit();
-								
-								$(".header_tab").removeClass('active');
-								$("#step_2").addClass('active');
-								
-								
-							}
-							else{
-								alert('image not saved. Contact with Rakib sir.');
-							}
-						});
+				/* if(flag==false){
+					alert('Pleaes select a T-Shirt and design yourself and click next');	
+					return false;
+				}
+				else{ */
+					if($(".tshirt-loader").hasClass('hidden')){
+						$(".tshirt-loader").removeClass('hidden');
 					}
-				});
+					
+					$(".same-line.tshirt").find('.txt_printable').css('display','none');
+					$(".design-frame").css('border','none');
+					
+					$(".same-line.tshirt").find('.txt_printable').remove();
+					$(".design-frame").css('border','none');
+					
+					var shirt_htm = $(".same-line.tshirt").html();						
+					
+					$(".step2-shirt-cont").html(shirt_htm);
+					$(".step2-shirt-cont .flip-container").append('<div class="fullwrapper"></div>');
+					
+					$(".step-cont").addClass('hidden');
+					$(".step-cont.step_two").removeClass('hidden');
+					
+					calculate_estimate_profit();
+					
+					$(".header_tab").removeClass('active');
+					$("#step_2").addClass('active');
+					$(".tshirt-loader").addClass('hidden');
+				/* } */
+				
 				
 			});
 			
 			$("#step_2").click(function(){
+				if(flag==false){
+					alert('Pleaes select a T-Shirt and design yourself and click next');	
+					return false;
+				}
+				else{
 				
-				$(".same-line.tshirt").find('.txt_printable').remove();
-				$(".design-frame").css('border','none');
-				var shirt_htm = $(".same-line.tshirt").html();						
+					$(".same-line.tshirt").find('.txt_printable').remove();
+					$(".design-frame").css('border','none');
+					var shirt_htm = $(".same-line.tshirt").html();						
+					
+					$(".step2-shirt-cont").html(shirt_htm);
+					$(".step2-shirt-cont .flip-container").append('<div class="fullwrapper"></div>');
+					
+					$(".step-cont").addClass('hidden');
+					$(".step-cont.step_two").removeClass('hidden');
+					
+					calculate_estimate_profit();
+				}
 				
-				$(".step2-shirt-cont").html(shirt_htm);
-				$(".step2-shirt-cont .flip-container").append('<div class="fullwrapper"></div>');
-				
-				$(".step-cont").addClass('hidden');
-				$(".step-cont.step_two").removeClass('hidden');
-				
-				calculate_estimate_profit();
-				
+			});
+			
+			
+			$("#step_3").click(function(){
+				if(flag==false){
+					alert('Pleaes select a T-Shirt and design yourself and click next');	
+					return false;
+				}
 			});
 			
 			
 			$("#for_step_three").click(function(){
 				
-				$(".same-line.tshirt").find('.txt_printable').remove();
-				var shirt_htm = $(".same-line.tshirt").html();						
 				
+				$(".same-line.tshirt").find('.txt_printable').remove();
+				
+				var shirt_htm = $("#tshirt_frame_wrap").html();
 				$(".step3-shirt-cont").html(shirt_htm);
-				$(".step3-shirt-cont .flip-container").append('<div class="fullwrapper"></div>');
+				
+				$(".step3-shirt-cont").append('<div class="fullwrapper"></div>');  
 				
 				$(".step-cont").addClass('hidden');
 				$(".step-cont.step_three").removeClass('hidden');
@@ -445,17 +623,20 @@ image_name = '';
 				$(".header_tab").removeClass('active');
 				$("#step_3").addClass('active');
 				
+				
 			});
 			
 			/* go for next step ends */
 			
 			
 			$(document).on("mouseenter",".text-wrap.txt-box", function(){			
-				$(this).children('.remove').removeClass('hidden');
+				$(this).find('.remove').removeClass('hidden');
+				$(this).find('.rotate').removeClass('hidden');
 			});
 			
 			$(document).on("mouseleave",".text-wrap.txt-box", function(){			
-				$(this).children('.remove').addClass('hidden');
+				$(this).find('.remove').addClass('hidden');
+				$(this).find('.rotate').addClass('hidden');
 			});
 			
 			$("#sale-price").keyup(function(){			
@@ -477,10 +658,49 @@ image_name = '';
 			}			
 		});
 		
+		
+		
+		function getRotationDegrees(obj) {
+			
+			
+			var matrix = obj.css("-webkit-transform") ||
+			obj.css("-moz-transform")    ||
+			obj.css("-ms-transform")     ||
+			obj.css("-o-transform")      ||
+			obj.css("transform");
+			
+			if(matrix !== 'none') {
+				var values = matrix.split('(')[1].split(')')[0].split(',');
+				var a = values[0];
+				var b = values[1];
+				var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
+			} else { var angle = 0; }
+			/* return (angle < 0) ? angle +=360 : angle; */
+			
+			return angle;
+		}
+		
 		$("#launch-campaign").click(function(){
+			flg = '';
 			var camp_name = $("#campaign-name").val();
+			if(camp_name=='' || camp_name == null){
+				flg += '\r\nYou should must enter a campaign name';
+			}
+			
 			var camp_desc = $("#campaign-desc").val();
+			if(camp_desc=='' || camp_desc == null){
+				flg += '\r\nProvide a campaign description';
+			}
+			
 			var camp_tags = $("#campaign-tags").val();
+			if(camp_tags=='' || camp_tags == null){
+				flg += '\r\nEnter campaign Tag';
+			}
+			
+			if(!$('#campaign-agreement').is(':checked')){
+				flg += '\r\nYou must accept the terms and agreement';
+			}
+			
 			var camp_length = $("#campaign-length").val();
 			var camp_url = $("#campaign-url").val();
 			var img_data = '';
@@ -496,12 +716,10 @@ image_name = '';
 			var shipping_zip = $("#shipping-zip").val();
 			
 			if($("#campaign-shippingopt").is(':checked')){
-				pickup = 1;
-				
+				pickup = 1;				
 			}
 			else{
-				pickup = 0;
-				
+				pickup = 0;				
 			}
 			
 			
@@ -513,36 +731,221 @@ image_name = '';
 			}
 			
 			
-			
-			/* html2canvas([document.getElementById('tot_wrap')], {
-				onrendered: function (canvas) {					
-					img_data = canvas.toDataURL('image/png',1.0);					
+			if(flg){
+				alert(flg);
+				return false;
+			}
+			else{
+				if($(".tshirt-loader").hasClass('hidden')){
+					$(".tshirt-loader").removeClass('hidden');
 				}
-			});
-			 */
 			
+				/* saving full image */
 			
-			$.post(ajaxurl, {'action':'create_camp','camp_name':camp_name,'camp_desc':camp_desc,'camp_tags':camp_tags,'camp_length':camp_length,'camp_url':camp_url,'pickup':pickup,'tos':tos,'shipping_first_name':shipping_first_name,'shipping_last_name':shipping_last_name,'shipping_first_address':shipping_first_address,'shipping_second_address':shipping_second_address,'shipping_city':shipping_city,'shipping_state':shipping_state,'shipping_zip':shipping_zip,'image_name':image_name}, function(resp){						
-				if(resp){
-					alert('A new campaign created successfully');
+				
+				var canvas = document.getElementById('myCanvas');		
+				var context = canvas.getContext('2d');
+				
+				var parent_wrapper = $("#step3-shirt-cont");
+				
+				var bgcolor = $("div#backpartonly").css('background-color');
+				if(bgcolor == 'transparent' || bgcolor == '#ffffff'){
+					bgcolor = 'rgb(255,255,255)';
 				}
-			});
-		});
-		
-		
-		$("#save-canvas").click(function(){
-			
-			html2canvas([document.getElementById('tot_wrap')], {
-				onrendered: function (canvas) {					
-					var data = canvas.toDataURL('image/png',1.0);					
-					$.post(ajaxurl,{'action':'save_img','data':data},function(resp){
-						
-					}); 
+				var parent_offset = jQuery("#step3-shirt-cont").offset();
+				
+				context.fillStyle = bgcolor; 	
+				context.fillRect(0,0, 530, 630);
+				
+				
+				
+				
+				
+				
+				var imageObj = new Image();
+				imageObj.onload = function() {
+					context.drawImage(imageObj, 0, 0, 530, 630);						
 					
+					$.each($("#step3-shirt-cont #backpartonly .icon-img-cont"),function(k,bimg){	
+						var imageObj2 = new Image();
+						/* var fimg_offset = $(bimg).children('img').offset();
+						var fimg_height = $(bimg).children('img').height();
+						var fimg_width = $(bimg).children('img').width();
+						*/
+						
+						var fimg_offset = $(bimg).parent().offset();
+						var fimg_height = $(bimg).parent().height();
+						var fimg_width = $(bimg).parent().width();
+						
+						
+						var imgpos_x = (fimg_offset.left - parent_offset.left);
+						var imgpos_y = (fimg_offset.top - parent_offset.top);
+						imageObj2.onload = function() {			
+							context.save();
+							context.translate(parseInt(imgpos_x), parseInt(imgpos_y));
+							context.translate( (fimg_width/2), (fimg_height/2));
+							var angle = parseInt(getRotationDegrees($(bimg)));
+							if(angle != 0 || angle > 0){
+								context.rotate(parseInt(angle) * (Math.PI/180));
+							}							
+							context.drawImage(imageObj2, -(fimg_width/2), -(fimg_height/2) , fimg_width , fimg_height); 
+							context.restore();
+						};			
+						imageObj2.src = $(bimg).children('img').attr('src'); 
+					});
+				
+					$.each($("#step3-shirt-cont #backpartonly .ttext-cont"),function(k,vv){															
+						/* 
+						var fimg_offset = $(vv).children('.txt-cont').offset();							
+						var fimg_height = $(vv).children('.txt-cont').height();
+						var fimg_width = $(vv).children('.txt-cont').width();
+						*/
+						
+						var fimg_offset = $(vv).parent().offset();							
+						var fimg_height = $(vv).parent().height();
+						var fimg_width = $(vv).parent().width();
+						
+						var cent_x = (fimg_width/2);
+						var cent_y = (fimg_height/2);
+						
+						var imgpos_x = (fimg_offset.left - parent_offset.left);
+						var imgpos_y = (fimg_offset.top - parent_offset.top);
+						
+						context.save();						
+						var angle = parseInt(getRotationDegrees($(vv)));
+						
+						context.font = $(vv).children('.txt-cont').css('font-size')+" "+$(vv).children('.txt-cont').css('font-family');
+						context.fillStyle = $(vv).children('.txt-cont').css('color'); 
+						
+						if(angle != 0 || angle > 0){
+							context.translate(parseInt(imgpos_x), parseInt(imgpos_y));						
+							context.translate( parseInt(cent_x/2), parseInt(cent_y/2));
+							context.rotate(parseInt(angle) * (Math.PI/180));
+							context.fillText($(vv).children('.txt-cont').text(),parseInt(cent_x/-2), parseInt(cent_y/-2)+20);  
+							
+						}
+						else{
+							context.fillText($(vv).children('.txt-cont').text(),parseInt(imgpos_x), parseInt(imgpos_y)+20);
+						}
+						context.restore();
+					});
+				}				
+				imageObj.src = $("img#back-image").attr('src'); 
+				
+				
+				bgcolor = $("div#frontpartonly").css('background-color');
+				if(bgcolor == 'transparent' || bgcolor == '#ffffff'){
+					bgcolor = 'rgb(255,255,255)';					
 				}
-			});
-			
+				
+				
+				
+				
+				
+				var imageObjb = new Image();
+				imageObjb.onload = function() {										
+					
+					context.fillRect(0,631, 530, 630);	
+					context.fillStyle = bgcolor; 
+					
+					context.drawImage(imageObjb, 0, 632, 530, 630);
+					$.each($("#step3-shirt-cont #frontpartonly .icon-img-cont"),function(k,fimg){	
+						var imageObj2f = new Image();
+						/* 
+						var fimg_offset = $(fimg).children('img').offset();
+						var fimg_height = $(fimg).children('img').height();
+						var fimg_width = $(fimg).children('img').width();
+						*/
+						
+						var fimg_offset = $(fimg).parent().offset();
+						var fimg_height = $(fimg).parent().height();
+						var fimg_width = $(fimg).parent().width();
+						
+						
+						var imgpos_x = (fimg_offset.left - parent_offset.left);
+						var imgpos_y = (fimg_offset.top - parent_offset.top);
+						imageObj2f.onload = function() {			
+							context.save();
+							context.translate(parseInt(imgpos_x), parseInt(imgpos_y));
+							context.translate( (fimg_width/2), (fimg_height/2));
+							var angle = parseInt(getRotationDegrees($(fimg)));
+							if(angle != 0 || angle > 0){
+								context.rotate(parseInt(angle) * (Math.PI/180));
+							}							
+							context.drawImage(imageObj2f, -(fimg_width/2), -(fimg_height/2) , fimg_width , fimg_height); 
+							context.restore();
+						};			
+						imageObj2f.src = $(fimg).children('img').attr('src'); 
+					});
+					
+					$.each($("#step3-shirt-cont #frontpartonly .ttext-cont"),function(k,vv){															
+						/* 
+						var fimg_offset = $(vv).children('.txt-cont').offset();							
+						var fimg_height = $(vv).children('.txt-cont').height();
+						var fimg_width = $(vv).children('.txt-cont').width();
+						*/
+						
+						var fimg_offset = $(vv).parent().offset();							
+						var fimg_height = $(vv).parent().height();
+						var fimg_width = $(vv).parent().width();
+						
+						var cent_x = (fimg_width/2);
+						var cent_y = (fimg_height/2);
+						
+						var imgpos_x = (fimg_offset.left - parent_offset.left);
+						var imgpos_y = (fimg_offset.top - parent_offset.top);
+						
+						context.save();
+						
+						var angle = parseInt(getRotationDegrees($(vv)));
+						
+						context.font = $(vv).children('.txt-cont').css('font-size')+" "+$(vv).children('.txt-cont').css('font-family');
+						context.fillStyle = $(vv).children('.txt-cont').css('color'); 
+						
+						if(angle != 0 || angle > 0){
+							context.translate(parseInt(imgpos_x), parseInt(imgpos_y));						
+							context.translate( parseInt(cent_x/2), parseInt(cent_y/2));
+							context.rotate(parseInt(angle) * (Math.PI/180));
+							context.fillText($(vv).children('.txt-cont').text(),parseInt(cent_x/-2), parseInt(cent_y/-2)+20);  
+							
+						}
+						else{
+							context.fillText($(vv).children('.txt-cont').text(),parseInt(imgpos_x), parseInt(imgpos_y)+20);
+						}
+						
+						context.restore();
+					});
+				}				
+				imageObjb.src = $("img#front-image").attr('src'); 
+				
+				
+				setTimeout(function(){
+						
+					var canvas = document.getElementById('myCanvas');
+					var data = canvas.toDataURL('image/png',1.0);				
+					$.post(ajaxurl,{ 'action':'save_img','data':data }, function(resp2){
+						var obj2 = $.parseJSON(resp2);							
+						if(obj2.action == 'done'){							
+							var full_image_name = obj2.img;							
+							
+							$.post(ajaxurl, {'action':'create_camp','camp_name':camp_name,'camp_desc':camp_desc,'camp_tags':camp_tags,'camp_length':camp_length,'camp_url':camp_url,'pickup':pickup,'tos':tos,'shipping_first_name':shipping_first_name,'shipping_last_name':shipping_last_name,'shipping_first_address':shipping_first_address,'shipping_second_address':shipping_second_address,'shipping_city':shipping_city,'shipping_state':shipping_state,'shipping_zip':shipping_zip,'image_name':full_image_name,'full_image_name':full_image_name }, function(plink){
+								$(".tshirt-loader").addClass('hidden');
+								
+								if(plink){																		
+									window.location = plink;
+								}
+							});
+						}
+						else{
+							alert('Please clear browser cache and try again. Image not saved.');
+						}
+					});
+				
+				},4000);
+			}
 		});
+		
+		
 		
 		$(".backit").click(function(){
 			$(".level1").removeClass('hidden');
@@ -564,6 +967,60 @@ image_name = '';
 			$(".full_bg").addClass('hidden');
 			
 		});
+		
+		$("#preview").click(function(){
+			var back_source = $(".tshirt.back").html();
+			var front_source = $(".tshirt.front").html();
+			$(".preview-cont").removeClass('hidden');
+			$(".full_bg").removeClass('hidden');
+			$(".preview-cont").append('<div class="same_line">'+back_source+'</div>');
+			$(".preview-cont").append('<div class="same_line">'+front_source+'</div>');
+		});
+		
+		
+		/* upload image from own pc starts */		
+		
+		$('#upload_own').die('click').live('change', function(){ 
+			var tgcont;
+			if($(".tshirt_frame").hasClass('unflipped')){
+				tgcont = 'back-part';
+			}
+			else{
+				tgcont = 'front-part';
+			}
+			
+			
+			
+			$( '#imageform' ).ajaxForm({
+				beforeSend: function() {
+					$("div#imageloadstatus").css('display','block');
+				},
+				uploadProgress: function(event, position, total, percentComplete) {
+					console.log(percentComplete);
+				},
+				success: function(sf) {
+					$("div#imageloadstatus").css('display','none');
+				},
+				complete: function(xhr) {	
+					/* var img_html = '<div class="clip-cont"><div class="icon-img-cont" style="width:30%; height:auto;"><span class="rotate hidden">R</span> <span class="remove hidden">R</span><span class="streatch hidden">S</span><img id="" class="used-clips" alt="" src="'+xhr.responseText+'"></div> </div>'; */
+					
+					var appclip = '<div class="clip-cont">';
+					appclip += '<div class="icon-img-cont"><span class="move hidden">M</span> <span class="rotate hidden">R</span> <span class="remove hidden">R</span><span class="streatch hidden">S</span>';
+					appclip += '<img src="'+xhr.responseText+'" alt="" class="used-clips" id="" /></div> </div>';
+					
+					$("div#imageloadstatus").css('display','none');
+					
+					$("."+tgcont).append(appclip);
+				}
+			}).submit(); 
+		});
+		
+		
+		$("#campaign-name").keyup(function(){
+			var tmp = $(this).val();			
+			$("#campaign-url").val( site_url+'/campaign/'+tmp);
+		});
+		
 	});
 })(jQuery);
 

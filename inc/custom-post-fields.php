@@ -51,7 +51,7 @@ function teecircle_custom_post_types() {
 	$labels_campaign = array(
 		'name'               => 'Campaign',
 		'singular_name'      => 'Campaign',		
-		'add_new'            => false,
+		'add_new'            => 'New Campaign',
 		'edit_item'          => 'Edit Campaign',
 		'new_item'           => 'New Campaign',
 		'all_items'          => 'All Campaigns',
