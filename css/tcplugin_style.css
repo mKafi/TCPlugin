@@ -479,19 +479,21 @@ ul {
     width: 100%;
 }
 
-.color_pallete {
+
+.color-pallet-cont {
     border: 1px solid #cccccc;
     display: block;
-    height: 17px;
-    margin: 0 0 15px 0;
-    opacity: 0.85;
-    overflow: hidden;
-    padding: 2px 0 0 5px;
-    position: relative;
-	
+    left: -46px;
+    margin: 0;    
+    padding: 5px;
+    position: absolute;
+    top: 36px;
 }
 
-.color_pallete:hover{
+.color-pallet-cont .color-icon{
+	opacity: 0.85;
+}
+.color-pallet-cont .color-icon:hover{
 	height:100%;
 	opacity:1;	
 }
@@ -879,16 +881,8 @@ canvas#myCanvas {
     top: 6px;
     width: 100%;
 }
-.color_pallete.tshirt-colors {
-    display: block;
-    height: 302px;
-    left: -36px;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    top: 63px;
-}
-.color_pallete .color-icon {
+ 
+ .color_pallete .color-icon {
     border: 0 none;
     display: block;
     height: 22px;
@@ -901,5 +895,44 @@ canvas#myCanvas {
     height: 20px;
     margin: 5px;
     width: 20px;
+
 }
 
+
+
+.more-color {
+    background: url("../images/color-card.png") no-repeat scroll center center / 28px auto rgba(0, 0, 0, 0);
+    cursor: pointer;
+    display: block;
+    height: 36px;
+    text-indent: -9999px;
+    width: 100%;
+}
+.more-color:hover{
+	background-size:45px auto;
+}
+
+.additional-colors {
+    bottom: -3px;
+    position: absolute;
+    right: 45px;
+    width: 59px;
+    z-index: 21;   
+}
+
+.additional-colors .color-icon {
+    display: inline-block;
+    height: 15px;
+    margin: 2px;
+    padding: 0;
+    text-align: right;
+    vertical-align: bottom;
+    width: 15px;
+}
+
+.additional-colors .color-icon:hover{
+	height: 13px;
+    margin: 2px;
+    width: 13px;
+	border:1px solid #000000;
+}

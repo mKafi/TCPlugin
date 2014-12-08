@@ -171,7 +171,7 @@
 							<div id='imageloadbutton'>
 								<input type="file" id="upload_own" name="upload_own" value="Upload your own"/>
 							</div>
-							<span class="desc">Upload you own vector & art</span>
+							<span class="desc">Upload you own vector & art. Try to upload high resolution (2000px x 1600px Max) image for better image quality. Height resolution image will take little bit of more time. Please weight till image appear at the T-Shirt</span>
 							<input type="hidden" name="action" value="ownfileupload"/>
 						</form>
 						
@@ -290,8 +290,13 @@
 				$pr_width = get_post_meta($t_posts[0]['prod_id'],'pr_width',true);
 				
 				$t_shirt_colors = array();
-				$colors = get_post_meta($t_posts[0]['prod_id'],'t_shirt_colors',true);
-				$t_shirt_colors = explode("," , $colors);				
+				$colors_string = get_post_meta($t_posts[0]['prod_id'],'t_shirt_colors',true);
+				
+				$colors_name = explode(",",$colors_string);
+				$t_shirt_colors = array();
+				foreach($colors_name AS $kk=>$vv){					
+					$t_shirt_colors[] = explode("-",$vv);
+				}
 				/* echo '<pre>'; print_r($t_shirt_colors); echo '</pre>';  */
 				
 			}	
@@ -347,24 +352,34 @@
 
 			<!-- right controle starts -->
 			<div class="same-line right-controle">
-				
-					<?php 
-					if(isset($t_shirt_colors) && !empty($t_shirt_colors) && count($t_shirt_colors)>0){
-						?><div id="color_pallete" class="color_pallete tshirt-colors"><?php 
-						for($i=0; $i<9; $i++){
-							?><span style="background-color:<?php echo $t_shirt_colors[$i]; ?>" id="<?php echo $t_shirt_colors[$i]; ?>" class="color-icon"></span><?php 
-						}
+				<?php 
+				if(isset($t_shirt_colors) && !empty($t_shirt_colors) && count($t_shirt_colors)>0){
+					?>
+					<div class="color-pallet-cont">
+						<div id="color_pallete" class="color_pallete tshirt-colors">
+							<div class="top-colors"><?php 							
+								for($i=0; $i<9; $i++){
+									?><span title="<?php echo $t_shirt_colors[$i][1]; ?>" style="background-color:<?php echo $t_shirt_colors[$i][0]; ?>" id="<?php echo $t_shirt_colors[$i][0]; ?>" class="color-icon"></span><?php 
+								}
+							?></div><?php 							
 						
-						if(count($t_shirt_colors) > 8){
-							?><span class="more-color">MC</span><div class="additional-colors hidden"><?php 
-							for($i=9; $i<count($t_shirt_colors); $i++){
-								?><span style="background-color:<?php echo $t_shirt_colors[$i]; ?>" id="<?php echo $t_shirt_colors[$i]; ?>" class="color-icon"></span><?php 
+							if(count($t_shirt_colors) > 8){
+								?>
+								<span class="more-color">MC</span>
+								<div class="additional-colors hidden">								
+									<?php 								
+									for($i=9; $i<count($t_shirt_colors); $i++){
+										?><span title="<?php echo $t_shirt_colors[$i][1]; ?>" style="background-color:<?php echo $t_shirt_colors[$i][0]; ?>" id="<?php echo $t_shirt_colors[$i][0]; ?>" class="color-icon"></span><?php 
+									}
+									?>
+								</div>
+								<?php 
 							}
-							?></div><?php 
-						}
-						?></div><?php 
-					}
-					?>					
+						?>
+						</div>
+					</div><?php 
+				}
+				?>					
 				
 				<label>T-Shirt & Variant</label>
 				<?php 
@@ -387,8 +402,7 @@
 				} 
 				
 				
-				?>
-				
+				?> 				
 				<img class="hidden variant_loader" src="<?php echo plugins_url('TCPlugin').'/images/ajax-loader.gif'; ?>" alt="Loading...."/>
 				
 				<div class="tshirt_variant_cont" id="tshirt_variant_cont">

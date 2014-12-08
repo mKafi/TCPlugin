@@ -1021,6 +1021,10 @@ flag = false;
 			$("#campaign-url").val( site_url+'/campaign/'+tmp);
 		});
 		
+		$(".more-color").click(function(){
+			$(".additional-colors").toggleClass('hidden');
+		});
+		
 	});
 })(jQuery);
 
