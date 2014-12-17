@@ -41,6 +41,7 @@
 .flip-container, .flip-container .tshirt{
     height: 630px;
     width: 530px;
+	transition:background-color 0.5s ease 0s;
 }
 
 .flip-container .tshirt{
@@ -330,7 +331,7 @@ ul {
 }
 
 
-.ttext-cont .remove,.ttext-cont .rotate {
+.ttext-cont .remove,.ttext-cont .rotate, .ttext-cont .move {
    border: 1px solid #000000;
     border-radius: 2px;
     cursor: pointer;
@@ -490,9 +491,7 @@ ul {
     top: 36px;
 }
 
-.color-pallet-cont .color-icon{
-	opacity: 0.85;
-}
+
 .color-pallet-cont .color-icon:hover{
 	height:100%;
 	opacity:1;	
@@ -824,7 +823,7 @@ ul {
     bottom: 0;
     left: 0;
     margin: auto;
-    position: absolute;
+    position: fixed;
     right: 0;
     top: 0;
     z-index: 1000;
@@ -841,7 +840,7 @@ ul {
 .clip-cont {
     display: inline-block;
     position: absolute;
-	width:50%;
+	max-width:50%;
 	top:12px;
 	left:12px;
 }
@@ -875,11 +874,14 @@ canvas#myCanvas {
     z-index: -10;
 }
 
+
 #imageloadstatus > img {
     display: block;
-    position: relative;
-    top: 6px;
+    left: 0;
+    position: absolute;
+    top: 0;
     width: 100%;
+    z-index: 0;
 }
  
  .color_pallete .color-icon {
@@ -936,3 +938,60 @@ canvas#myCanvas {
     width: 13px;
 	border:1px solid #000000;
 }
+.upload-instruction p{
+	color: #333;
+    display: block;
+    font-size: 16px;
+    line-height: 25px;
+    text-align: center;
+	margin-bottom:10px;
+}
+#imageform .tip {
+    background: none repeat scroll 0 0 orange;
+    border-radius: 5px;
+    display: block;
+    margin: 0 auto 20px;
+    padding: 10px;
+    text-align: center;
+    width: 78%;
+} 
+.tip-text {
+    color: #333;
+    display: block;
+    margin-bottom: 20px;
+    text-align: left;
+    width: 100%;
+}
+.tip-text > label {
+    color: #000000;
+    display: inline-block;
+    text-align: left;
+}
+#imageloadstatus {
+    height: 13px;
+    position: relative;
+}
+
+.shadoe-mask {
+    background: none repeat scroll 0 0 orangered;
+    height: 12px;
+    left: 0;
+    position: absolute;
+    top: 0;    
+} 
+/*  
+.easyzoom-flyout{
+	position:absolute;
+	top:0;
+	left:600px;
+	width:500px;
+	height:500px;
+	overflow:hidden;
+	display:inline-block;
+}
+.easyzoom-flyout > a > img{
+	display:block;
+	width:100%;
+}
+ */
+ 

@@ -25,9 +25,16 @@ function style_scripts() {
 	
 	wp_register_script('formjquery_js', 'http://malsup.github.com/jquery.form.js', array('jquery'), null, false );	
     wp_enqueue_script('formjquery_js');
+    
+	wp_register_script('easyzoom_js', plugins_url( '/js/easyzoom.js', __FILE__ ), array('jquery'), null, false );	
+    wp_enqueue_script('easyzoom_js');
+    
 	
 	wp_register_script('mycustom_js', plugins_url( '/js/tcplugin_script.js', __FILE__ ), array('jquery'), null, false );	
     wp_enqueue_script('mycustom_js');
+	
+	wp_register_script('footer_js', plugins_url( '/js/foot_script.js', __FILE__ ), array('jquery'), null, true );	
+    wp_enqueue_script('footer_js');
 	
 	/* 
 	wp_register_script('ajuploader_js', plugins_url( '/js/jquery.wallform.js', __FILE__ ), array('jquery'), null, false );
@@ -250,14 +257,28 @@ function create_new_campaign(){
 		$prod_info['title'] = $_POST['camp_name'];			
 		$prod_info['body'] = $_POST['camp_desc'];
 		$prod_info['tags'] = explode(",",$_POST['camp_tags']);
-		$prod_info['sku'] = 'KFY-1254';
+		
 		$prod_info['uid'] = get_current_user_id();
 		
 		if(!empty($_POST['camp_length'])){			
 			$prod_info['camp_length'] = $_POST['camp_length'];
 		}
 		
+		$pt = explode(" ", $_POST['camp_name']);
+		$sku = '';
+		if(!empty($pt) && count($pt) > 0){
+			if(count($pt)==1){
+				$sku = substr($pt[0],0,3).rand(111,99999);
+			}
+			else{
+				foreach($pt AS $pw){
+					$sku .= substr($pw,0,1);
+				}
+				$sku .= rand(101,9999);	
+			}
+		}
 		
+		$prod_info['sku'] = strtoupper($sku);
 		
 		
 		if(!empty($_POST['full_image_name'])){
@@ -481,6 +502,105 @@ function my_custom_template($single) {
 }	
 /* custom template loading ends  */
 
+/* register activation and deactivation hook */
+register_activation_hook(__FILE__,'tcdesign_installhook'); 
+register_deactivation_hook( __FILE__, 'tcdesign_uninstallhook' );
+
+function tcdesign_installhook() {
+    global $wpdb;
+
+	$page_list = array(
+		'dashboard'=>'Dashboard',
+		'draft'=>'Draft',
+		'draft'=>'Draft',
+		'get-paid'=>'Get Paid',
+		'account-settings'=>'Account Settings'
+	);
+	
+	foreach($page_list AS $k=>$v){
+		$the_page_title = $v;
+		$the_page_name = $k;
+		
+		$the_page = get_page_by_title( $the_page_title );
+		
+		delete_option($the_page_name.'_title');
+		add_option($the_page_name.'_title', $the_page_title, '', 'yes');
+    
+		delete_option($the_page_name);
+		add_option($the_page_name, $the_page_name, '', 'yes');
+		
+		if(isset($the_page->ID) && !empty($the_page->ID)){
+			delete_option($the_page->ID .'_page_id');
+			add_option($the_page->ID.'_page_id', '0', '', 'yes');
+		}
+	
+		if ( ! $the_page ) {
+			$_p = array();
+			$_p['post_title'] = $the_page_title;
+			$_p['post_content'] = "";
+			$_p['post_status'] = 'publish';
+			$_p['post_type'] = 'page';
+			$_p['comment_status'] = 'closed';
+			$_p['ping_status'] = 'closed';
+			$_p['post_category'] = array(1);
+
+			$the_page_id = wp_insert_post( $_p );
+
+		}
+		else {
+			$the_page_id = $the_page->ID;
+			$the_page->post_status = 'publish';
+			$the_page_id = wp_update_post( $the_page );
+
+		}
+		delete_option( $k.'_page_id' );
+		add_option( $k.'_page_id', $the_page_id );
+	}
+	
+	
+	$menu_exists = wp_get_nav_menu_object( 'TCDesign Top' );	
+	if( !$menu_exists){
+		$menu_id = wp_create_nav_menu('TCDesign Top');
+		foreach($page_list AS $k=>$v){
+			wp_update_nav_menu_item( $menu_id, 0, array(
+				'menu-item-title' =>  __($v),
+				'menu-item-classes' => $k,
+				'menu-item-url' => home_url( '/'.$k.'/' ), 
+				'menu-item-status' => 'publish')
+			);
+		}
+	}
+	
+}
+
+function tcdesign_uninstallhook() {
+
+    global $wpdb;
+	$page_list = array(
+		'dashboard'=>'Dashboard',
+		'draft'=>'Draft',
+		'draft'=>'Draft',
+		'get-paid'=>'Get Paid',
+		'account-settings'=>'Account Settings'
+	);
+	
+	foreach($page_list AS $k=>$v){
+	
+		$the_page_title = get_option( $v );
+		$the_page_name = get_option( $k );
+		
+		$the_page = get_page_by_title( $the_page_title );
+		
+		$the_page_id = get_option( $the_page->ID );
+		if( $the_page_id ) {
+			wp_delete_post( $the_page_id ); 
+		}
+		delete_option($the_page_title);
+		delete_option($the_page_name);
+		delete_option($the_page_id);
+	}
+}
+
 
 // Register Custom Taxonomy
 function tcircle_campaign() {
@@ -512,11 +632,13 @@ function tcircle_campaign() {
 		'show_tagcloud'              => true,
 	);
 	register_taxonomy( 'TCampaign', array( 'product' ), $args );
-
+	
+	
 }
 
 // Hook into the 'init' action
 add_action( 'init', 'tcircle_campaign', 0 );
+
 
 
 function create_new_campaign_product($prod_info){
@@ -614,4 +736,22 @@ function create_new_campaign_product($prod_info){
 	*/
 	
 	return $post_id;
+}
+
+
+
+add_filter( 'page_template', 'dashboard_page_template' );
+function dashboard_page_template( $page_template )
+{
+    if ( is_page( 'dashboard' ) ) {        
+		$page_template = dirname( __FILE__ ) . '/inc/dashboard_tpl.php';
+    }
+	if ( is_page( 'draft' ) ) {        
+		$page_template = dirname( __FILE__ ) . '/inc/draft_tpl.php';
+    }
+	if ( is_page( 'get-paid' ) ) {        
+		$page_template = dirname( __FILE__ ) . '/inc/getpaid_tpl.php';
+    }
+	
+    return $page_template;
 }

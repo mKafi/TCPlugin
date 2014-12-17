@@ -6,17 +6,17 @@
     <?php do_settings_sections( 'tcd-settings-group' ); ?>
     <table class="form-table">
         <tr valign="top">
-        <th scope="row">Per text rate</th>
+        <th scope="row">Per text rate <span class="required">*</span></th>
         <td>
-			<input type="text" name="per_text_rate" value="<?php echo esc_attr( get_option('per_text_rate') ); ?>" />
+			<input required="required" type="text" name="per_text_rate" value="<?php echo esc_attr( get_option('per_text_rate') ); ?>" />
 			<div class="description">Enter a value for each word charge</div>
 		</td>
         </tr>
          
         <tr valign="top">
-        <th scope="row">Per image rate</th>
+        <th scope="row">Per image rate <span class="required">*</span></th>
         <td>
-			<input type="text" name="per_image_rate" value="<?php echo esc_attr( get_option('per_image_rate') ); ?>" />
+			<input required="required" type="text" name="per_image_rate" value="<?php echo esc_attr( get_option('per_image_rate') ); ?>" />
 			<div class="description">Enter a price for each image</div>
 		</td>
         </tr>

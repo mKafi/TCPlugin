@@ -1,5 +1,7 @@
+<img class="hidden tshirt-loader" src="<?php echo plugins_url('TCPlugin').'/images/medium-loader.gif'; ?>" alt="Loading T-Shirt...."/>
+<div class="full_bg hidden"></div>
 <div class="row">
-	<div class="full_bg hidden"></div>
+	
 	
 	<div class="step-cont step_one">
 		<div class="pallet-cont">	
@@ -167,11 +169,18 @@
 						<form id="imageform" name="imageform" method="post" enctype="multipart/form-data" action="<?php echo admin_url('admin-ajax.php'); ?>">
 							<div id='imageloadstatus' style='display:none'>
 								<img src=" <?php echo plugins_url('TCPlugin').'/images/loadingAnimation.gif'; ?>" alt="Uploading...."/>
+								<div class="shadoe-mask"></div>
 							</div>
 							<div id='imageloadbutton'>
 								<input type="file" id="upload_own" name="upload_own" value="Upload your own"/>
 							</div>
-							<span class="desc">Upload you own vector & art. Try to upload high resolution (2000px x 1600px Max) image for better image quality. Height resolution image will take little bit of more time. Please weight till image appear at the T-Shirt</span>
+							<span class="tip"><label>TIP:</label> For best result, upload high resolution/vector art.</span>
+							<div class="bottom-box"> 
+								<span class="tip-text"><label>Max size:</label> 5MB</span>
+								<span class="tip-text"><label>File type:</label> .jpg, .png, .eps</span>
+								<span class="tip-text"><label>Max dimension:</label> 3000px for .jpg and .png</span>
+								<span class="tip-text last-text"> By uploading an image you agree that you hold the right to reproduce and sell the design</span>
+							</div>
 							<input type="hidden" name="action" value="ownfileupload"/>
 						</form>
 						
@@ -187,7 +196,7 @@
 								
 								
 								$objects = scandir($dir_path);	
-								$dirs = array();
+								$dirs = array(); 
 								$files = array();
 								foreach($objects AS $k=>$v){
 									if($v != '.' && $v != '..'){
@@ -289,6 +298,10 @@
 				$pr_height = get_post_meta($t_posts[0]['prod_id'],'pr_height',true);
 				$pr_width = get_post_meta($t_posts[0]['prod_id'],'pr_width',true);
 				
+				
+				$print_area_height = esc_attr( get_option('print_area_height') );				
+				$print_area_width = esc_attr( get_option('print_area_width') );
+				
 				$t_shirt_colors = array();
 				$colors_string = get_post_meta($t_posts[0]['prod_id'],'t_shirt_colors',true);
 				
@@ -320,7 +333,7 @@
 									?><img id="back-image" src="<?php echo plugins_url('default_reversed.png',__FILE__); ?>" alt=""/><?php 
 								}
 								?>
-								<div class="design-frame back-part" id="bback" style="width:<?php echo $pr_width; ?>px; height:<?php echo $pr_height; ?>px; ">
+								<div class="design-frame back-part" id="bback" style="width:<?php if($pr_width) { echo $pr_width; } else { echo $print_area_width; } ?>px; height:<?php if($pr_height) { echo $pr_height; } else { echo $print_area_height; } ?>px; ">
 									<div class="txt_printable">Printable Area</div>
 								</div>
 							</div>
@@ -336,7 +349,7 @@
 								?><img id="front-image" src="<?php echo plugins_url('default_reversed.png',__FILE__); ?>" alt=""/><?php 
 							}
 							?>							
-							<div class="design-frame front-part" style="width:<?php echo $pr_width; ?>px; height:<?php echo $pr_height; ?>px; ">
+							<div class="design-frame front-part" style="width:<?php if($pr_width){ echo $pr_width; } else { echo $print_area_width; } ?>px; height:<?php if($pr_height){ echo $pr_height; } else { echo $print_area_height; } ?>px; ">
 								<div class="txt_printable">Printable Area</div>
 							</div>
 							
@@ -365,7 +378,7 @@
 						
 							if(count($t_shirt_colors) > 8){
 								?>
-								<span class="more-color">MC</span>
+								<span class="more-color" title="Click here to get additional colors. Click again to off additional color box.">MC</span>
 								<div class="additional-colors hidden">								
 									<?php 								
 									for($i=9; $i<count($t_shirt_colors); $i++){
@@ -560,7 +573,7 @@
 			</div>
 			
 			<div class="step_two-wrap image-cont">
-				<img class="hidden tshirt-loader" src="<?php echo plugins_url('TCPlugin').'/images/medium-loader.gif'; ?>" alt="Loading T-Shirt...."/>
+				
 				
 				<canvas id="myCanvas" width="530" height="1280"></canvas>
 				<div class="ant-wrap" style="530px; width:530px; height:1280px; position:absolute; z-index:-5; background:#FFFFFF;"></div>

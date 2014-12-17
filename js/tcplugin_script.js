@@ -135,7 +135,7 @@ flag = false;
 				range: "min",
 				value: 10,
 				min: 1,
-				max: 99,
+				max: 400,
 				slide: function( event, ui ) {
 				$( "#goal-count" ).val( ui.value );
 				}
@@ -227,11 +227,26 @@ flag = false;
 				
 			});	
 
+			var ccolor;
+			ccolor = $(".tshirt.back").css('background-color'); 
+			$(".color-icon").hover(function(){
+				var hcolor = $(this).attr('id');
+				$(".tshirt.back").css('background',hcolor);
+				$(".tshirt.front").css('background',hcolor);
+				
+				$(".tshirt.front").css({'-moz-transition':'all 1s ease-in','-webkit-transition':'all 1s ease-in','-o-transition':'all 1s ease-in','transition':'all 1s ease-in'});
+				
+			},
+			function(){			
+				$(".tshirt.back").css('background',ccolor);
+				$(".tshirt.front").css('background',ccolor);
+			});
 			
 			$(".color-icon").click(function(){
 				var color = $(this).attr('id');
 				$(".tshirt.back").css('background',color);
 				$(".tshirt.front").css('background',color);
+				ccolor = color;
 				
 				/* off for both side color at same time with same color */
 				/*
@@ -267,7 +282,7 @@ flag = false;
 					
 					if($('.tshirt_frame').hasClass('unflipped')){
 						if($("#selected_element").val().length == 0){
-							$(".back-part").append('<div class="text-wrap txt-box"><div class="ttext-cont"><span class="remove hidden">R</span>  <span class="rotate hidden">R</span> <span class="txt-cont choosed" id="'+elem_id+'">'+txt+'</span>  </div></div>');
+							$(".back-part").append('<div class="text-wrap txt-box"><div class="ttext-cont"> <span class="move hidden">M</span> <span class="remove hidden">R</span>  <span class="rotate hidden">R</span> <span class="txt-cont choosed" id="'+elem_id+'">'+txt+'</span>  </div></div>');
 							$("#selected_element").val(elem_id);
 							
 							bpcost = parseFloat($("span.base_price").text(),10);
@@ -282,7 +297,7 @@ flag = false;
 					}
 					else{
 						if($("#selected_element").val().length == 0){
-							$(".front-part").append('<div class="text-wrap txt-box"><div class="ttext-cont"><span class="remove hidden">R</span> <span class="rotate hidden">R</span> <span class="txt-cont choosed" id="'+elem_id+'">'+txt+'</span> </div> </div>');
+							$(".front-part").append('<div class="text-wrap txt-box"><div class="ttext-cont"> <span class="move hidden">M</span> <span class="remove hidden">R</span> <span class="rotate hidden">R</span> <span class="txt-cont choosed" id="'+elem_id+'">'+txt+'</span> </div> </div>');
 							$("#selected_element").val(elem_id);
 							
 							bpcost = parseFloat($("span.base_price").text(),10);
@@ -456,7 +471,6 @@ flag = false;
 					degree = (radians * (180 / Math.PI) * -1) + 135;
 					
 					current_elem.css('-moz-transform', 'rotate(' + degree + 'deg)');
-					/* $(current_elem.find(".used-clips")).css('-moz-transform', 'rotate(' + degree + 'deg)');  */
 					
 					current_elem.css('-webkit-transform', 'rotate(' + degree + 'deg)');
 					
@@ -632,11 +646,13 @@ flag = false;
 			$(document).on("mouseenter",".text-wrap.txt-box", function(){			
 				$(this).find('.remove').removeClass('hidden');
 				$(this).find('.rotate').removeClass('hidden');
+				$(this).find('.move').removeClass('hidden');
 			});
 			
 			$(document).on("mouseleave",".text-wrap.txt-box", function(){			
 				$(this).find('.remove').addClass('hidden');
 				$(this).find('.rotate').addClass('hidden');
+				$(this).find('.move').addClass('hidden');
 			});
 			
 			$("#sale-price").keyup(function(){			
@@ -738,6 +754,7 @@ flag = false;
 			else{
 				if($(".tshirt-loader").hasClass('hidden')){
 					$(".tshirt-loader").removeClass('hidden');
+					$("div.full_bg").removeClass('hidden');
 				}
 			
 				/* saving full image */
@@ -933,6 +950,7 @@ flag = false;
 								
 								if(plink){																		
 									window.location = plink;
+									
 								}
 							});
 						}
@@ -997,6 +1015,7 @@ flag = false;
 				},
 				uploadProgress: function(event, position, total, percentComplete) {
 					console.log(percentComplete);
+					$("div.shadoe-mask").css('width', percentComplete+'%');
 				},
 				success: function(sf) {
 					$("div#imageloadstatus").css('display','none');
