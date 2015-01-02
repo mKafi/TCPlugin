@@ -8,6 +8,8 @@ Version: 0.01
 
 */
 
+
+if ( ! class_exists( 'WP_List_Table' ) ) { require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' ); }
 	
 function tcplugin_ajaxurl() {	
 	?> 
@@ -29,7 +31,6 @@ function style_scripts() {
 	wp_register_script('easyzoom_js', plugins_url( '/js/easyzoom.js', __FILE__ ), array('jquery'), null, false );	
     wp_enqueue_script('easyzoom_js');
     
-	
 	wp_register_script('mycustom_js', plugins_url( '/js/tcplugin_script.js', __FILE__ ), array('jquery'), null, false );	
     wp_enqueue_script('mycustom_js');
 	
@@ -67,21 +68,39 @@ function register_tcsettings(){
 function tc_design(){
     add_menu_page( 'TC Design', 'TC Design', 'manage_options', 'tc-design', 'get_design_page', plugins_url('images/T-Shirt_ico.png',__FILE__));
 	add_action( 'admin_init', 'register_tcsettings' );
+	
+	
 }
 add_action( 'admin_menu', 'tc_design' );
 
 
+function tcdesign_payoff(){
+	add_menu_page( 'Payoff', 'Payoff', 'manage_options', 'payoff', 'get_payoff_page', plugins_url('images/payoff.png',__FILE__));	
+}
+add_action( 'admin_menu', 'tcdesign_payoff' );
+
+function get_payoff_page(){
+
+	include(plugin_dir_path(__FILE__).'/inc/admin/payoff.php');
+}
+
 
 function tc_initialize(){
-	include(plugin_dir_path(__FILE__).'/inc/tccmb.php');
+	
+	include(plugin_dir_path(__FILE__).'/inc/admin/tccmb.php');
 }
 add_action( 'tcplugin_init', 'tc_initialize' );
 
 
-function design_tshirt($attr){
-	include(plugin_dir_path(__FILE__).'/inc/tcd_header.php');
-	include(plugin_dir_path(__FILE__).'/inc/tcd_body.php');	
-	include(plugin_dir_path(__FILE__).'/inc/tcd_footer.php');
+function design_tshirt($attr){ 
+	if ( is_user_logged_in() ) { 
+		include(plugin_dir_path(__FILE__).'/inc/tcd_header.php');
+		include(plugin_dir_path(__FILE__).'/inc/tcd_body.php');	
+		include(plugin_dir_path(__FILE__).'/inc/tcd_footer.php');
+	}
+	else{
+		echo '<div class="login-register"><h3>Please <a href="'.site_url().'/my-account">login</a> to design your Tee-Shirt. If you have no account yet <a href="'.site_url().'/my-account">Register</a> now</h3></div>'; 	
+	}
 	
 }
 add_shortcode('TCDesign','design_tshirt');
@@ -284,9 +303,31 @@ function create_new_campaign(){
 		if(!empty($_POST['full_image_name'])){
 			$prod_info['full_image_name'] = $_POST['full_image_name'];
 		}		
+		
 		if(!empty($_POST['image_name'])){
 			$prod_info['image_name'] = $_POST['image_name'];
 		}
+		
+		$prod_info['unit_price'] = '';
+		if(!empty($_POST['unit_price'])){
+			$prod_info['unit_price'] = $_POST['unit_price'];
+		}
+		
+		$prod_info['unit_profit'] = '';
+		if(!empty($_POST['unit_profit'])){
+			$prod_info['unit_profit'] = $_POST['unit_profit'];
+		}
+		
+		$prod_info['total_profit'] = '';
+		if(!empty($_POST['total_profit'])){
+			$prod_info['total_profit'] = $_POST['total_profit'];
+		}
+		
+		$prod_info['sales_goal'] = 10;
+		if(!empty($_POST['sales_goal'])){
+			$prod_info['sales_goal'] = $_POST['sales_goal'];
+		}
+		
 		$prod_info['uid'] = get_current_user_id();
 		
 		$post_id = create_new_campaign_product($prod_info);
@@ -450,7 +491,7 @@ add_action('wp_ajax_ownfileupload','upload_own_img');
 
 
 
-include('inc/tccmb.php');
+include('inc/admin/tccmb.php');
 include('inc/campaign_status.php');	
 include_once('inc/custom-post-fields.php');
 include_once('inc/custom-widgets.php');
@@ -566,7 +607,7 @@ function tcdesign_installhook() {
 				'menu-item-title' =>  __($v),
 				'menu-item-classes' => $k,
 				'menu-item-url' => home_url( '/'.$k.'/' ), 
-				'menu-item-status' => 'publish')
+				'menu-item-status' => 'publish')				
 			);
 		}
 	}
@@ -643,7 +684,7 @@ add_action( 'init', 'tcircle_campaign', 0 );
 
 function create_new_campaign_product($prod_info){
 	/* echo '<pre>'; print_R($prod_info); echo '</pre>';  */
-	
+		
 	$post = array(
 		'post_author' => $prod_info['uid'],
 		'post_content' => $prod_info['body'],
@@ -702,8 +743,8 @@ function create_new_campaign_product($prod_info){
     update_post_meta( $post_id, 'total_sales', '0');
     update_post_meta( $post_id, '_downloadable', 'no');
     update_post_meta( $post_id, '_virtual', 'yes');
-    update_post_meta( $post_id, '_regular_price', "1" );
-    update_post_meta( $post_id, '_sale_price', "1" );
+    update_post_meta( $post_id, '_regular_price', $prod_info['unit_price'] );
+    update_post_meta( $post_id, '_sale_price', $prod_info['unit_price'] );
     update_post_meta( $post_id, '_purchase_note', "" );
     update_post_meta( $post_id, '_featured', "no" );
     update_post_meta( $post_id, '_weight', "" );
@@ -714,12 +755,17 @@ function create_new_campaign_product($prod_info){
     update_post_meta( $post_id, '_product_attributes', array());
     update_post_meta( $post_id, '_sale_price_dates_from', "" );
     update_post_meta( $post_id, '_sale_price_dates_to', "" );
-    update_post_meta( $post_id, '_price', "1" );
+    update_post_meta( $post_id, '_price', $prod_info['unit_price'] );
     update_post_meta( $post_id, '_sold_individually', "" );
     update_post_meta( $post_id, '_manage_stock', "no" );
     update_post_meta( $post_id, '_backorders', "no" );
     update_post_meta( $post_id, '_stock', "" );
     update_post_meta( $post_id, 'campaign_until', date("d M Y",time() + ($prod_info['camp_length'] * 60*60*24)));
+		
+    update_post_meta( $post_id, 'unit_price', $prod_info['unit_price']);
+    update_post_meta( $post_id, 'unit_profit', $prod_info['unit_profit']);
+    update_post_meta( $post_id, 'total_profit', $prod_info['total_profit']);
+    update_post_meta( $post_id, 'sales_goal', $prod_info['sales_goal']);
 
     /* file paths will be stored in an array keyed off md5(file path) */
     /* $downdloadArray =array('name'=>"Test", 'file' => $uploadDIR['baseurl']."/video/".$video); */
@@ -755,3 +801,16 @@ function dashboard_page_template( $page_template )
 	
     return $page_template;
 }
+
+
+function add_login_out_item_to_menu( $items, $args ){
+	if($args->menu == 'TCDesign Top'){
+		$redirect = ( is_home() ) ? false : get_permalink();
+		if( is_user_logged_in( ) )
+			$items .= '<li id="log-in-out-link" class="menu-item menu-type-link"><a href="' . wp_logout_url( $redirect ) . '" title="' .  __( 'Logout' ) .'">' . __( 'Logout' ) . '</a></li>';
+		else  $items .= '<li id="log-in-out-link" class="menu-item menu-type-link"><a href="' . site_url().'/my-account' . '" title="' .  __( 'Login' ) .'">' . __( 'Login' ) . '</a></li>';
+	}
+	return $items;
+}
+add_filter( 'wp_nav_menu_items', 'add_login_out_item_to_menu', 50, 2 );
+

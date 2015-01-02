@@ -7,16 +7,14 @@ function set_dynamic_id(){
 
 
 image_name = '';
-flag = false;
-frate = 0;
-	
+flag = false;	
 (function($){
 	$(function() {
 		$(document).ready(function(){			
 			/* field reset */
 			$("#text_field").val('');
 			$("#font-chooser option:first").attr('selected','selected');
-			/* $("#font-size")[0].selectedIndex = 0; */
+			$("#font-size")[0].selectedIndex = 0;
 			$(".full_bg").height($(document).height());
 			$(".full_bg").width($(document).width());
 			$(".full_bg").click(function(){ $(this).addClass('hidden'); $(".clipart-cont").addClass('hidden'); });
@@ -286,7 +284,6 @@ frate = 0;
 						if($("#selected_element").val().length == 0){
 							$(".back-part").append('<div class="text-wrap txt-box"><div class="ttext-cont"> <span class="move hidden">M</span> <span class="remove hidden">R</span>  <span class="rotate hidden">R</span> <span class="streatch hidden">S</span> <span class="txt-cont choosed" id="'+elem_id+'">'+txt+'</span>  </div></div>');
 							$("#selected_element").val(elem_id);
-							/* $("#selected_element").parents('.ttext-cont').css('width','auto'); */
 							
 							bpcost = parseFloat($("span.base_price").text(),10);
 							bpcost += parseFloat(text_price); 
@@ -294,7 +291,7 @@ frate = 0;
 							
 						}
 						else if($("#selected_element").val().length > 0){
-							/* $("#selected_element").parents('.ttext-cont').css('width','auto'); */
+							
 							$("#"+$("#selected_element").val()).text(txt);
 						}
 					}
@@ -328,7 +325,7 @@ frate = 0;
 				$("#selected_element").val('');
 				$("#text_field").val('');
 				$("#font-chooser option:first").attr('selected','selected');
-				/* $("#font-size")[0].selectedIndex = 0; */
+				$("#font-size")[0].selectedIndex = 0;
 			});
 			
 			$(document).on('click','.txt-cont',function(){  
@@ -348,12 +345,10 @@ frate = 0;
 				$('#'+$("#selected_element").val()).css({'font-family':fontf});
 			});
 			
-			/* 
 			$("#font-size").change(function(){
 				var fonts = $(this).val();
 				$('#'+$("#selected_element").val()).css({'font-size':fonts+'px'});
 			});
-			 */
 			
 			$("#search_art").click(function(){
 				
@@ -426,17 +421,14 @@ frate = 0;
 				
 				var foo_width = parseFloat(current_elem.children(".txt-cont").width(),10);
 				var getcss = current_elem.children(".txt-cont").css('font-size');
-				if(getcss){
-					var a = getcss.split('px');			
-					var ffont = parseFloat(a[0],10);
-					frate = (ffont/foo_width);
-				}
+				var a = getcss.split('px');			
+				var ffont = parseFloat(a[0],10);
+				frate = (ffont/foo_width);
+				
 				curr_width = parseFloat(current_elem.width());
 				curr_height = parseFloat(current_elem.height());
 				
 				$(this).parent().children('span').removeClass('hidden');
-				
-				
 				
 			});
 			
@@ -456,20 +448,15 @@ frate = 0;
 				center_x = (offset.left) + (current_elem.width() / 2);
 				center_y = (offset.top) + (current_elem.height() / 2);
 				
-				jQuery(this).parent().find('span').removeClass('hidden');
+				/* jQuery(this).parent().parent().draggable({ disabled:true }); */
 				
 			});
 			
 			$(document).on('mouseup','.rotate', function(){				
 				rotate = false;	
-				drag = false;				
-				jQuery(this).parent().find('.streatch, .move, .remove, .rotate').addClass('hidden');				
-			});
-			
-			$(document).on('mouseup', '.tshirt_frame',function(){
-				jQuery(this).parent().find('.streatch, .move, .remove, .rotate').addClass('hidden');	
-				jQuery(this).find('.ttext-cont .txt-cont, .icon-img-cont img').css('border','0');
-				jQuery(this).find('.ttext-cont').css('width','inherit');
+				
+				/* jQuery(this).parent().parent().draggable({ disabled:false }); */
+				
 			});
 			
 			$(document).mousemove( function(e){
@@ -479,16 +466,20 @@ frate = 0;
 					inc_x = (cur_x - start_x);
 					inc_y = (cur_y - start_y);
 					
+					/* current_elem.css({'width': curr_width + inc_x+'px', 'height': curr_height + inc_y+'px' });	 */
+					
 					current_elem.css({'width': curr_width + inc_x+'px', 'height': curr_height + parseInt(inc_x * (curr_height/curr_width)) + 'px' });
-					current_elem.children(".used-clips").css({'border':'1px dashed #000000','padding':'0'});
-					current_elem.find('span').removeClass('hidden');
+					
+					/* current_elem.css({'width': parseInt(((curr_width + inc_x) * (curr_width/curr_height)),10) +'px', 'height': parseFloat(((curr_height + inc_y ) * (curr_height/curr_width)),10) + 'px' }); */
+					
+					
+					
 					
 					if(current_elem.children(".txt-cont").length > 0){
 						var foo_width = parseFloat(current_elem.children(".txt-cont").width(),10);
 						var fsize = parseInt(foo_width * frate);
-						current_elem.children(".txt-cont").css({'font-size': fsize+'px','border':'1px dashed #000000'}); 	
+						current_elem.children(".txt-cont").css('font-size', fsize+'px'); 
 					}
-					
 				}
 				
 				if(rotate){						
@@ -508,14 +499,6 @@ frate = 0;
 					
 					current_elem.css('-ms-transform', 'rotate(' + degree + 'deg)');
 					
-					current_elem.find('span').removeClass('hidden');
-					if(current_elem.children(".txt-cont").length > 0){
-						current_elem.children(".txt-cont").css({'font-size': fsize+'px','border':'1px dashed #000000','padding':'0'}); 
-					}
-					else{
-						current_elem.children(".used-clips").css({'border':'1px dashed #000000','padding':'0'});
-					}
-					
 				}
 				
 			});
@@ -524,7 +507,7 @@ frate = 0;
 			
 			
 			
-			$(document).on('mouseenter','.icon-img-cont',function(){
+			$(document).on('mouseenter','.clip-cont',function(){
 				$(this).find('.remove').removeClass('hidden');
 				$(this).find('.rotate').removeClass('hidden');
 				$(this).find('.streatch').removeClass('hidden');
@@ -533,12 +516,11 @@ frate = 0;
 				
 				
 			});
-			$(document).on('mouseleave','.icon-img-cont',function(){
-				
-					$(this).find('.remove').addClass('hidden');
-					$(this).find('.rotate').addClass('hidden');
-					$(this).find('.streatch').addClass('hidden');
-					$(this).find('.move').addClass('hidden');
+			$(document).on('mouseleave','.clip-cont',function(){
+				$(this).find('.remove').addClass('hidden');
+				$(this).find('.rotate').addClass('hidden');
+				$(this).find('.streatch').addClass('hidden');
+				$(this).find('.move').addClass('hidden');
 				
 			});
 			
@@ -684,26 +666,17 @@ frate = 0;
 			
 			
 			$(document).on("mouseenter",".text-wrap.txt-box", function(){			
-				
-					$(this).find('.remove').removeClass('hidden');
-					$(this).find('.rotate').removeClass('hidden');
-					$(this).find('.move').removeClass('hidden');
-					$(this).find('.streatch').removeClass('hidden');
-					
-					$(this).find('.txt-cont').css({'border':'1px dashed #000000','padding':'0'});
-				
-				
+				$(this).find('.remove').removeClass('hidden');
+				$(this).find('.rotate').removeClass('hidden');
+				$(this).find('.move').removeClass('hidden');
+				$(this).find('.streatch').removeClass('hidden');
 			});
 			
 			$(document).on("mouseleave",".text-wrap.txt-box", function(){			
-				
-					$(this).find('.remove').addClass('hidden');
-					$(this).find('.rotate').addClass('hidden');
-					$(this).find('.move').addClass('hidden');
-					$(this).find('.streatch').addClass('hidden');
-					
-					$(this).find('.txt-cont').css({'border':'0','padding':'1px'});
-				
+				$(this).find('.remove').addClass('hidden');
+				$(this).find('.rotate').addClass('hidden');
+				$(this).find('.move').addClass('hidden');
+				$(this).find('.streatch').addClass('hidden');
 			});
 			
 			/* 
@@ -831,15 +804,12 @@ frate = 0;
 			else{
 				if($(".tshirt-loader").hasClass('hidden')){
 					$(".tshirt-loader").removeClass('hidden');
-					
 					$("div.full_bg").removeClass('hidden');
-					var bgh = $(document).height();
-					$("div.full_bg").css('height',bgh+'px');
 				}
 			
 				/* saving full image */
 			
-				var finish_it = new Array();
+				
 				var canvas = document.getElementById('myCanvas');		
 				var context = canvas.getContext('2d');
 				
@@ -847,24 +817,22 @@ frate = 0;
 				
 				var bgcolor = $("div#backpartonly").css('background-color');
 				if(bgcolor == 'transparent' || bgcolor == '#ffffff'){
-					bgcolor = 'rgb(255, 255, 255)';
+					bgcolor = 'rgb(255,255,255)';
 				}
 				var parent_offset = jQuery("#step3-shirt-cont").offset();
 				
 				context.fillStyle = bgcolor; 	
-				context.fillRect(0, 0, 530, 630);
+				context.fillRect(0,0, 530, 630);
 				
-				function finist_process_tree(){
-					finish_it['k'] = 'lksdfjs';
-					console.log('-----------');
-					console.log(finish_it.length);
-					console.log('-----------');
-					
-					
-				}
 				
-				function process_back_icons(){
-					var bilen = $("#step3-shirt-cont #backpartonly .icon-img-cont").length;
+				
+				
+				
+				
+				var imageObj = new Image();
+				imageObj.onload = function() {
+					context.drawImage(imageObj, 0, 0, 530, 630);						
+					
 					$.each($("#step3-shirt-cont #backpartonly .icon-img-cont"),function(k,bimg){	
 						var imageObj2 = new Image();
 						
@@ -887,19 +855,10 @@ frate = 0;
 							context.restore();
 						};			
 						imageObj2.src = $(bimg).children('img').attr('src'); 
-						
-						if(bilen == k+1){
-							finish_it['back_icon'] = true;
-							finist_process_tree();
-						}
 					});
-					
-				}
 				
-				function process_back_texts(){
-					var btlen = $("#step3-shirt-cont #backpartonly .ttext-cont").length;					
-					$.each($("#step3-shirt-cont #backpartonly .ttext-cont"),function(kt,vv){	
-				
+					$.each($("#step3-shirt-cont #backpartonly .ttext-cont"),function(k,vv){	
+						
 						var par_spn_offset = $(vv).parent().offset();							
 						var spn_height = $(vv).parent().height();
 						var spn_width = $(vv).parent().width();
@@ -925,45 +884,10 @@ frate = 0;
 						else{
 							context.fillText($(vv).children('.txt-cont').text(),parseInt(first_tsl_x), parseInt(first_tsl_y) + fsize);
 						}
-						context.restore();	
-
-						if(btlen == kt+1){
-							finish_it['back_text'] = true;
-							finist_process_tree();
-						}
+						context.restore();
 					});
-				
-				}
-				
-				
-				
-				var imageObj = new Image();
-				imageObj.onload = function() {
-					context.drawImage(imageObj, 0, 0, 530, 630);						
-					
-					var bp_icon_length = $("#step3-shirt-cont #backpartonly .icon-img-cont").length;
-					var bp_text_length = $("#step3-shirt-cont #backpartonly .ttext-cont").length;		
-					
-					if(bp_icon_length > 0){
-						process_back_icons();
-					}
-
-					if(bp_text_length > 0){
-						process_back_texts();
-					}
-
-					
 				}				
 				imageObj.src = $("img#back-image").attr('src'); 
-				
-				
-				
-				
-				
-				
-				
-				
-				
 				
 				
 				bgcolor = $("div#frontpartonly").css('background-color');
@@ -971,9 +895,18 @@ frate = 0;
 					bgcolor = 'rgb(255,255,255)';					
 				}
 				
-				function process_front_icons(){
-					var filen = $("#step3-shirt-cont #frontpartonly .icon-img-cont").length;	
-					$.each($("#step3-shirt-cont #frontpartonly .icon-img-cont"),function(k2,fimg){	
+				
+				
+				
+				
+				var imageObjb = new Image();
+				imageObjb.onload = function() {										
+					
+					context.fillRect(0,631, 530, 630);	
+					context.fillStyle = bgcolor; 
+					
+					context.drawImage(imageObjb, 0, 632, 530, 630);
+					$.each($("#step3-shirt-cont #frontpartonly .icon-img-cont"),function(k,fimg){	
 						var imageObj2f = new Image();
 						
 						var fimg_offset = $(fimg).parent().offset();
@@ -995,16 +928,10 @@ frate = 0;
 							context.restore();
 						};			
 						imageObj2f.src = $(fimg).children('img').attr('src'); 
-						if(filen == k2+1){
-							finish_it['front_icon'] = true;
-							finist_process_tree();
-						}
 					});
-				}
-				
-				function process_front_texts(){					
-					var ftlen = $("#step3-shirt-cont #frontpartonly .ttext-cont").length;
-					$.each($("#step3-shirt-cont #frontpartonly .ttext-cont"),function(kft,vv){ 
+					
+					$.each($("#step3-shirt-cont #frontpartonly .ttext-cont"),function(k,vv){															
+						
 						var fimg_offset = $(vv).parent().offset();							
 						var fimg_height = $(vv).parent().height();
 						var fimg_width = $(vv).parent().width();
@@ -1036,37 +963,9 @@ frate = 0;
 						}
 						
 						context.restore();
-						
-						if(ftlen == kft+1){
-							finish_it['front_text'] = true;
-							finist_process_tree();
-						}
 					});
-				}
-					
-				
-				
-				var imageObjb = new Image();
-				imageObjb.onload = function() {	
-					context.fillRect(0,631, 530, 630);	
-					context.fillStyle = bgcolor; 					
-					context.drawImage(imageObjb, 0, 632, 530, 630);
-					
-					var fp_icon_length = $("#step3-shirt-cont #frontpartonly .icon-img-cont").length;
-					var fp_text_length = $("#step3-shirt-cont #frontpartonly .ttext-cont").length;
-					
-					if(fp_icon_length > 0){						
-						process_front_icons();
-					}
-
-					if(fp_text_length > 0){
-						process_front_texts();	
-					}
-					
 				}				
 				imageObjb.src = $("img#front-image").attr('src'); 
-				
-				
 				
 				
 				setTimeout(function(){
@@ -1080,10 +979,12 @@ frate = 0;
 							
 							var sales_goal = $("#sales_goal").val();
 							
-							$.post(ajaxurl, {'action':'create_camp','camp_name':camp_name,'camp_desc':camp_desc,'camp_tags':camp_tags,'camp_length':camp_length,'camp_url':camp_url,'pickup':pickup,'tos':tos,'shipping_first_name':shipping_first_name,'shipping_last_name':shipping_last_name,'shipping_first_address':shipping_first_address,'shipping_second_address':shipping_second_address,'shipping_city':shipping_city,'shipping_state':shipping_state,'shipping_zip':shipping_zip,'image_name':full_image_name,'full_image_name':full_image_name, 'unit_price':unit_price, 'unit_profit':unit_profit,'sales_goal':sales_goal, 'total_profit':total_profit }, function(plink){
-								$(".tshirt-loader").addClass('hidden');								
+							$.post(ajaxurl, {'action':'create_camp','camp_name':camp_name,'camp_desc':camp_desc,'camp_tags':camp_tags,'camp_length':camp_length,'camp_url':camp_url,'pickup':pickup,'tos':tos,'shipping_first_name':shipping_first_name,'shipping_last_name':shipping_last_name,'shipping_first_address':shipping_first_address,'shipping_second_address':shipping_second_address,'shipping_city':shipping_city,'shipping_state':shipping_state,'shipping_zip':shipping_zip,'image_name':full_image_name,'full_image_name':full_image_name, 'unit_price':unit_price, 'unit_profit':unit_profit, 'total_profit':total_profit }, function(plink){
+								$(".tshirt-loader").addClass('hidden');
+								
 								if(plink){																		
-									window.location = plink; 									
+									/* window.location = plink;  */
+									
 								}
 							});
 						}
@@ -1092,7 +993,7 @@ frate = 0;
 						}
 					});
 				
-				},2000);
+				},4000);
 			}
 		});
 		

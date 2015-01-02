@@ -24,14 +24,19 @@
 							<option value="helvetica">Helvetica</option>
 						</select>
 						
+						<!--
 						<label>Font size</label>
 						<select id="font-size" class="select-list">
 							<?php 
+							/*
 							for($i = 10; $i<200; $i++){
 								?> <option value="<?php echo $i; ?>"><?php echo $i.' px'; ?></option> <?php 
 							}
+							*/
 							?>
 						</select>
+						
+						-->
 						
 						<!--
 						<label>Background Color</label>
@@ -488,6 +493,10 @@
 	
 	<div class="step-cont step_three hidden">
 		<div class="pallet-cont">
+			<input type="hidden" id="sales_goal" name="sales_goal" value=""/> 
+			<input type="hidden" id="unit_price" name="unit_price" value=""/>
+			<input type="hidden" id="unit_profit" name="unit_profit" value=""/>
+			
 			<div class="step_two-wrap tool-cont">
 				<div class="campaign-info-cont">
 					<label>Campaign title</label>										

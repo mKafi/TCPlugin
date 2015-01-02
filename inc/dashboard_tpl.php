@@ -27,6 +27,11 @@
 			
 			<?php endwhile; ?>		
 		</div><!-- #content -->				
-		<?php get_sidebar(); ?>	
+		<div class="right-pane tcdesign">
+			<?php 
+			wp_nav_menu( array('menu' => 'TCDesign Top' ) );
+			get_sidebar();
+			?>
+		</div>
 	</div><!-- #primary -->	
 <?php get_footer(); ?>
