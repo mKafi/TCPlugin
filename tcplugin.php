@@ -107,29 +107,6 @@ add_shortcode('TCDesign','design_tshirt');
 
 
 
-/* add option page starts */
-
-function register_tcircle_settings(){	
-	register_setting( 'tc-settings-group', 'rate_per_word' );
-	register_setting( 'tc-settings-group', 'rate_per_image' );
-}
-
-function page_tcircle_options(){
-	if ( !current_user_can( 'manage_options' ) )  {
-		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-	}
-	
-	include(plugin_dir_path(__FILE__).'/inc/tcd_options.php');
-}
-
-
-add_action( 'admin_menu', 'tcoption_settings' );
-function tcoption_settings() {	
-	add_action( 'admin_init', 'register_tcircle_settings' );
-	add_options_page( 'TCircle Options', 'TCircle Options', 'manage_options', 'tcircle-options', 'page_tcircle_options' );
-}
-
-/* add option page ends */
 /* choose product from a category starts */
 function get_post_gallery_imges($item_id){
 	$images = array(); 
