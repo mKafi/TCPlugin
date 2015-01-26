@@ -25,20 +25,7 @@ jQuery( "#tabs" ).tabs();
 					<span class="right-arrow"></span>
 				</li>
 			</ul>
-			
-			<!-- 
-			<ul id="design-actions" class="nav pull-right">
-				<li>
-					<a href="javascript:void(0);" data-action="save" id="save-canvas" class="save-canvas"><i class="icon-save"></i> Save</a>            
-				</li>				
-				<li>
-					<a href="javascript:void(0);" data-action="preview" id="save-canvas" class="preview-canvas"><i class="icon-eye-open"></i> Preview</a>
-				</li>
-			</ul>
-			-->
 		</div>
-		
-		
 	</div>
 	
 	

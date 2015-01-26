@@ -1057,3 +1057,71 @@ table.campaign-grid thead th {
 	text-align: center;
 	margin: 20px;
 }
+
+
+.my-camp-img {
+    width: 20px;
+}
+
+.full-width.tcdesign-top-cont {
+    background: #05cb3f;
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+#menu-tcdesign-top li {
+    display: inline-block;
+    list-style: outside none none;
+}
+#menu-tcdesign-top li a {
+    color: #ffffff;
+    display: block;
+    font-size: 15px;
+    padding: 10px 20px;
+}
+#menu-tcdesign-top li a:hover{
+	background:green;
+}
+
+/* 16 january 2015 */
+.not-logged {
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+	bottom:0;
+	background:#ffffff;
+	padding:25px;
+}
+.not-logged.msg_not_logged {   
+    padding: 15px;
+    width: 400px;
+    z-index: 20;
+	height:300px;
+}
+
+.not-logged.login-tcircle {
+    height: 200px;
+    width: 400px;
+    z-index: 21;
+}
+.not-logged.register-tcircle {
+    height: 264px;
+    width: 400px;
+    z-index: 22;
+}
+.not-logged.register-tcircle {
+    height: 270px;
+    width: 400px;
+    z-index: 22;
+}
+.not-logged.saving-design {
+    height: 100px;
+    width: 400px;
+    z-index: 23;
+}
+.not-logged .close{
+	
+}

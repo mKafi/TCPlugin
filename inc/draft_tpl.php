@@ -1,6 +1,6 @@
 <?php get_header();	?>
 	<div id="primary" class="mainBdy row content-area">		
-		<?php get_sidebar(); ?>	
+		<?php /*  get_sidebar();  */?>	
 		<div id="content" class="site-content" role="main">
 			<?php while ( have_posts() ) : the_post(); ?>
 			
@@ -31,7 +31,7 @@
 		<div class="right-pane tcdesign">
 			<?php 
 			wp_nav_menu( array('menu' => 'TCDesign Top' ) );
-			get_sidebar();
+			/* get_sidebar(); */
 			?>
 		</div>
 	</div><!-- #primary -->	

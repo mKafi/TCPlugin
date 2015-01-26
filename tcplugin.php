@@ -93,15 +93,9 @@ add_action( 'tcplugin_init', 'tc_initialize' );
 
 
 function design_tshirt($attr){ 
-	if ( is_user_logged_in() ) { 
-		include(plugin_dir_path(__FILE__).'/inc/tcd_header.php');
-		include(plugin_dir_path(__FILE__).'/inc/tcd_body.php');	
-		include(plugin_dir_path(__FILE__).'/inc/tcd_footer.php');
-	}
-	else{
-		echo '<div class="login-register"><h3>Please <a href="'.site_url().'/my-account">login</a> to design your Tee-Shirt. If you have no account yet <a href="'.site_url().'/my-account">Register</a> now</h3></div>'; 	
-	}
-	
+	include(plugin_dir_path(__FILE__).'/inc/tcd_header.php');
+	include(plugin_dir_path(__FILE__).'/inc/tcd_body.php');	
+	include(plugin_dir_path(__FILE__).'/inc/tcd_footer.php');
 }
 add_shortcode('TCDesign','design_tshirt');
 
@@ -242,9 +236,75 @@ function get_productinfo_by_id(){
 add_action('wp_ajax_nopriv_getproductinfo','get_productinfo_by_id');
 add_action('wp_ajax_getproductinfo','get_productinfo_by_id');
 
+/* ajax login starts */
+function ajaxs_login(){
+	if ( !is_user_logged_in() ) {
+		$creds = array();
+		$creds['user_login'] = $_POST['usr_email'];
+		$creds['user_password'] = $_POST['usr_pass'];
+		$creds['remember'] = true;    
+		if (filter_var($creds['user_login'], FILTER_VALIDATE_EMAIL)) {
+			$usr = get_user_by( 'email', $creds['user_login'] );
+			$creds['user_login']  = $usr->user_login;	
+		}	
+		$user = wp_signon( $creds, false );
+		
+		if ( is_wp_error($user) ){
+			echo 'error';
+		}
+		else{
+			echo $user->ID;
+		}
+	}
+	die();
+}
+add_action('wp_ajax_nopriv_ajloging','ajaxs_login');
+add_action('wp_ajax_ajloging','ajaxs_login');
+
+
+function ajaxs_register(){
+	if ( !is_user_logged_in() ) {
+		$creds = array();
+		if (filter_var($_POST['usr_email'], FILTER_VALIDATE_EMAIL)) {
+			$creds['user_login'] = $_POST['usr_email'];
+			$creds['user_password'] = $_POST['usr_pass'];
+		
+			$user_name =$creds['user_login']; 
+			$user_email = $creds['user_login']; 		 
+			
+			$user_id = username_exists( $user_name ); 
+			
+			if (!$user_id){				
+				$user_id = wp_create_user( $user_name, $creds['user_password'], $user_email ); 
+			}
+		
+			if($user_id){	
+				$ucreds = array();
+				$ucreds['user_login'] = $user_name;
+				$ucreds['user_password'] = $creds['user_password'];
+				$ucreds['remember'] = true; 
+				$ruser = wp_signon( $ucreds, false );
+				
+				if ( is_wp_error($ruser) ){
+					echo 'error';
+				}
+				else{
+					echo $ruser->ID;
+				}
+			}
+		}			
+	}
+	die();
+}
+add_action('wp_ajax_nopriv_ajregister','ajaxs_register');
+add_action('wp_ajax_ajregister','ajaxs_register');
+
+
+
+/* ajax login ends */
 
 function create_new_campaign(){
-	/* echo '<pre>'; print_r($_POST); echo '</pre>'; exit;  */	
+		
 	if(isset($_POST['action']) && !empty($_POST['action'] ) && $_POST['action'] == 'create_camp'){
 		global $wpdb;
 		
@@ -308,111 +368,6 @@ function create_new_campaign(){
 		$prod_info['uid'] = get_current_user_id();
 		
 		$post_id = create_new_campaign_product($prod_info);
-		
-		if(0){
-		
-			$title = $_POST['camp_name'];	
-			$slug = preg_replace("/ /", '-', strtolower($title));
-			
-			$post_id = wp_insert_post(
-			 array(
-					'comment_status'  => 'closed',
-					'ping_status'   => 'closed',
-					'post_author'   => '1',
-					'post_name'   => $slug,
-					'post_title'    => $title,
-					'post_status'   => 'publish',
-					'post_type'   => 'campaign',
-					'post_content'   =>  $_POST['camp_desc'],
-					'tags_input' => explode(",",$_POST['camp_tags'])
-				  )
-			);
-			/* echo $post_id; */		
-			$cur_post_id = $post_id;
-			
-			/* set post meta starts */
-			$unique = TRUE;
-			if(!empty($_POST['camp_url'])){
-				add_post_meta($cur_post_id, 'campaign_url', $_POST['camp_url'], $unique); 
-			}
-			
-			if(!empty($_POST['camp_length'])){
-				add_post_meta($cur_post_id, 'campaign_length', $_POST['camp_length'], $unique); 
-			}
-			
-			if(!empty($_POST['pickup'])){
-				add_post_meta($cur_post_id, 'buyer_can_pickup', $_POST['pickup'], $unique); 
-			}
-			
-			if(!empty($_POST['tos'])){
-				add_post_meta($cur_post_id, 'terms_service', $_POST['tos'], $unique); 
-			}
-			
-			if(!empty($_POST['shipping_first_name'])){
-				add_post_meta($cur_post_id, 'shipping_first_name', $_POST['shipping_first_name'], $unique); 
-			}
-			
-			if(!empty($_POST['shipping_last_name'])){
-				add_post_meta($cur_post_id, 'shipping_last_name', $_POST['shipping_last_name'], $unique); 
-			}
-			
-			if(!empty($_POST['shipping_first_address'])){
-				add_post_meta($cur_post_id, 'shipping_first_address', $_POST['shipping_first_address'], $unique); 
-			}
-			
-			if(!empty($_POST['shipping_second_address'])){
-				add_post_meta($cur_post_id, 'shipping_second_address', $_POST['shipping_second_address'], $unique); 
-			}
-			
-			if(!empty($_POST['shipping_city'])){
-				add_post_meta($cur_post_id, 'shipping_city', $_POST['shipping_city'], $unique); 
-			}
-			
-			if(!empty($_POST['shipping_state'])){
-				add_post_meta($cur_post_id, 'shipping_state', $_POST['shipping_state'], $unique); 
-			}
-			
-			if(!empty($_POST['shipping_zip'])){
-				add_post_meta($cur_post_id, 'shipping_zip', $_POST['shipping_zip'], $unique); 
-			}
-			
-			$upload_dir = wp_upload_dir();		
-			$filename = $upload_dir['url'].'/'.$_POST['full_image_name'];
-			
-			if(!empty($_POST['full_image_name'])){
-				add_post_meta($cur_post_id, 'full_image_name', $filename, $unique); 
-			}
-			
-			/* set post meta ends */
-			
-
-			
-			
-			/* image addition to post starts */
-			
-			$parent_post_id = $post_id;		
-			$filename = $upload_dir['url'].'/'.$_POST['image_name'];
-			
-			$filetype = @wp_check_filetype( basename( $filename ), null );
-			$wp_upload_dir = wp_upload_dir();
-			$attachment = array(
-				'guid'           => $wp_upload_dir['url'] . '/' . basename( $filename ), 
-				'post_mime_type' => $filetype['type'],
-				'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $filename ) ),
-				'post_content'   => '',
-				'post_status'    => 'inherit'
-			);
-			$attach_id = @wp_insert_attachment( $attachment, $filename, $parent_post_id );
-			@set_post_thumbnail( $parent_post_id, $attach_id ); 
-			
-			/* 
-			require_once( ABSPATH . 'wp-admin/includes/image.php' );		
-			$attach_data = @wp_generate_attachment_metadata( $attach_id, $filename );
-			@wp_update_attachment_metadata( $attach_id, $attach_data );		
-			*/
-			
-		}
-		
 		
 		if($post_id){ echo get_permalink( $post_id ); } 
 		die();
@@ -514,10 +469,25 @@ function my_custom_template($single) {
 		$file_path = plugin_dir_path( __FILE__ ).'tpl/single-campaign.php';		
 		if(file_exists($file_path)){ 
 			return $file_path;
-			} 
+		} 
 	}
     return $single;
-}	
+}
+
+add_filter('page_template', 'my_custom_page_template');	
+function my_custom_page_template($page){
+	global $post;	
+	if ($post->post_type == "page"){
+		$page_data = @get_page_by_title( get_option('tc_website_design_page') );		
+		if(($post->post_content == '[TCDesign]') && ($page_data->post_content == '[TCDesign]')){
+			$file_path = plugin_dir_path( __FILE__ ).'tpl/design-page.php';		
+			if(file_exists($file_path)){ 
+				return $file_path;
+			}	
+		} 
+	} 
+	return $page;
+}
 /* custom template loading ends  */
 
 /* register activation and deactivation hook */
@@ -526,12 +496,8 @@ register_deactivation_hook( __FILE__, 'tcdesign_uninstallhook' );
 
 function tcdesign_installhook() {
     global $wpdb;
-
 	$page_list = array(
-		'dashboard'=>'Dashboard',
-		'draft'=>'Draft',
-		'draft'=>'Draft',
-		'get-paid'=>'Get Paid',
+		'dashboard'=>'Campaign',
 		'account-settings'=>'Account Settings'
 	);
 	
@@ -592,11 +558,9 @@ function tcdesign_installhook() {
 }
 
 function tcdesign_uninstallhook() {
-
     global $wpdb;
 	$page_list = array(
-		'dashboard'=>'Dashboard',
-		'draft'=>'Draft',
+		'dashboard'=>'Dashboard',		
 		'draft'=>'Draft',
 		'get-paid'=>'Get Paid',
 		'account-settings'=>'Account Settings'
@@ -618,7 +582,6 @@ function tcdesign_uninstallhook() {
 		delete_option($the_page_id);
 	}
 }
-
 
 // Register Custom Taxonomy
 function tcircle_campaign() {
@@ -656,8 +619,6 @@ function tcircle_campaign() {
 
 // Hook into the 'init' action
 add_action( 'init', 'tcircle_campaign', 0 );
-
-
 
 function create_new_campaign_product($prod_info){
 	/* echo '<pre>'; print_R($prod_info); echo '</pre>';  */
@@ -761,31 +722,32 @@ function create_new_campaign_product($prod_info){
 	return $post_id;
 }
 
-
-
 add_filter( 'page_template', 'dashboard_page_template' );
-function dashboard_page_template( $page_template )
-{
+function dashboard_page_template( $page_template ){
     if ( is_page( 'dashboard' ) ) {        
 		$page_template = dirname( __FILE__ ) . '/inc/dashboard_tpl.php';
     }
+	/*
 	if ( is_page( 'draft' ) ) {        
 		$page_template = dirname( __FILE__ ) . '/inc/draft_tpl.php';
     }
-	if ( is_page( 'get-paid' ) ) {        
-		$page_template = dirname( __FILE__ ) . '/inc/getpaid_tpl.php';
+	*/
+	if ( is_page( 'my-account' ) ) {        
+		$page_template = dirname( __FILE__ ) . '/inc/my_account_tpl.php';
+    }
+	if ( is_page( 'account-settings' ) ) {        
+		$page_template = dirname( __FILE__ ) . '/inc/account_settings_tpl.php';
     }
 	
     return $page_template;
 }
 
-
 function add_login_out_item_to_menu( $items, $args ){
-	if($args->menu == 'TCDesign Top'){
+	if($args->menu == 'Main menu'){
 		$redirect = ( is_home() ) ? false : get_permalink();
-		if( is_user_logged_in( ) )
-			$items .= '<li id="log-in-out-link" class="menu-item menu-type-link"><a href="' . wp_logout_url( $redirect ) . '" title="' .  __( 'Logout' ) .'">' . __( 'Logout' ) . '</a></li>';
-		else  $items .= '<li id="log-in-out-link" class="menu-item menu-type-link"><a href="' . site_url().'/my-account' . '" title="' .  __( 'Login' ) .'">' . __( 'Login' ) . '</a></li>';
+		if( is_user_logged_in( ) ) {
+			$items .= '<li id="log-in-out-link" class="menu-item menu-type-link"><a href="' . wp_logout_url( $redirect ) . '" title="' .  __( 'Logout' ) .'">' . __( 'Logout' ) . '</a></li>'; }
+		else  { $items .= '<li id="log-in-out-link" class="menu-item menu-type-link"><a href="' . site_url().'/my-account' . '" title="' .  __( 'Login' ) .'">' . __( 'Login' ) . '</a></li>'; }
 	}
 	return $items;
 }

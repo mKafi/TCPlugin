@@ -63,8 +63,13 @@ class PayoffData extends WP_List_Table {
 						$campaigns[$k]['unit_price'] = $p_meta['unit_price'][0];
 						$campaigns[$k]['unit_profit'] = $p_meta['unit_profit'][0];
 						$campaigns[$k]['total_profit'] = $p_meta['total_profit'][0];
+						
+						$campaigns[$k]['paypal_email'] = $user_info->user_email;
+						$campaigns[$k]['payment'] = '<input type="checkbox" name="paidto[]" value="1"/>';
+						
+						/*
 						$campaigns[$k]['pay_now'] = '<a href="'.admin_url().'/admin.php?page=payoff&uid='.$v->post_author.'&amount='.$p_meta['total_profit'][0].'"><span class="btn_payoff" id="author_'.$v->post_author.'">Pay now</span></a>';
-						/* $campaigns[$k]['pay_now'] = 'Pay button'; */
+						 $campaigns[$k]['pay_now'] = 'Pay button'; */
 						
 					}
 				}
@@ -92,7 +97,8 @@ class PayoffData extends WP_List_Table {
 				'unit_price' 			=> 'Unit price',
 				'unit_profit' 			=> 'Unit profit',
 				'total_profit' 			=> 'Total profit',
-				'pay_now' 				=> 'Pay now',
+				'paypal_email' 			=> 'Paypal Email',
+				'payment' 				=> 'Payment',
 			);
 			return $columns;
 		}
@@ -105,7 +111,8 @@ class PayoffData extends WP_List_Table {
 				'unit_price' 			=> array('unit_price', true),
 				'unit_profit' 			=> array('unit_profit', true),
 				'total_profit' 			=> array('total_profit', true),
-				'pay_now' 				=> array('pay_now',false),
+				'paypal_email' 				=> array('paypal_email',false),
+				'payment' 				=> array('payment',false),
 			);
 
 			return $sortable_columns;
@@ -120,7 +127,8 @@ class PayoffData extends WP_List_Table {
 				case 'unit_price':
 				case 'unit_profit':
 				case 'total_profit':
-				case 'pay_now':
+				case 'paypal_email':
+				case 'payment':
 			  	
 				return $item[ $column_name ];
 					default:

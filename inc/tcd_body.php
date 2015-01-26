@@ -1,5 +1,85 @@
 <img class="hidden tshirt-loader" src="<?php echo plugins_url('TCPlugin').'/images/medium-loader.gif'; ?>" alt="Loading T-Shirt...."/>
 <div class="full_bg hidden"></div>
+<!-- registration popup first starts -->
+<div class="hidden not-logged msg_not_logged">
+	<span class="close">X</span>
+	<div class="title">How would you like to login?</div>
+	<p>You can login with <?php echo bloginfo( 'name' ); ?> or use any of the sites below</p>
+	 
+	<div class="login-with tcircle">
+		<span>Login with</span>
+		<img src="<?php echo plugins_url('TCPlugin').'/images/tcircle.png'; ?>" alt="TCircle"/>
+	</div>
+	<div class="login-with facebook">
+		<span>Login with</span>
+		<img src="<?php echo plugins_url('TCPlugin').'/images/facebook.jpg'; ?>" alt="Facebook"/>
+	</div>
+	<div class="login-with google">
+		<span>Login with</span>
+		<img src="<?php echo plugins_url('TCPlugin').'/images/google.png'; ?>" alt="Google"/>
+	</div>
+	<div class="login-with yahoo">
+		<span>Login with</span>
+		<img src="<?php echo plugins_url('TCPlugin').'/images/yahoo.gif'; ?>" alt="Yahoo.com"/>
+	</div>
+	<span class="txtOr">OR</span>
+	<p><span class="lnk-register" href="">Create a new account with <?php echo bloginfo( 'name' ); ?></span></p>
+</div><!-- registration popup first ends -->
+
+<!-- login popup starts -->
+<div class="hidden not-logged login-tcircle">
+	<span class="close">X</span>
+	<div class="title">Login with <?php echo bloginfo( 'name' ); ?></div>
+	<div class="field-group">
+		<label>E-mail</label>
+		<input type="email" id="login-email" value="" placeholder="Enter your email"/>
+	</div>
+	
+	<div class="field-group">
+		<label>Password</label>
+		<input type="password" id="login-password" value="" placeholder="Enter your password"/>
+	</div>
+	
+	<input class="grnbtn" type="button" id="login-btn" value="Login to your Account"/>
+	
+	<p><span class="lnk-register" >Create a new account</span></p>
+	<p><span class="social-login" >Social Login</span></p>
+	
+</div><!-- login popup ends -->
+
+<!-- login popup starts -->
+<div class="hidden not-logged register-tcircle">
+	<span class="close">X</span>
+	<div class="title"><span class="nologged-register"> Register </span>
+		<span class="exist-account">Already have an Account</span>
+		
+	</div>
+	
+	<div class="field-group">
+		<label>E-mail</label>
+		<input type="email" id="register-email" value="" placeholder="Enter your email"/>
+	</div>
+	
+	<div class="field-group">
+		<label>Password</label>
+		<input type="password" id="register-password" value="" placeholder="Enter your password"/>
+	</div>
+	
+	<div class="field-group">
+		<label>Re-Password</label>
+		<input type="password" id="register-repassword" value="" placeholder="Re-Enter your password"/>
+	</div>
+	
+	<input class="grnbtn" type="button" id="register-btn" value="Register"/>
+</div><!-- login popup ends -->
+
+<div class="hidden not-logged saving-design">
+	<label>Saving.....</label>
+	<img src="<?php echo plugins_url('TCPlugin').'/images/loadingAnimation.gif'; ?>" alt=""/>
+</div>
+
+
+
 <div class="row">
 	
 	
@@ -498,6 +578,7 @@
 			<input type="hidden" id="unit_profit" name="unit_profit" value=""/>
 			
 			<div class="step_two-wrap tool-cont">
+				<input type="hidden" name="logged_userid" id="logged_userid" value="<?php echo get_current_user_id(); ?>"/> 
 				<div class="campaign-info-cont">
 					<label>Campaign title</label>										
 					<input type="text" id="campaign-name" class="campaign-name campaign-text" name="campaign-name" value=""/> 

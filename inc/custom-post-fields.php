@@ -120,6 +120,7 @@ function teecircle_custom_post_types() {
 	/*Testimonial custom post type end here */
 
 	/*Payoff custom post type start here */
+	/*
 	$labels_payoff = array(
 		'name'               => 'Payoff',
 		'singular_name'      => 'Payoff',
@@ -149,6 +150,7 @@ function teecircle_custom_post_types() {
 	);
 
 	register_post_type( 'payoff', $args_payoff );
+	*/
 	/*Payoff custom post type end here */	
 }
 add_action( 'init', 'teecircle_custom_post_types' );
